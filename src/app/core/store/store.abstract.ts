@@ -12,7 +12,7 @@ export abstract class Store<T extends object> {
   }
 
   update<K extends keyof T>(key: K, value: T[K]): void {
-    this.#state.update((currentState) => ({ ...currentState, key: value }));
+    this.#state.update((currentState) => ({ ...currentState, [key]: value }));
   }
 
   select<K extends keyof T>(key: K): Signal<T[K]> {

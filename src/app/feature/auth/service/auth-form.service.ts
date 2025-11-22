@@ -12,8 +12,8 @@ export class AuthFormService {
   });
   readonly #formSchema = schema<AuthForm>((path) => {
     required(path.email, { message: 'Email is required.' });
-    required(path.username, { message: 'Username is required.' });
     required(path.password, { message: 'Password is required.' });
+    required(path.username, { message: 'Username is required.' });
 
     email(path.email, { message: 'Enter valid email format' });
 

@@ -1,10 +1,11 @@
-/* eslint-disable no-console */
 import { Injectable } from '@angular/core';
-import { Observable, of, tap } from 'rxjs';
+import { Observable, of } from 'rxjs';
+
+import { AuthForm } from '#auth/model';
 
 @Injectable({ providedIn: 'root' })
 export class AuthApiService {
-  login$(username: string): Observable<string> {
-    return of(username).pipe(tap(console.log));
+  loginWithEmailAndPassword$(credentials: AuthForm): Observable<AuthForm> {
+    return of(credentials);
   }
 }

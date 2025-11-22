@@ -1,0 +1,51 @@
+<form class="grid">
+  <mat-form-field appearance="outline">
+    <input matInput type="text" placeholder="username" [field]="authForm.username" />
+
+    @if (authForm.email().touched() && authForm.email().dirty()) {
+      @for (err of authForm.email().errors(); track err.kind) {
+        <mat-error>{{ err.message }}</mat-error>
+      }
+    }
+  </mat-form-field>
+
+  @if (formType() === 'register') {
+    <mat-form-field appearance="outline">
+      <input matInput type="text" placeholder="email" [field]="authForm.email" />
+
+      @if (authForm.email().touched() && authForm.email().dirty()) {
+        @for (err of authForm.email().errors(); track err.kind) {
+          <mat-error>{{ err.message }}</mat-error>
+        }
+      }
+    </mat-form-field>
+  }
+
+  <mat-form-field appearance="outline">
+    <input matInput type="password" placeholder="password" [field]="authForm.password" />
+
+    @if (authForm.password().touched() && authForm.password().dirty()) {
+      @for (err of authForm.password().errors(); track err.kind) {
+        <mat-error>{{ err.message }}</mat-error>
+      }
+    }
+  </mat-form-field>
+
+  <button matButton="outlined" type="submit" [disabled]="authForm().invalid()" (click)="submit($event)">
+    {{ formType() === 'login' ? 'Login' : 'Create account' }}
+  </button>
+
+  <div class="mt-4">
+    @if (formType() === 'login') {
+      <div class="flex items-center justify-center">
+        <span>No account?</span>
+        <button matButton="text" (click)="toggleFormType.emit('register')">Create one</button>
+      </div>
+    } @else {
+      <div class="flex items-center justify-center">
+        <span>Have an account?</span>
+        <button matButton="text" (click)="toggleFormType.emit('login')">Login</button>
+      </div>
+    }
+  </div>
+</form>

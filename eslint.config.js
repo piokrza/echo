@@ -10,12 +10,7 @@ module.exports = tseslint.config(
       boundaries,
       import: require('eslint-plugin-import'),
     },
-    extends: [
-      eslint.configs.recommended,
-      ...tseslint.configs.recommended,
-      ...tseslint.configs.stylistic,
-      ...angular.configs.tsRecommended,
-    ],
+    extends: [eslint.configs.recommended, ...tseslint.configs.recommended, ...tseslint.configs.stylistic, ...angular.configs.tsRecommended],
     processor: angular.processInlineTemplates,
     rules: {
       ...boundaries.configs.recommended.rules,
@@ -23,9 +18,9 @@ module.exports = tseslint.config(
       'import/order': [
         'error',
         {
-          alphabetize: { order: 'asc' },
-          groups: [['builtin'], ['sibling', 'parent'], 'external', 'internal', 'index', 'object'],
-          pathGroups: [
+          'alphabetize': { order: 'asc' },
+          'groups': [['builtin'], ['sibling', 'parent'], 'external', 'internal', 'index', 'object'],
+          'pathGroups': [
             { pattern: '#*/**', group: 'internal', position: 'after' },
             {
               pattern: '@angular/material/**',
@@ -33,9 +28,9 @@ module.exports = tseslint.config(
               position: 'after',
             },
           ],
-          pathGroupsExcludedImportTypes: ['internal'],
+          'pathGroupsExcludedImportTypes': ['internal'],
           'newlines-between': 'always',
-          warnOnUnassignedImports: true,
+          'warnOnUnassignedImports': true,
         },
       ],
       'import/first': 'error',
@@ -75,5 +70,5 @@ module.exports = tseslint.config(
       '@angular-eslint/template/no-distracting-elements': 'error',
       '@angular-eslint/template/use-track-by-function': 'error',
     },
-  },
+  }
 );

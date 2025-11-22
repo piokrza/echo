@@ -5,7 +5,7 @@ const imports = [RouterOutlet];
 
 @Component({
   selector: 'echo-root',
-  template: ` <router-outlet /> `,
+  template: `<router-outlet />`,
   imports,
 })
 export class App {}

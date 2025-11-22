@@ -18,7 +18,8 @@
     "module": "preserve",
     "paths": {
       "#ui/*": ["src/app/ui/*"],
-      "#core/*": ["src/app/core/*"]
+      "#core/*": ["src/app/core/*"],
+      "#auth/*": ["src/app/feature/auth/*"]
     }
   },
   "angularCompilerOptions": {

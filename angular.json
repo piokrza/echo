@@ -26,7 +26,10 @@
               },
               "src/asset"
             ],
-            "styles": ["src/custom-theme.scss", "src/styles.scss"]
+            "styles": ["src/styles.scss"],
+            "stylePreprocessorOptions": {
+              "includePaths": ["src/asset/style"]
+            }
           },
           "configurations": {
             "production": {

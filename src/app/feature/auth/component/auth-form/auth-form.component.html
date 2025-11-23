@@ -2,7 +2,7 @@
   <mat-form-field appearance="outline">
     <input matInput type="text" placeholder="username" [field]="authForm.username" />
 
-    @if (authForm.email().touched() && authForm.email().dirty()) {
+    @if (authForm.username().touched() && authForm.username().dirty()) {
       @for (err of authForm.email().errors(); track err.kind) {
         <mat-error>{{ err.message }}</mat-error>
       }

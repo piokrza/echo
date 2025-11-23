@@ -19,7 +19,8 @@
     "paths": {
       "#ui/*": ["src/app/ui/*"],
       "#core/*": ["src/app/core/*"],
-      "#auth/*": ["src/app/feature/auth/*"]
+      "#auth/*": ["src/app/feature/auth/*"],
+      "#dashboard/*": ["src/app/feature/dashboard/*"]
     }
   },
   "angularCompilerOptions": {

@@ -1,3 +1,5 @@
+@use 'theme' as theme;
+@use '@angular/material' as mat;
 @use 'tailwindcss';
 
 html,
@@ -8,4 +10,56 @@ body {
 body {
   margin: 0;
   font-family: Roboto, 'Helvetica Neue', sans-serif;
+}
+
+:root {
+  @include mat.theme(
+    (
+      color: (
+        primary: mat.$cyan-palette,
+        tertiary: mat.$orange-palette,
+      ),
+      typography: Roboto,
+      density: 1,
+    )
+  );
+}
+
+@layer components {
+  .link-active {
+    background-color: var(--mat-sys-surface-container) !important;
+  }
+}
+
+.theme-red {
+  @include theme.go(
+    (
+      color: (
+        primary: mat.$red-palette,
+        tertiary: mat.$red-palette,
+      ),
+    )
+  );
+}
+
+.theme-blue {
+  @include theme.go(
+    (
+      color: (
+        primary: mat.$cyan-palette,
+        tertiary: mat.$orange-palette,
+      ),
+    )
+  );
+}
+
+.theme-green {
+  @include theme.go(
+    (
+      color: (
+        primary: mat.$green-palette,
+        tertiary: mat.$blue-palette,
+      ),
+    )
+  );
 }

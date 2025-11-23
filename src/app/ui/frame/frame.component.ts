@@ -43,7 +43,7 @@ export class FrameComponent {
 
   readonly Path = Path;
   readonly themes = this.#themeService.themes;
-  readonly links: Link[] = [{ label: 'Home', routerLink: Path.HOME }];
+  readonly links: Link[] = [{ label: 'Dashboard', routerLink: Path.DASHBOARD }];
 
   setTheme(value: string): void {
     this.#themeService.setTheme(value);

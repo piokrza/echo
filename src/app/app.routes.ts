@@ -9,11 +9,11 @@ export const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: Path.HOME,
+        redirectTo: Path.DASHBOARD,
         pathMatch: 'full',
       },
       {
-        path: Path.HOME,
+        path: Path.DASHBOARD,
         loadChildren: async () => (await import('#dashboard/route')).DashboardRoutes,
       },
     ],

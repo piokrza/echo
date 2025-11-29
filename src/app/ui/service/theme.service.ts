@@ -32,7 +32,6 @@ export class ThemeService {
   }
 
   setTheme(themeName: string): void {
-    // TODO: check how many times method is invoked
     localStorage.setItem(Key.THEME, themeName);
     this.#selectedTheme.set(themeName);
 

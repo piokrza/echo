@@ -60,7 +60,7 @@ export class FrameComponent {
       .open$({ title: 'Do you really want to sign out?' })
       .pipe(
         filter(Boolean),
-        switchMap(() => this.#frameService.logout()), //TODO: update method
+        switchMap(() => this.#frameService.logout$()),
         takeUntilDestroyed(this.#destroyRef)
       )
       .subscribe();

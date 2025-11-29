@@ -1,10 +1,12 @@
 import { inject, Injectable } from '@angular/core';
+import { UserCredential } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { finalize, Observable, tap } from 'rxjs';
 
 import { AuthApiService } from '#auth/api';
 import { AuthForm, AuthFormType } from '#auth/model';
 import { AuthViewStore } from '#auth/store';
+import { Path } from '#core/enum';
 
 @Injectable({ providedIn: 'root' })
 export class AuthViewService {
@@ -14,13 +16,13 @@ export class AuthViewService {
 
   readonly state = this.#authViewStore.state;
 
-  loginWithEmailAndPassword$(credentials: AuthForm): Observable<AuthForm> {
+  loginWithEmailAndPassword$({ email, password }: AuthForm): Observable<UserCredential> {
     this.#authViewStore.update('isPerforming', true);
 
-    return this.#authApiService.loginWithEmailAndPassword$(credentials).pipe(
+    return this.#authApiService.loginWithEmailAndPassword$(email, password).pipe(
       tap({
         next: () => {
-          this.#router.navigate([]);
+          this.#router.navigate([Path.DASHBOARD]);
         },
       }),
       finalize(() => this.#authViewStore.update('isPerforming', false))

@@ -1,25 +1,25 @@
 <form class="grid">
-  <mat-form-field appearance="outline">
-    <input matInput type="text" placeholder="username" [field]="authForm.username" />
-
-    @if (authForm.username().touched() && authForm.username().dirty()) {
-      @for (err of authForm.email().errors(); track err.kind) {
-        <mat-error>{{ err.message }}</mat-error>
-      }
-    }
-  </mat-form-field>
-
   @if (formType() === 'register') {
     <mat-form-field appearance="outline">
-      <input matInput type="text" placeholder="email" [field]="authForm.email" />
+      <input matInput type="text" placeholder="username" [field]="authForm.username" />
 
-      @if (authForm.email().touched() && authForm.email().dirty()) {
+      @if (authForm.username().touched() && authForm.username().dirty()) {
         @for (err of authForm.email().errors(); track err.kind) {
           <mat-error>{{ err.message }}</mat-error>
         }
       }
     </mat-form-field>
   }
+
+  <mat-form-field appearance="outline">
+    <input matInput type="text" placeholder="email" [field]="authForm.email" />
+
+    @if (authForm.email().touched() && authForm.email().dirty()) {
+      @for (err of authForm.email().errors(); track err.kind) {
+        <mat-error>{{ err.message }}</mat-error>
+      }
+    }
+  </mat-form-field>
 
   <mat-form-field appearance="outline">
     <input matInput type="password" placeholder="password" [field]="authForm.password" />

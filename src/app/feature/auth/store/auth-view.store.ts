@@ -7,8 +7,9 @@ import { Store } from '#core/store';
 export class AuthViewStore extends Store<AuthViewState> {
   constructor() {
     super({
-      isPerforming: false,
       formType: 'login',
+      isPerformingGoogleAuth: false,
+      isPerformingEmailAndPasswordAuth: false,
     });
   }
 }

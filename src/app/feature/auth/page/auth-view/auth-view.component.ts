@@ -20,7 +20,7 @@ const imports = [MatCardModule, MatButtonModule, AuthFormComponent, MatIconModul
           <mat-card-title>Hey! Welcome back</mat-card-title>
         </mat-card-header>
 
-        <button matButton="outlined" class="mt-8">
+        <button matButton="outlined" class="mt-8" [disabled]="state().isPerformingGoogleAuth" (click)="loginWithGoogle()">
           <mat-icon svgIcon="google" />
           Login with Google
         </button>
@@ -29,7 +29,7 @@ const imports = [MatCardModule, MatButtonModule, AuthFormComponent, MatIconModul
 
         <echo-auth-form
           [formType]="state().formType"
-          [isPerforming]="state().isPerforming"
+          [isPerforming]="state().isPerformingEmailAndPasswordAuth"
           (toggleFormType)="setFormType($event)"
           (formSubmit)="loginWithEmailAndPassword($event)" />
       </mat-card>
@@ -42,6 +42,10 @@ export class AuthViewComponent {
   readonly #authViewService = inject(AuthViewService);
 
   readonly state: Signal<AuthViewState> = this.#authViewService.state;
+
+  loginWithGoogle(): void {
+    this.#authViewService.loginWithGoogle$().pipe(takeUntilDestroyed(this.#destroyRef)).subscribe();
+  }
 
   loginWithEmailAndPassword(authForm: AuthForm): void {
     this.#authViewService.loginWithEmailAndPassword$(authForm).pipe(takeUntilDestroyed(this.#destroyRef)).subscribe();

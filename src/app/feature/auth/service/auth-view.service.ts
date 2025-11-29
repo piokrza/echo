@@ -1,10 +1,10 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, Signal } from '@angular/core';
 import { UserCredential } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { finalize, Observable, tap } from 'rxjs';
 
 import { AuthApiService } from '#auth/api';
-import { AuthForm, AuthFormType } from '#auth/model';
+import { AuthForm, AuthFormType, AuthViewState } from '#auth/model';
 import { AuthViewStore } from '#auth/store';
 import { Path } from '#core/enum';
 
@@ -14,7 +14,7 @@ export class AuthViewService {
   readonly #authViewStore = inject(AuthViewStore);
   readonly #authApiService = inject(AuthApiService);
 
-  readonly state = this.#authViewStore.state;
+  readonly state: Signal<AuthViewState> = this.#authViewStore.state;
 
   loginWithGoogle$(): Observable<UserCredential> {
     this.#authViewStore.update('isPerformingGoogleAuth', true);

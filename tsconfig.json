@@ -21,7 +21,7 @@
       "#core/*": ["src/app/core/*"],
       "#firebase/*": ["src/app/firebase/*"],
       "#auth/*": ["src/app/feature/auth/*"],
-      "#dashboard/*": ["src/app/feature/dashboard/*"],
+      "#echo/*": ["src/app/feature/echo/*"],
       "#landing-page/*": ["src/app/feature/landing-page/*"]
     }
   },

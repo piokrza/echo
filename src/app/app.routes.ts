@@ -26,7 +26,7 @@ export const routes: Routes = [
     children: [
       {
         path: '',
-        loadChildren: async () => (await import('#dashboard/route')).DashboardRoutes,
+        loadChildren: async () => (await import('#echo/route')).EchoRoutes,
       },
     ],
   },

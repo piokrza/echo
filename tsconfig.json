@@ -21,7 +21,8 @@
       "#core/*": ["src/app/core/*"],
       "#firebase/*": ["src/app/firebase/*"],
       "#auth/*": ["src/app/feature/auth/*"],
-      "#dashboard/*": ["src/app/feature/dashboard/*"]
+      "#dashboard/*": ["src/app/feature/dashboard/*"],
+      "#landing-page/*": ["src/app/feature/landing-page/*"]
     }
   },
   "angularCompilerOptions": {

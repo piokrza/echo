@@ -1,6 +1,6 @@
-import { Store } from './store.abstract';
-
 import { Injectable, isSignal } from '@angular/core';
+
+import { Store } from '#core/store';
 
 interface TestStoreState {
   isProcessing: boolean;

@@ -13,10 +13,8 @@ export class AuthFormService {
   readonly #formSchema = schema<AuthForm>((path) => {
     required(path.email, { message: 'Email is required.' });
     required(path.password, { message: 'Password is required.' });
-    // required(path.username, { message: 'Username is required.' }); TODO: add required based on form type (register/login)
-
+    // required(path.username, { message: 'Username is required.' }); TODO: add required validator based on form type (register/login)
     email(path.email, { message: 'Enter valid email format' });
-
     minLength(path.password, 5, { message: 'Password must contain at least 5 characters' });
   });
 

@@ -1,12 +1,12 @@
 import { inject, Injectable } from '@angular/core';
-import { Auth, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup, UserCredential } from '@angular/fire/auth';
+import { Auth, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup, User, UserCredential } from '@angular/fire/auth';
 import { from, Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AuthApiService {
   readonly #auth = inject(Auth);
 
-  readonly user = this.#auth.currentUser;
+  readonly user: User | null = this.#auth.currentUser;
 
   loginWithEmailAndPassword$(email: string, password: string): Observable<UserCredential> {
     return from(signInWithEmailAndPassword(this.#auth, email, password));

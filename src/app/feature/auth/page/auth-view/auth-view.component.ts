@@ -14,7 +14,7 @@ const imports = [MatCardModule, MatButtonModule, AuthFormComponent, MatIconModul
 @Component({
   selector: 'echo-auth-dashboard',
   template: `
-    <section class="grid place-items-center h-full echo-gradient px-4">
+    <section class="grid place-items-center h-full echo-gradient px-4 bg-primary">
       <mat-card appearance="outlined" class="w-full p-4 max-w-lg">
         <mat-card-header>
           <mat-card-title>Hey! Welcome back</mat-card-title>

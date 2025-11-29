@@ -8,4 +8,8 @@ export class AuthApiService {
   loginWithEmailAndPassword$(credentials: AuthForm): Observable<AuthForm> {
     return of(credentials);
   }
+
+  logout() {
+    return of({});
+  }
 }

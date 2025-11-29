@@ -1,7 +1,7 @@
 import { Component, DestroyRef, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { RouterLink, RouterLinkActive } from '@angular/router';
-import { filter, of, switchMap } from 'rxjs';
+import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { filter, switchMap } from 'rxjs';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -13,10 +13,11 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { Path } from '#core/enum';
 import { Link } from '#ui/model';
-import { BreakpointService, ConfirmDialogService, ThemeService } from '#ui/service';
+import { BreakpointService, ConfirmDialogService, FrameService, ThemeService } from '#ui/service';
 
 const imports = [
   RouterLink,
+  RouterOutlet,
   MatListModule,
   MatIconModule,
   MatMenuModule,
@@ -35,6 +36,7 @@ const imports = [
 export class FrameComponent {
   readonly #destroyRef = inject(DestroyRef);
   readonly #themeService = inject(ThemeService);
+  readonly #frameService = inject(FrameService);
   readonly #confirmDialog = inject(ConfirmDialogService);
 
   readonly isDarkMode = this.#themeService.isDarkMode;
@@ -58,7 +60,7 @@ export class FrameComponent {
       .open$({ title: 'Do you really want to sign out?' })
       .pipe(
         filter(Boolean),
-        switchMap(() => of({})), //TODO: implement logout
+        switchMap(() => this.#frameService.logout()), //TODO: update method
         takeUntilDestroyed(this.#destroyRef)
       )
       .subscribe();

@@ -8,7 +8,7 @@ export const provideEchoCustomIcons = (): EnvironmentProviders => {
     const domSanitizer = inject(DomSanitizer);
     const matIconRegistry = inject(MatIconRegistry);
 
-    const icons = ['google'];
+    const icons = ['google', 'app-logo'];
     icons.forEach((name) => {
       matIconRegistry.addSvgIcon(name, domSanitizer.bypassSecurityTrustResourceUrl(`asset/icon/${name}.svg`));
     });

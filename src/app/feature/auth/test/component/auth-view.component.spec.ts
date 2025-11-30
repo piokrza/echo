@@ -1,6 +1,7 @@
 import { Provider } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DomSanitizer } from '@angular/platform-browser';
+import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
 
 import { MatIconRegistry } from '@angular/material/icon';
@@ -19,13 +20,17 @@ const authApiServiceStub = {
   loginWithGoogle$: vi.fn().mockReturnValue(of({})),
   loginWithEmailAndPassword$: vi.fn().mockReturnValue(of({})),
 };
+const activatedRouteStub = {};
 
 describe('AuthViewComponent', () => {
   let component: AuthViewComponent;
   let fixture: ComponentFixture<AuthViewComponent>;
 
   beforeEach(() => {
-    const providers: Provider[] = [{ provide: AuthApiService, useValue: authApiServiceStub }];
+    const providers: Provider[] = [
+      { provide: AuthApiService, useValue: authApiServiceStub },
+      { provide: ActivatedRoute, useValue: activatedRouteStub },
+    ];
 
     TestBed.configureTestingModule({ providers });
 

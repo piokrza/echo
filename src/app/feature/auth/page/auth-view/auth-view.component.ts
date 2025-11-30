@@ -40,7 +40,7 @@ const imports = [MatCardModule, MatButtonModule, AuthFormComponent, MatIconModul
             [formType]="state().formType"
             [isPerforming]="state().isPerformingEmailAndPasswordAuth"
             (toggleFormType)="setFormType($event)"
-            (formSubmit)="loginWithEmailAndPassword($event)" />
+            (formSubmit)="authenticateWithEmailAndPassword($event)" />
         </mat-card>
       </div>
     </section>
@@ -57,8 +57,12 @@ export class AuthViewComponent {
     this.#authViewService.loginWithGoogle$().pipe(takeUntilDestroyed(this.#destroyRef)).subscribe();
   }
 
-  loginWithEmailAndPassword(authForm: AuthForm): void {
-    this.#authViewService.loginWithEmailAndPassword$(authForm).pipe(takeUntilDestroyed(this.#destroyRef)).subscribe();
+  authenticateWithEmailAndPassword(authForm: AuthForm): void {
+    if (this.state().formType === 'login') {
+      this.#authViewService.loginWithEmailAndPassword$(authForm).pipe(takeUntilDestroyed(this.#destroyRef)).subscribe();
+      return;
+    }
+    this.#authViewService.createUserWithEmailAndPassword$(authForm).pipe(takeUntilDestroyed(this.#destroyRef)).subscribe();
   }
 
   setFormType(type: AuthFormType): void {

@@ -27,7 +27,15 @@ export class AuthViewService {
   loginWithEmailAndPassword$({ email, password }: AuthForm): Observable<UserCredential> {
     this.#authViewStore.update('isPerformingEmailAndPasswordAuth', true);
 
-    return this.navigateOnSuccessTo(Path.DASHBOARD, this.#authApiService.loginWithEmailAndPassword$(email, password)).pipe(
+    return this.navigateOnSuccessTo(Path.ECHO, this.#authApiService.loginWithEmailAndPassword$(email, password)).pipe(
+      finalize(() => this.#authViewStore.update('isPerformingEmailAndPasswordAuth', false))
+    );
+  }
+
+  createUserWithEmailAndPassword$(authForm: AuthForm) {
+    this.#authViewStore.update('isPerformingEmailAndPasswordAuth', true);
+
+    return this.navigateOnSuccessTo(Path.ECHO, this.#authApiService.createUserWithEmailAndPassword$(authForm)).pipe(
       finalize(() => this.#authViewStore.update('isPerformingEmailAndPasswordAuth', false))
     );
   }
@@ -37,6 +45,10 @@ export class AuthViewService {
   }
 
   private navigateOnSuccessTo<T>(path: Path, obs: Observable<T>): Observable<T> {
-    return obs.pipe(tap(() => this.#router.navigate([path])));
+    return obs.pipe(
+      tap(() => {
+        this.#router.navigate([path]);
+      })
+    );
   }
 }

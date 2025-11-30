@@ -19,6 +19,7 @@ const authFormMock: AuthForm = {
 const authApiServiceStub = {
   loginWithGoogle$: vi.fn().mockReturnValue(of({})),
   loginWithEmailAndPassword$: vi.fn().mockReturnValue(of({})),
+  createUserWithEmailAndPassword$: vi.fn().mockReturnValue(of({})),
 };
 const activatedRouteStub = {};
 
@@ -39,7 +40,8 @@ describe('AuthViewComponent', () => {
 
     fixture = TestBed.createComponent(AuthViewComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
+
+    vi.clearAllMocks();
   });
 
   it('should create component insntance', () => {
@@ -62,9 +64,22 @@ describe('AuthViewComponent', () => {
   });
 
   it('should call loginWithEmailAndPassword$ method', () => {
-    const loginWithEmailAndPassword = vi.spyOn(authApiServiceStub, 'loginWithEmailAndPassword$');
-    component.loginWithEmailAndPassword(authFormMock);
+    const loginWithEmailAndPasswordSpy = vi.spyOn(authApiServiceStub, 'loginWithEmailAndPassword$');
+    const createUserWithEmailAndPasswordSpy = vi.spyOn(authApiServiceStub, 'createUserWithEmailAndPassword$');
+    component.authenticateWithEmailAndPassword(authFormMock);
 
-    expect(loginWithEmailAndPassword).toHaveBeenCalledTimes(1);
+    expect(loginWithEmailAndPasswordSpy).toHaveBeenCalledTimes(1);
+    expect(createUserWithEmailAndPasswordSpy).not.toHaveBeenCalled();
+  });
+
+  it('should call createUserWithEmailAndPassword$ method', () => {
+    const loginWithEmailAndPasswordSpy = vi.spyOn(authApiServiceStub, 'loginWithEmailAndPassword$');
+    const createUserWithEmailAndPasswordSpy = vi.spyOn(authApiServiceStub, 'createUserWithEmailAndPassword$');
+
+    component.setFormType('register');
+    component.authenticateWithEmailAndPassword(authFormMock);
+
+    expect(createUserWithEmailAndPasswordSpy).toHaveBeenCalledTimes(1);
+    expect(loginWithEmailAndPasswordSpy).not.toHaveBeenCalled();
   });
 });

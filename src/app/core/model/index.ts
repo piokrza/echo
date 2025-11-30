@@ -5,3 +5,4 @@ export * from './observable-dictionary.model';
 export * from './subject.dictionary.model';
 export * from './loading-dictionary.model';
 export * from './state-object.model';
+export * from './collection.model';

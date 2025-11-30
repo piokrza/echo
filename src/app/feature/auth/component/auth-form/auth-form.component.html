@@ -4,7 +4,7 @@
       <input matInput type="text" placeholder="username" [field]="authForm.username" />
 
       @if (authForm.username().touched() && authForm.username().dirty()) {
-        @for (err of authForm.email().errors(); track err.kind) {
+        @for (err of authForm.username().errors(); track err.kind) {
           <mat-error>{{ err.message }}</mat-error>
         }
       }
@@ -37,7 +37,7 @@
 
   <div class="mt-4">
     @if (formType() === 'login') {
-      <div class="flex items-center justify-center">
+      <div class="flex items-center justify-center gap-1">
         <span>No account?</span>
         <button matButton="text" (click)="toggleFormType.emit('register')">Create one</button>
       </div>

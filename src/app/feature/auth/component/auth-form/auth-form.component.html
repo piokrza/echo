@@ -31,7 +31,7 @@
     }
   </mat-form-field>
 
-  <button matButton="outlined" type="submit" [disabled]="authForm().invalid()" (click)="submit($event)">
+  <button matButton="outlined" type="submit" [disabled]="authForm().invalid() || isPerforming()" (click)="submit($event)">
     {{ formType() === 'login' ? 'Login' : 'Create account' }}
   </button>
 

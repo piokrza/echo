@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { Observable, tap } from 'rxjs';
 
 import { AuthApiService } from '#auth/api';
-import { Path } from '#core/enum';
 
 @Injectable({ providedIn: 'root' })
 export class FrameService {
@@ -13,7 +12,7 @@ export class FrameService {
   logout$(): Observable<void> {
     return this.#authApiService.logout$().pipe(
       tap(() => {
-        this.#router.navigate([Path.AUTH]);
+        this.#router.navigate(['']);
       })
     );
   }

@@ -31,6 +31,7 @@ export class AuthFormComponent {
     submit(this.authForm, async (form) => {
       try {
         this.formSubmit.emit(form().value());
+        this.authForm().reset();
         return null;
       } catch {
         return customError({ message: 'Something went wrong' });

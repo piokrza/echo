@@ -21,7 +21,7 @@ export const routes: Routes = [
   {
     path: Path.ECHO,
     canActivate: [AuthGuard],
-    data: { authGuardPipe: () => redirectUnauthorizedTo([Path.AUTH]) }, //TODO: redirect to langing page
+    data: { authGuardPipe: () => redirectUnauthorizedTo([Path.AUTH]) },
     loadComponent: async () => (await import('#ui/frame')).FrameComponent,
     children: [
       {

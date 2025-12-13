@@ -6,26 +6,26 @@ import { filter, switchMap } from 'rxjs';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
-import { MatMenuModule } from '@angular/material/menu';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { Path } from '#core/enum';
+import { ThemeButtonsComponent } from '#ui/component/theme-buttons';
 import { Link } from '#ui/model';
-import { BreakpointService, ConfirmDialogService, FrameService, ThemeService } from '#ui/service';
+import { BreakpointService, ConfirmDialogService, FrameService } from '#ui/service';
 
 const imports = [
   RouterLink,
   RouterOutlet,
   MatListModule,
   MatIconModule,
-  MatMenuModule,
   MatButtonModule,
   MatSidenavModule,
   RouterLinkActive,
   MatToolbarModule,
   MatTooltipModule,
+  ThemeButtonsComponent,
 ];
 
 @Component({
@@ -35,28 +35,16 @@ const imports = [
 })
 export class FrameComponent {
   readonly #destroyRef = inject(DestroyRef);
-  readonly #themeService = inject(ThemeService);
   readonly #frameService = inject(FrameService);
   readonly #confirmDialog = inject(ConfirmDialogService);
 
-  readonly isDarkMode = this.#themeService.isDarkMode;
-  readonly selectedTheme = this.#themeService.selectedTheme;
   readonly isOverMdBreakpoint = inject(BreakpointService).observe('md');
 
   readonly Path = Path;
-  readonly themes = this.#themeService.themes;
   readonly links: Link[] = [
     { label: 'Dashboard', routerLink: Path.DASHBOARD },
     { label: 'Settings', routerLink: Path.SETTINGS },
   ];
-
-  setTheme(value: string): void {
-    this.#themeService.setTheme(value);
-  }
-
-  toggleThemeMode(): void {
-    this.#themeService.toggleIsDarkMode();
-  }
 
   logout(): void {
     this.#confirmDialog

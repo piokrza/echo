@@ -6,8 +6,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 
 import { Path } from '#core/enum';
+import { ThemeButtonsComponent } from '#ui/component/theme-buttons';
 
-const imports = [MatToolbarModule, MatIconModule, MatButtonModule, RouterLink];
+const imports = [MatToolbarModule, MatIconModule, MatButtonModule, RouterLink, ThemeButtonsComponent];
 
 @Component({
   selector: 'echo-landing-page-view',
@@ -16,7 +17,8 @@ const imports = [MatToolbarModule, MatIconModule, MatButtonModule, RouterLink];
       <mat-toolbar>
         <div class="w-full flex justify-between">
           <div></div>
-          <div>
+          <div class="flex gap-3">
+            <echo-theme-buttons />
             <button matButton="outlined" [routerLink]="[Path.AUTH]">
               Login
               <mat-icon>login</mat-icon>

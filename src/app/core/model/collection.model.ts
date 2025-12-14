@@ -1,1 +1,1 @@
-export type Collection = 'users';
+export type CollectionName = 'users';

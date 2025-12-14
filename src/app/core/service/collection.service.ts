@@ -3,7 +3,7 @@ import { doc, DocumentData, Firestore, setDoc, WithFieldValue } from '@angular/f
 import { from, Observable } from 'rxjs';
 
 import { AuthApiService } from '#auth/api';
-import { Collection } from '#core/model';
+import { CollectionName } from '#core/model';
 
 @Injectable({ providedIn: 'root' })
 export class CollectionService {
@@ -11,7 +11,7 @@ export class CollectionService {
 
   readonly #userId = inject(AuthApiService).user?.uid;
 
-  addCol$<T>(colName: Collection, data: WithFieldValue<DocumentData> & T): Observable<void> {
+  addCollection$<T>(colName: CollectionName, data: WithFieldValue<DocumentData> & T): Observable<void> {
     if (!this.#userId) throw new Error('User id is missing');
 
     const docRef = doc(this.#firestore, colName, this.#userId);

@@ -1,5 +1,3 @@
-/* To learn more about Typescript configuration file: https://www.typescriptlang.org/docs/handbook/tsconfig-json.html. */
-/* To learn more about Angular compiler options: https://angular.dev/reference/configs/angular-compiler-options. */
 {
   "compileOnSave": false,
   "compilerOptions": {
@@ -21,6 +19,7 @@
       "#core/*": ["src/app/core/*"],
       "#firebase/*": ["src/app/firebase/*"],
       "#auth/*": ["src/app/feature/auth/*"],
+      "#finances/*": ["src/app/feature/echo/page/finances/*"],
       "#echo/*": ["src/app/feature/echo/*"],
       "#landing-page/*": ["src/app/feature/landing-page/*"]
     }

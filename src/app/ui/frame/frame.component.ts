@@ -43,6 +43,7 @@ export class FrameComponent {
   readonly Path = Path;
   readonly links: Link[] = [
     { label: 'Dashboard', routerLink: Path.DASHBOARD },
+    { label: 'Finances', routerLink: Path.FINANCES },
     { label: 'Settings', routerLink: Path.SETTINGS },
   ];
 

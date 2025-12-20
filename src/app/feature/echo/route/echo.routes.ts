@@ -14,6 +14,11 @@ export const EchoRoutes: Routes = [
     loadComponent: async () => (await import('#echo/page/dashboard')).DashboardComponent,
   },
   {
+    path: Path.FINANCES,
+    title: 'Fincances',
+    loadChildren: async () => (await import('#finances/route')).FinanceRoutes,
+  },
+  {
     path: Path.SETTINGS,
     title: 'Settings',
     loadComponent: async () => (await import('#echo/page/settings')).SettingsComponent,

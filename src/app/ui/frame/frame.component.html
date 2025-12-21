@@ -2,13 +2,18 @@
   <p-toolbar>
     <ng-template #start>
       @if (isOverMdBreakpoint()) {
-        <a pButton [text]="true" [routerLink]="[Path.DASHBOARD]">
+        <a pButton severity="secondary" [text]="true" [routerLink]="[Path.DASHBOARD]">
           <img src="asset/icon/app-logo.svg" alt="echo-logo" class="w-6" />
           Echo
         </a>
+
+        <div class="flex gap-3">
+          @for (link of links; track $index) {
+            <a pButton severity="secondary" routerLinkActive="link-active" [text]="true" [routerLink]="link.routerLink">{{ link.label }}</a>
+          }
+        </div>
       } @else {
-        <!-- TODO: toggle drawer -->
-        <button pButton [icon]="PrimeIcons.BARS" [text]="true">Echo</button>
+        <button pButton severity="secondary" [icon]="PrimeIcons.BARS" [text]="true" (click)="drawerVisible = !drawerVisible">Echo</button>
       }
     </ng-template>
 
@@ -21,30 +26,21 @@
   </p-toolbar>
 </div>
 
-<p-drawer [(visible)]="drawerVisible" header="Drawer">
-  @for (link of links; track $index) {
-    <a routerLinkActive="link-active" [routerLink]="[link.routerLink]" [routerLinkActiveOptions]="{ exact: true }">
-      {{ link.label }}
-    </a>
-  }
-</p-drawer>
+<!-- Mobile drawer -->
+@if (!isOverMdBreakpoint()) {
+  <p-drawer [(visible)]="drawerVisible" header="Echo">
+    <div class="grid gap-3">
+      @for (link of links; track $index) {
+        <a routerLinkActive="link-active" class="text-lg" [routerLink]="[link.routerLink]" (click)="closeDrawer()">
+          {{ link.label }}
+        </a>
+      }
+    </div>
+  </p-drawer>
+}
 
-<!-- <mat-drawer-container autosize>
-  <mat-drawer #drawer [mode]="isOverMdBreakpoint() ? 'side' : 'over'" [opened]="isOverMdBreakpoint()">
-    <nav class="h-full flex flex-col justify-between p-4">
-      <mat-nav-list>
-        @for (link of links; track $index) {
-          <a mat-list-item routerLinkActive="link-active" [routerLink]="[link.routerLink]" [routerLinkActiveOptions]="{ exact: true }">
-            {{ link.label }}
-          </a>
-        }
-      </mat-nav-list>
-    </nav>
-  </mat-drawer>
-
-  <main class="p-4 h-[calc(100vh-var(--mat-toolbar-mobile-height))] sm:h-[calc(100vh-var(--mat-toolbar-standard-height))]">
-    <router-outlet />
-  </main>
-</mat-drawer-container> -->
+<section class="px-3">
+  <router-outlet />
+</section>
 
 <p-confirm-dialog />

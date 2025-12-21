@@ -43,8 +43,7 @@ export class FrameComponent {
 
   readonly isOverMdBreakpoint = inject(BreakpointService).observe('md');
 
-  drawerVisible = true;
-
+  drawerVisible = false;
   readonly Path = Path;
   readonly PrimeIcons = PrimeIcons;
   readonly links: Link[] = [
@@ -72,5 +71,9 @@ export class FrameComponent {
         this.#frameService.logout$().pipe(takeUntilDestroyed(this.#destroyRef)).subscribe();
       },
     });
+  }
+
+  closeDrawer(): void {
+    if (this.drawerVisible) this.drawerVisible = false;
   }
 }

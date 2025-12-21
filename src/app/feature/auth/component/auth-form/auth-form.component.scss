@@ -1,0 +1,13 @@
+:host ::ng-deep {
+  p-password {
+    input {
+      width: 100%;
+    }
+  }
+
+  p-button.wide {
+    .p-button {
+      width: 100%;
+    }
+  }
+}

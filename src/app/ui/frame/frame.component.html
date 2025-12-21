@@ -1,27 +1,24 @@
-<mat-toolbar class="grid gap-2">
-  <div class="w-full flex justify-between items-center">
-    @if (isOverMdBreakpoint()) {
-      <button matButton="outlined" [routerLink]="[Path.DASHBOARD]">
-        <mat-icon svgIcon="app-logo" />
-        Echo
-      </button>
-    } @else {
-      <button matButton="text" (click)="drawer.toggle()">
-        <mat-icon>menu</mat-icon>
-        Echo
-      </button>
-    }
+<div class="p-3">
+  <p-toolbar>
+    <ng-template #start>
+      @if (isOverMdBreakpoint()) {
+        <a pButton [text]="true" [routerLink]="[Path.DASHBOARD]">
+          <img src="asset/icon/app-logo.svg" alt="echo-logo" class="w-6" />
+          Echo
+        </a>
+      } @else {
+        <button pButton [icon]="PrimeIcons.BARS" [text]="true" (click)="drawer.toggle()">Echo</button>
+      }
+    </ng-template>
 
-    <div class="flex gap-4">
-      <echo-theme-buttons />
-      <div>
-        <button matIconButton matTooltip="Logout" (click)="logout()">
-          <mat-icon>logout</mat-icon>
-        </button>
+    <ng-template #end>
+      <div class="flex gap-4">
+        <echo-theme-buttons />
+        <p-button pTooltip="Logout" tooltipPosition="bottom" severity="secondary" [icon]="PrimeIcons.SIGN_OUT" (click)="logout($event)" />
       </div>
-    </div>
-  </div>
-</mat-toolbar>
+    </ng-template>
+  </p-toolbar>
+</div>
 
 <mat-drawer-container autosize>
   <mat-drawer #drawer [mode]="isOverMdBreakpoint() ? 'side' : 'over'" [opened]="isOverMdBreakpoint()">
@@ -40,3 +37,5 @@
     <router-outlet />
   </main>
 </mat-drawer-container>
+
+<p-confirm-dialog />

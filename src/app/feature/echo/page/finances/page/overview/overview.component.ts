@@ -1,14 +1,12 @@
 import { Component } from '@angular/core';
 import { Timestamp } from '@angular/fire/firestore';
 
-import { MatButtonModule } from '@angular/material/button';
-
 import { Path } from '#core/enum';
 import { TransactionBrickComponent } from '#finances/component/transaction-brick';
 import { TransactionListComponent } from '#finances/component/transaction-list';
 import { EchoTransaction } from '#finances/model';
 
-const imports = [TransactionBrickComponent, TransactionListComponent, MatButtonModule];
+const imports = [TransactionBrickComponent, TransactionListComponent];
 
 @Component({
   selector: 'echo-overview',

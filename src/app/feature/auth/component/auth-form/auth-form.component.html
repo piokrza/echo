@@ -1,50 +1,73 @@
-<form class="grid">
+<form class="grid gap-2">
   @if (formType() === 'register') {
-    <mat-form-field appearance="outline">
-      <input matInput type="text" placeholder="username" [field]="authForm.username" />
+    <p-floatlabel variant="in">
+      @let isUsernameInvalid = authForm.username().touched() && authForm.username().dirty();
 
-      @if (authForm.username().touched() && authForm.username().dirty()) {
-        @for (err of authForm.username().errors(); track err.kind) {
-          <mat-error>{{ err.message }}</mat-error>
-        }
+      <!-- TODO: add username control invalid state  -->
+      <input pInputText id="username" autocomplete="off" class="w-full" type="text" [field]="authForm.username" />
+      <label for="username">Username</label>
+    </p-floatlabel>
+
+    @if (isUsernameInvalid) {
+      @for (err of authForm.username().errors(); track err.kind) {
+        <p-message severity="error" size="small" variant="simple">{{ err.message }}</p-message>
       }
-    </mat-form-field>
+    }
   }
 
-  <mat-form-field appearance="outline">
-    <input matInput type="text" placeholder="email" [field]="authForm.email" />
+  <p-floatlabel variant="in">
+    @let isEmailInvalid = authForm.email().touched() && authForm.email().dirty();
 
-    @if (authForm.email().touched() && authForm.email().dirty()) {
-      @for (err of authForm.email().errors(); track err.kind) {
-        <mat-error>{{ err.message }}</mat-error>
-      }
+    <!-- TODO: add email control invalid state  -->
+    <input pInputText id="email" type="email" autocomplete="off" class="w-full" [field]="authForm.email" />
+    <label for="email">Email</label>
+  </p-floatlabel>
+
+  @if (isEmailInvalid) {
+    @for (err of authForm.email().errors(); track err.kind) {
+      <p-message severity="error" size="small" variant="simple">{{ err.message }}</p-message>
     }
-  </mat-form-field>
+  }
 
-  <mat-form-field appearance="outline">
-    <input matInput type="password" placeholder="password" [field]="authForm.password" />
+  <p-floatlabel variant="in">
+    @let isPasswordInvalid = authForm.password().touched() && authForm.password().dirty();
 
-    @if (authForm.password().touched() && authForm.password().dirty()) {
-      @for (err of authForm.password().errors(); track err.kind) {
-        <mat-error>{{ err.message }}</mat-error>
-      }
+    <p-password
+      id="password"
+      class="w-full"
+      autocomplete="off"
+      [feedback]="false"
+      [field]="authForm.password"
+      [invalid]="isPasswordInvalid" />
+    <label for="password">Password</label>
+  </p-floatlabel>
+
+  @if (isPasswordInvalid) {
+    @for (err of authForm.password().errors(); track err.kind) {
+      <p-message severity="error" size="small" variant="simple">{{ err.message }}</p-message>
     }
-  </mat-form-field>
+  }
 
-  <button matButton="outlined" type="submit" [disabled]="authForm().invalid() || isPerforming()" (click)="submit($event)">
-    {{ formType() === 'login' ? 'Login' : 'Create account' }}
-  </button>
+  <p-button
+    class="wide"
+    size="large"
+    severity="secondary"
+    [outlined]="true"
+    [loading]="isPerforming()"
+    [disabled]="authForm().invalid() || isPerforming()"
+    [label]="formType() === 'login' ? 'Login' : 'Create account'"
+    (click)="submit($event)" />
 
   <div class="mt-4">
     @if (formType() === 'login') {
       <div class="flex items-center justify-center gap-1">
         <span>No account?</span>
-        <button matButton="text" (click)="toggleFormType.emit('register')">Create one</button>
+        <button pButton [text]="true" (click)="toggleFormType.emit('register')">Create one</button>
       </div>
     } @else {
       <div class="flex items-center justify-center">
         <span>Have an account?</span>
-        <button matButton="text" (click)="toggleFormType.emit('login')">Login</button>
+        <button pButton [text]="true" (click)="toggleFormType.emit('login')">Login</button>
       </div>
     }
   </div>

@@ -2,17 +2,17 @@ import { Component, DestroyRef, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Timestamp } from '@angular/fire/firestore';
 
-import { MatButtonModule } from '@angular/material/button';
+import { ButtonModule } from 'primeng/button';
 
 import { AuthApiService } from '#auth/api';
 import { EchoTransaction } from '#finances/model';
 import { TransactionsService } from '#finances/service';
 
-const imports = [MatButtonModule];
+const imports = [ButtonModule];
 
 @Component({
   selector: 'echo-transactions',
-  template: ` <button matButton (click)="addTransaction()">Add transaction</button> `,
+  template: ` <button pButton (click)="addTransaction()">Add transaction</button> `,
   imports,
 })
 export class TransactionsComponent {

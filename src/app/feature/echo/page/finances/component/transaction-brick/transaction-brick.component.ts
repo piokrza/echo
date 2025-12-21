@@ -2,29 +2,26 @@ import { DatePipe, TitleCasePipe } from '@angular/common';
 import { Component, input } from '@angular/core';
 import { Timestamp } from '@angular/fire/firestore';
 
-import { MatCardModule } from '@angular/material/card';
+import { CardModule } from 'primeng/card';
 
 import { TransactionType } from '#finances/model';
 import { TimestampToDatePipe } from '#ui/pipe';
 
-const imports = [MatCardModule, TitleCasePipe, TimestampToDatePipe, DatePipe];
+const imports = [CardModule, TitleCasePipe, TimestampToDatePipe, DatePipe];
 
 @Component({
   selector: 'echo-transaction-brick',
   template: `
-    <mat-card appearance="outlined" class="min-w-[200px]">
-      <mat-card-header>
-        <mat-card-title>{{ brickTitle() | titlecase }}</mat-card-title>
-        <mat-card-subtitle>{{ dateRange() | timestamtToDate | date }}</mat-card-subtitle>
-      </mat-card-header>
+    <p-card appearance="outlined" class="min-w-[200px]" [header]="brickTitle() | titlecase">
+      <p>{{ dateRange() | timestampToDate | date }}</p>
 
-      <div class="p-4">
+      <div>
         @if (type() === 'expenses') {
           <span>-</span>
         }
         {{ amount() }}zł
       </div>
-    </mat-card>
+    </p-card>
   `,
   imports,
 })

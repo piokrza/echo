@@ -1,10 +1,9 @@
 import { Component, DestroyRef, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { MatListModule } from '@angular/material/list';
-import { MatSidenavModule } from '@angular/material/sidenav';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 
 import { ConfirmationService, PrimeIcons } from 'primeng/api';
+import { AvatarModule } from 'primeng/avatar';
 import { ButtonModule } from 'primeng/button';
 import { ConfirmDialog } from 'primeng/confirmdialog';
 import { DrawerModule } from 'primeng/drawer';
@@ -17,10 +16,8 @@ import { Link } from '#ui/model';
 import { BreakpointService, FrameService } from '#ui/service';
 
 const imports = [
-  MatSidenavModule,
-  MatListModule,
-
   RouterLink,
+  AvatarModule,
   RouterOutlet,
   ButtonModule,
   DrawerModule,
@@ -56,7 +53,7 @@ export class FrameComponent {
     this.#confirmationService.confirm({
       target: event.target as EventTarget,
       position: 'topright',
-      header: 'Do you really want to sign out?',
+      header: 'Are you sure?',
       closable: false,
       closeOnEscape: false,
       rejectButtonProps: {

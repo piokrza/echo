@@ -6,7 +6,7 @@ import { of, tap } from 'rxjs';
 export function sessionStorageGuard(input: string | string[], redirectPath: string[]): CanMatchFn {
   return () => {
     const router = inject(Router);
-    return of(isValid(input)).pipe(tap((matches: boolean) => !matches && void router.navigate(redirectPath)));
+    return of(isValid(input)).pipe(tap((matches) => !matches && void router.navigate(redirectPath)));
   };
 }
 

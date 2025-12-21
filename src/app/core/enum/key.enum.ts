@@ -1,4 +1,4 @@
 export enum Key {
-  THEME = 'theme',
   IS_DARK_MODE = 'isDarkMode',
+  DARK_MODE_SELECTOR = 'echo-dark',
 }

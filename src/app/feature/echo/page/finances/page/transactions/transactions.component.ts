@@ -1,10 +1,34 @@
-import { Component } from '@angular/core';
+import { Component, DestroyRef, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Timestamp } from '@angular/fire/firestore';
+
+import { MatButtonModule } from '@angular/material/button';
+
+import { AuthApiService } from '#auth/api';
+import { EchoTransaction } from '#finances/model';
+import { TransactionsService } from '#finances/service';
+
+const imports = [MatButtonModule];
 
 @Component({
   selector: 'echo-transactions',
-  template: `
-    <!--  -->
-    <h1>Transactions works</h1>
-  `,
+  template: ` <button matButton (click)="addTransaction()">Add transaction</button> `,
+  imports,
 })
-export class TransactionsComponent {}
+export class TransactionsComponent {
+  readonly #destroyRef = inject(DestroyRef);
+  readonly #transactionService = inject(TransactionsService);
+
+  readonly userId = inject(AuthApiService).user?.uid ?? '';
+
+  addTransaction(): void {
+    const transaction: EchoTransaction = {
+      amount: 2424,
+      createdAt: Timestamp.now(),
+      type: 'expenses',
+      uid: this.userId,
+    };
+
+    this.#transactionService.addTransaction$(transaction).pipe(takeUntilDestroyed(this.#destroyRef)).subscribe();
+  }
+}

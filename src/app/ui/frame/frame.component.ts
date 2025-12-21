@@ -7,6 +7,7 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { ConfirmationService, PrimeIcons } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { ConfirmDialog } from 'primeng/confirmdialog';
+import { DrawerModule } from 'primeng/drawer';
 import { ToolbarModule } from 'primeng/toolbar';
 import { TooltipModule } from 'primeng/tooltip';
 
@@ -22,6 +23,7 @@ const imports = [
   RouterLink,
   RouterOutlet,
   ButtonModule,
+  DrawerModule,
   RouterLinkActive,
   ToolbarModule,
   ConfirmDialog,
@@ -40,6 +42,8 @@ export class FrameComponent {
   readonly #confirmationService = inject(ConfirmationService);
 
   readonly isOverMdBreakpoint = inject(BreakpointService).observe('md');
+
+  drawerVisible = true;
 
   readonly Path = Path;
   readonly PrimeIcons = PrimeIcons;

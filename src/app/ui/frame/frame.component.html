@@ -7,7 +7,8 @@
           Echo
         </a>
       } @else {
-        <button pButton [icon]="PrimeIcons.BARS" [text]="true" (click)="drawer.toggle()">Echo</button>
+        <!-- TODO: toggle drawer -->
+        <button pButton [icon]="PrimeIcons.BARS" [text]="true">Echo</button>
       }
     </ng-template>
 
@@ -20,7 +21,15 @@
   </p-toolbar>
 </div>
 
-<mat-drawer-container autosize>
+<p-drawer [(visible)]="drawerVisible" header="Drawer">
+  @for (link of links; track $index) {
+    <a routerLinkActive="link-active" [routerLink]="[link.routerLink]" [routerLinkActiveOptions]="{ exact: true }">
+      {{ link.label }}
+    </a>
+  }
+</p-drawer>
+
+<!-- <mat-drawer-container autosize>
   <mat-drawer #drawer [mode]="isOverMdBreakpoint() ? 'side' : 'over'" [opened]="isOverMdBreakpoint()">
     <nav class="h-full flex flex-col justify-between p-4">
       <mat-nav-list>
@@ -36,6 +45,6 @@
   <main class="p-4 h-[calc(100vh-var(--mat-toolbar-mobile-height))] sm:h-[calc(100vh-var(--mat-toolbar-standard-height))]">
     <router-outlet />
   </main>
-</mat-drawer-container>
+</mat-drawer-container> -->
 
 <p-confirm-dialog />

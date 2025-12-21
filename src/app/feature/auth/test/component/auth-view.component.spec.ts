@@ -1,10 +1,7 @@
 import { Provider } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
-
-import { MatIconRegistry } from '@angular/material/icon';
 
 import { AuthApiService } from '#auth/api';
 import { AuthForm } from '#auth/model';
@@ -34,9 +31,6 @@ describe('AuthViewComponent', () => {
     ];
 
     TestBed.configureTestingModule({ providers });
-
-    const sanitizer = TestBed.inject(DomSanitizer);
-    TestBed.inject(MatIconRegistry).addSvgIconLiteral('google', sanitizer.bypassSecurityTrustHtml('<svg></svg>'));
 
     fixture = TestBed.createComponent(AuthViewComponent);
     component = fixture.componentInstance;

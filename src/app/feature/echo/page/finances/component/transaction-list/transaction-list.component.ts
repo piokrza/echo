@@ -1,19 +1,18 @@
 import { Component, input } from '@angular/core';
 
-import { MatCardModule } from '@angular/material/card';
+import { CardModule } from 'primeng/card';
 
-const imports = [MatCardModule];
+const imports = [CardModule];
 
 @Component({
   selector: 'echo-transaction-list',
   template: `
-    <mat-card appearance="outlined" class="min-w-[200px]">
-      <mat-card-header>
-        <mat-card-title>{{ heading() }}</mat-card-title>
-      </mat-card-header>
-
-      <div class="p-4"></div>
-    </mat-card>
+    <p-card appearance="outlined" class="min-w-[200px]" [header]="heading()">
+      <div>
+        <!--  -->
+        Transactions here
+      </div>
+    </p-card>
   `,
   imports,
 })

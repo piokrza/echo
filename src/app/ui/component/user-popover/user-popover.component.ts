@@ -18,27 +18,28 @@ const imports = [AvatarModule, PopoverModule, ButtonModule];
       size="normal"
       tabindex="0"
       shape="circle"
+      class="cursor-pointer"
       [image]="user?.photoURL ?? ''"
       [icon]="user?.photoURL ? '' : PrimeIcons.USER"
       (click)="popover.toggle($event)" />
 
-    <p-popover #popover class="min-w-12" appendTo="self">
+    <p-popover #popover class="min-w-12">
       <div class="flex flex-col gap-3 items-center">
         <div class="text-sm color-secondary">{{ user?.email }}</div>
 
-        @if (user?.photoURL ?? '') {
-          <p-avatar size="xlarge" shape="circle" [image]="user?.photoURL ?? ''" (click)="popover.toggle($event)" />
+        @if (user) {
+          <p-avatar size="xlarge" shape="circle" [image]="user.photoURL ?? ''" (click)="popover.toggle($event)" />
+          <div>Hello {{ user.displayName ?? 'user' }}</div>
         }
-        <div>Hello {{ user?.displayName }}</div>
       </div>
 
       <div class="mt-4">
         <p-button
           class="wide"
+          label="Logout"
           pTooltip="Logout"
           severity="secondary"
           tooltipPosition="bottom"
-          label="Logout"
           [icon]="PrimeIcons.SIGN_OUT"
           (click)="logout()" />
       </div>

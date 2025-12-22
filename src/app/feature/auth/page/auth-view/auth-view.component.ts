@@ -21,9 +21,12 @@ const imports = [ButtonModule, AuthFormComponent, CardModule, RouterLink];
           <div class="grid">
             <h2 class="text-2xl mb-8">Hey! Welcome back</h2>
 
-            <button pButton [icon]="PrimeIcons.GOOGLE" [disabled]="state().isPerformingGoogleAuth" (click)="loginWithGoogle()">
-              Login with Google
-            </button>
+            <p-button
+              class="wide"
+              label=" Login with Google"
+              [icon]="PrimeIcons.GOOGLE"
+              [loading]="state().isPerformingGoogleAuth"
+              (click)="loginWithGoogle()" />
             <span class="text-center my-4">or</span>
 
             <echo-auth-form

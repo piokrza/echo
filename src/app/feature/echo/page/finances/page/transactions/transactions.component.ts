@@ -4,14 +4,16 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Timestamp } from '@angular/fire/firestore';
 
 import { ButtonModule } from 'primeng/button';
+import { DialogService, DynamicDialogModule } from 'primeng/dynamicdialog';
 import { TableModule } from 'primeng/table';
 
 import { AuthApiService } from '#auth/api';
+import { TransactionDialogComponent } from '#finances/component/transaction-dialog';
 import { EchoTransaction } from '#finances/model';
 import { TransactionsService } from '#finances/service';
 import { TimestampToDatePipe } from '#ui/pipe';
 
-const imports = [ButtonModule, TableModule, DatePipe, TimestampToDatePipe];
+const imports = [ButtonModule, TableModule, DatePipe, TimestampToDatePipe, DynamicDialogModule];
 
 @Component({
   selector: 'echo-transactions',
@@ -41,6 +43,7 @@ const imports = [ButtonModule, TableModule, DatePipe, TimestampToDatePipe];
 })
 export class TransactionsComponent {
   readonly #destroyRef = inject(DestroyRef);
+  readonly #dialogService = inject(DialogService);
   readonly #transactionService = inject(TransactionsService);
 
   readonly userId = inject(AuthApiService).user?.uid ?? '';
@@ -62,13 +65,15 @@ export class TransactionsComponent {
   ];
 
   addTransaction(): void {
-    const transaction: EchoTransaction = {
-      amount: 2424,
-      createdAt: Timestamp.now(),
-      type: 'expenses',
-      uid: this.userId,
-    };
+    const dialogRef = this.#dialogService.open(TransactionDialogComponent, {});
 
-    this.#transactionService.addTransaction$(transaction).pipe(takeUntilDestroyed(this.#destroyRef)).subscribe();
+    // const transaction: EchoTransaction = {
+    //   amount: 2424,
+    //   createdAt: Timestamp.now(),
+    //   type: 'expenses',
+    //   uid: this.userId,
+    // };
+
+    // this.#transactionService.addTransaction$(transaction).pipe(takeUntilDestroyed(this.#destroyRef)).subscribe();
   }
 }

@@ -23,7 +23,7 @@ const imports = [ButtonModule, AuthFormComponent, CardModule, RouterLink];
 
             <p-button
               class="wide"
-              label=" Login with Google"
+              label="Login with Google"
               [icon]="PrimeIcons.GOOGLE"
               [loading]="state().isPerformingGoogleAuth"
               (click)="loginWithGoogle()" />

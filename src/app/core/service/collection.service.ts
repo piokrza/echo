@@ -1,15 +1,15 @@
 import { inject, Injectable } from '@angular/core';
+import { Auth } from '@angular/fire/auth';
 import { doc, DocumentData, Firestore, setDoc, WithFieldValue } from '@angular/fire/firestore';
 import { from, Observable } from 'rxjs';
 
-import { AuthApiService } from '#auth/api';
 import { CollectionName } from '#core/model';
 
 @Injectable({ providedIn: 'root' })
 export class CollectionService {
   readonly #firestore = inject(Firestore);
 
-  readonly #userId = inject(AuthApiService).user?.uid;
+  readonly #userId = inject(Auth).currentUser?.uid;
 
   addCollection$<T>(colName: CollectionName, data: WithFieldValue<DocumentData> & T): Observable<void> {
     if (!this.#userId) throw new Error('User id is missing');

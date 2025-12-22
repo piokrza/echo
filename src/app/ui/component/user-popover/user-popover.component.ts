@@ -1,12 +1,12 @@
 import { Component, DestroyRef, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Auth } from '@angular/fire/auth';
 
 import { PrimeIcons } from 'primeng/api';
 import { AvatarModule } from 'primeng/avatar';
 import { ButtonModule } from 'primeng/button';
 import { PopoverModule } from 'primeng/popover';
 
-import { AuthApiService } from '#auth/api';
 import { FrameService } from '#ui/service';
 
 const imports = [AvatarModule, PopoverModule, ButtonModule];
@@ -51,7 +51,7 @@ export class UserPopoverComponent {
   readonly #destroyRef = inject(DestroyRef);
   readonly #frameService = inject(FrameService);
 
-  readonly user = inject(AuthApiService).user;
+  readonly user = inject(Auth).currentUser;
   readonly PrimeIcons = PrimeIcons;
 
   logout(): void {

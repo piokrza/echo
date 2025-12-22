@@ -1,15 +1,16 @@
 import { Component, DestroyRef, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Auth } from '@angular/fire/auth';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 
 import { ConfirmationService, PrimeIcons } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { ConfirmDialog } from 'primeng/confirmdialog';
 import { DrawerModule } from 'primeng/drawer';
+import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
 import { TooltipModule } from 'primeng/tooltip';
 
-import { AuthApiService } from '#auth/api';
 import { Path } from '#core/enum';
 import { ThemeButtonsComponent } from '#ui/component/theme-buttons';
 import { UserPopoverComponent } from '#ui/component/user-popover';
@@ -18,6 +19,7 @@ import { BreakpointService, FrameService } from '#ui/service';
 
 const imports = [
   RouterLink,
+  ToastModule,
   RouterOutlet,
   ButtonModule,
   DrawerModule,
@@ -39,7 +41,7 @@ export class FrameComponent {
   readonly #frameService = inject(FrameService);
   readonly #confirmationService = inject(ConfirmationService);
 
-  readonly user = inject(AuthApiService).user;
+  readonly user = inject(Auth).currentUser;
   readonly isOverMdBreakpoint = inject(BreakpointService).observe('md');
 
   drawerVisible = false;

@@ -1,0 +1,32 @@
+<form class="grid gap-3" [formGroup]="form" (ngSubmit)="save()">
+  <p-floatlabel variant="in">
+    @let isAmountInvalid = form.controls.amount.touched && form.controls.amount.dirty;
+
+    <p-inputnumber id="amount" autocomplete="off" class="w-full" [formControl]="form.controls.amount" />
+    <label for="amount">Amount</label>
+  </p-floatlabel>
+
+  @if (isAmountInvalid) {
+    @if (form.controls.amount.hasError('required')) {
+      <p-message severity="error" size="small" variant="simple">Amount is required</p-message>
+    }
+  }
+
+  <div class="flex-grow">
+    <p-select class="w-full" [formControl]="form.controls.type" [options]="transactionTypes" placeholder="Select transaction type" />
+  </div>
+
+  <p-floatlabel variant="in">
+    <textarea
+      pTextarea
+      rows="5"
+      cols="30"
+      class="w-full"
+      id="description"
+      style="resize: none"
+      [formControl]="form.controls.description"></textarea>
+    <label for="description">Description</label>
+  </p-floatlabel>
+
+  <p-button label="Submit" class="wide" [loading]="isProcessing()" (onClick)="save()" />
+</form>

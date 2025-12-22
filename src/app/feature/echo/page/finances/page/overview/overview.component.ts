@@ -38,18 +38,24 @@ export class OverviewComponent {
       createdAt: Timestamp.now(),
       type: 'income',
       uid: '',
+      lastUpdate: Timestamp.now(),
+      description: '',
     },
     {
       amount: 622,
       createdAt: Timestamp.now(),
       type: 'expenses',
       uid: '',
+      lastUpdate: Timestamp.now(),
+      description: '',
     },
     {
       amount: 1622,
       createdAt: Timestamp.now(),
       type: 'remaining',
       uid: '',
+      lastUpdate: Timestamp.now(),
+      description: '',
     },
   ];
 }

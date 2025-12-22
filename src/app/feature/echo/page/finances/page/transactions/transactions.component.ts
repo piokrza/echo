@@ -1,16 +1,15 @@
 import { DatePipe } from '@angular/common';
-import { Component, DestroyRef, inject } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Component, inject } from '@angular/core';
+import { Auth } from '@angular/fire/auth';
 import { Timestamp } from '@angular/fire/firestore';
 
+import { PrimeIcons } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { DialogService, DynamicDialogModule } from 'primeng/dynamicdialog';
 import { TableModule } from 'primeng/table';
 
-import { AuthApiService } from '#auth/api';
-import { TransactionDialogComponent } from '#finances/component/transaction-dialog';
+import { TransactionFormComponent } from '#finances/component/transaction-form';
 import { EchoTransaction } from '#finances/model';
-import { TransactionsService } from '#finances/service';
 import { TimestampToDatePipe } from '#ui/pipe';
 
 const imports = [ButtonModule, TableModule, DatePipe, TimestampToDatePipe, DynamicDialogModule];
@@ -27,6 +26,7 @@ const imports = [ButtonModule, TableModule, DatePipe, TimestampToDatePipe, Dynam
           <th>Amount</th>
           <th>Type</th>
           <th>Creation date</th>
+          <th>Actions</th>
         </tr>
       </ng-template>
       <ng-template #body let-product>
@@ -35,6 +35,12 @@ const imports = [ButtonModule, TableModule, DatePipe, TimestampToDatePipe, Dynam
           <td>{{ product.amount }}</td>
           <td>{{ product.type }}</td>
           <td>{{ product.createdAt | timestampToDate | date }}</td>
+          <td>
+            <div class="flex gap-3">
+              <p-button [icon]="PrimeIcons.PLUS" [text]="true" />
+              <p-button [icon]="PrimeIcons.ERASER" [text]="true" />
+            </div>
+          </td>
         </tr>
       </ng-template>
     </p-table>
@@ -42,11 +48,10 @@ const imports = [ButtonModule, TableModule, DatePipe, TimestampToDatePipe, Dynam
   imports,
 })
 export class TransactionsComponent {
-  readonly #destroyRef = inject(DestroyRef);
   readonly #dialogService = inject(DialogService);
-  readonly #transactionService = inject(TransactionsService);
 
-  readonly userId = inject(AuthApiService).user?.uid ?? '';
+  readonly userId = inject(Auth).currentUser?.uid ?? '';
+  readonly PrimeIcons = PrimeIcons;
   readonly transactions: EchoTransaction[] = [
     {
       amount: 4200,
@@ -54,6 +59,7 @@ export class TransactionsComponent {
       type: 'expenses',
       uid: this.userId ?? '',
       description: 'pizdziocha zwachania description',
+      lastUpdate: Timestamp.now(),
     },
     {
       amount: 124200,
@@ -61,19 +67,15 @@ export class TransactionsComponent {
       type: 'income',
       uid: this.userId ?? '',
       description: 'opis tego remaining income',
+      lastUpdate: Timestamp.now(),
     },
   ];
 
   addTransaction(): void {
-    const dialogRef = this.#dialogService.open(TransactionDialogComponent, {});
-
-    // const transaction: EchoTransaction = {
-    //   amount: 2424,
-    //   createdAt: Timestamp.now(),
-    //   type: 'expenses',
-    //   uid: this.userId,
-    // };
-
-    // this.#transactionService.addTransaction$(transaction).pipe(takeUntilDestroyed(this.#destroyRef)).subscribe();
+    this.#dialogService.open(TransactionFormComponent, {
+      header: 'Add transaction',
+      closable: true,
+      styleClass: 'md',
+    });
   }
 }

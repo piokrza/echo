@@ -1,6 +1,9 @@
 p-dialog {
   .p-dialog {
     width: 90vw;
-    max-width: 700px;
+
+    &.md {
+      max-width: 500px;
+    }
   }
 }

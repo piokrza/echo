@@ -1,13 +1,12 @@
 import { inject, Injectable } from '@angular/core';
 import {
   Auth,
-  User,
+  updateProfile,
   UserCredential,
   signInWithPopup,
   GoogleAuthProvider,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
-  updateProfile,
 } from '@angular/fire/auth';
 import { doc, Firestore, setDoc } from '@angular/fire/firestore';
 import { from, map, Observable, switchMap } from 'rxjs';
@@ -18,8 +17,6 @@ import { AppUser, AuthForm } from '#auth/model';
 export class AuthApiService {
   readonly #auth = inject(Auth);
   readonly #firestore = inject(Firestore);
-
-  readonly user: User | null = this.#auth.currentUser;
 
   loginWithEmailAndPassword$(email: string, password: string): Observable<UserCredential> {
     return from(signInWithEmailAndPassword(this.#auth, email, password));

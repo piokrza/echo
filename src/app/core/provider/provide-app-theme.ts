@@ -15,7 +15,7 @@ export const provideAppTheme = (): EnvironmentProviders => {
           darkModeSelector: '.' + Key.DARK_MODE_SELECTOR,
           cssLayer: {
             name: 'primeng',
-            order: 'tailwind, base, primeng',
+            order: 'theme, base, primeng',
           },
         },
       },

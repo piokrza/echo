@@ -1,2 +1,2 @@
 export * from './transaction-type.model';
-export * from './transaction.model';
+export * from './echo-transaction.model';

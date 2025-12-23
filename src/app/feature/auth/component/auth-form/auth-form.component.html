@@ -52,22 +52,22 @@
     class="wide"
     size="large"
     severity="secondary"
-    [outlined]="true"
     [loading]="isPerforming()"
     [disabled]="authForm().invalid() || isPerforming()"
     [label]="formType() === 'login' ? 'Login' : 'Create account'"
     (click)="submit($event)" />
 
   <div class="mt-4">
+    <!-- TODO: update ui -->
     @if (formType() === 'login') {
       <div class="flex items-center justify-center gap-1">
         <span>No account?</span>
-        <button pButton [text]="true" (click)="toggleFormType.emit('register')">Create one</button>
+        <p-button link severity="secondary" label="Create one" [text]="true" (click)="toggleFormType.emit('register')" />
       </div>
     } @else {
-      <div class="flex items-center justify-center">
+      <div class="flex items-center justify-center gap-1">
         <span>Have an account?</span>
-        <button pButton [text]="true" (click)="toggleFormType.emit('login')">Login</button>
+        <p-button link severity="secondary" label="Login" [text]="true" (click)="toggleFormType.emit('login')" />
       </div>
     }
   </div>

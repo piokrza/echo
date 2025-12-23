@@ -13,7 +13,13 @@ const imports = [RouterOutlet, RouterLink, ButtonModule, RouterLinkActive];
   template: `
     <div class="flex gap-4 flex-wrap mb-8">
       @for (link of links; track $index) {
-        <a pButton severity="secondary" routerLinkActive="link-active" [routerLink]="[link.routerLink]" [relativeTo]="activatedRoute">
+        <a
+          pButton
+          severity="secondary"
+          routerLinkActive="link-active"
+          [outlined]="true"
+          [routerLink]="[link.routerLink]"
+          [relativeTo]="activatedRoute">
           {{ link.label }}
         </a>
       }

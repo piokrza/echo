@@ -2,11 +2,10 @@ import { Component } from '@angular/core';
 import { Timestamp } from '@angular/fire/firestore';
 
 import { Path } from '#core/enum';
-import { TransactionBrickComponent } from '#finances/component/transaction-brick';
-import { TransactionListComponent } from '#finances/component/transaction-list';
+import { OverviewBrickComponent } from '#finances/component/overview-brick';
 import { EchoTransaction } from '#finances/model';
 
-const imports = [TransactionBrickComponent, TransactionListComponent];
+const imports = [OverviewBrickComponent];
 
 @Component({
   selector: 'echo-overview',
@@ -15,15 +14,13 @@ const imports = [TransactionBrickComponent, TransactionListComponent];
       <div class="flex gap-4 flex-wrap">
         <div class="grid gap-4 xl:grid-cols-3 flex-grow-1">
           @for (transaction of transactionMock; track $index) {
-            <echo-transaction-brick
+            <echo-overview-brick
+              [type]="'income'"
               [amount]="transaction.amount"
               [brickTitle]="transaction.type"
-              [dateRange]="transaction.createdAt"
-              [type]="'remaining'" />
+              [dateRange]="transaction.createdAt" />
           }
         </div>
-
-        <echo-transaction-list heading="Last Transactions" />
       </div>
     </section>
   `,
@@ -40,22 +37,25 @@ export class OverviewComponent {
       uid: '',
       lastUpdate: Timestamp.now(),
       description: '',
+      id: 'dwa',
     },
     {
       amount: 622,
       createdAt: Timestamp.now(),
-      type: 'expenses',
+      type: 'expense',
       uid: '',
       lastUpdate: Timestamp.now(),
       description: '',
+      id: 'dwa42',
     },
     {
       amount: 1622,
       createdAt: Timestamp.now(),
-      type: 'remaining',
+      type: 'expense',
       uid: '',
       lastUpdate: Timestamp.now(),
       description: '',
+      id: 'dwa442141242',
     },
   ];
 }

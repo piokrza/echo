@@ -1,1 +1,1 @@
-export type TransactionType = 'remaining' | 'income' | 'expenses';
+export type TransactionType = 'income' | 'expense';

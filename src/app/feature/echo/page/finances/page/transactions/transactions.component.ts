@@ -1,81 +1,82 @@
-import { DatePipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
 import { Timestamp } from '@angular/fire/firestore';
 
-import { PrimeIcons } from 'primeng/api';
+import { ConfirmationService, PrimeIcons } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { DialogService, DynamicDialogModule } from 'primeng/dynamicdialog';
 import { TableModule } from 'primeng/table';
+import { TooltipModule } from 'primeng/tooltip';
 
 import { TransactionFormComponent } from '#finances/component/transaction-form';
+import { TransactionListComponent } from '#finances/component/transaction-list';
 import { EchoTransaction } from '#finances/model';
-import { TimestampToDatePipe } from '#ui/pipe';
+import { TransactionsService } from '#finances/service';
 
-const imports = [ButtonModule, TableModule, DatePipe, TimestampToDatePipe, DynamicDialogModule];
+const imports = [ButtonModule, TableModule, DynamicDialogModule, TooltipModule, TransactionListComponent];
 
 @Component({
   selector: 'echo-transactions',
   template: `
-    <button pButton class="mb-4" (click)="addTransaction()">Add transaction</button>
-
-    <p-table [value]="transactions">
-      <ng-template #header>
-        <tr>
-          <th>Description</th>
-          <th>Amount</th>
-          <th>Type</th>
-          <th>Creation date</th>
-          <th>Actions</th>
-        </tr>
-      </ng-template>
-      <ng-template #body let-product>
-        <tr>
-          <td>{{ product.description }}</td>
-          <td>{{ product.amount }}</td>
-          <td>{{ product.type }}</td>
-          <td>{{ product.createdAt | timestampToDate | date }}</td>
-          <td>
-            <div class="flex gap-3">
-              <p-button [icon]="PrimeIcons.PLUS" [text]="true" />
-              <p-button [icon]="PrimeIcons.ERASER" [text]="true" />
-            </div>
-          </td>
-        </tr>
-      </ng-template>
-    </p-table>
+    <button pButton class="mb-4" (click)="openTransactionDialog()">Add transaction</button>
+    <echo-transaction-list [transactions]="transactions" (editTx)="openTransactionDialog($event)" (deleteTx)="deleteTransaction($event)" />
   `,
   imports,
 })
 export class TransactionsComponent {
   readonly #dialogService = inject(DialogService);
+  readonly #transactionsService = inject(TransactionsService);
+  readonly #confirmationService = inject(ConfirmationService);
 
-  readonly userId = inject(Auth).currentUser?.uid ?? '';
+  readonly #userId = inject(Auth).currentUser?.uid ?? '';
   readonly PrimeIcons = PrimeIcons;
   readonly transactions: EchoTransaction[] = [
     {
       amount: 4200,
       createdAt: Timestamp.now(),
-      type: 'expenses',
-      uid: this.userId ?? '',
+      type: 'expense',
+      uid: this.#userId ?? '',
       description: 'pizdziocha zwachania description',
       lastUpdate: Timestamp.now(),
+      id: '24141241',
     },
     {
       amount: 124200,
       createdAt: Timestamp.now(),
       type: 'income',
-      uid: this.userId ?? '',
+      uid: this.#userId ?? '',
       description: 'opis tego remaining income',
       lastUpdate: Timestamp.now(),
+      id: '241412412455151',
     },
   ];
 
-  addTransaction(): void {
+  openTransactionDialog(tx?: EchoTransaction): void {
     this.#dialogService.open(TransactionFormComponent, {
-      header: 'Add transaction',
+      data: tx,
       closable: true,
       styleClass: 'md',
+      closeOnEscape: true,
+      header: `${tx ? 'Edit' : 'Add'} transaction`,
+    });
+  }
+
+  deleteTransaction(txId: string): void {
+    this.#confirmationService.confirm({
+      header: 'Do you want to delete this transaction?',
+      closable: false,
+      rejectButtonProps: {
+        label: 'Cancel',
+        severity: 'secondary',
+        outlined: true,
+      },
+      acceptButtonProps: {
+        label: 'Delete',
+        severity: 'danger',
+      },
+      accept: () => {
+        this.#transactionsService.deleteTransaction$(txId);
+      },
     });
   }
 }

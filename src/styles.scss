@@ -11,6 +11,21 @@ body {
   color: var(--p-button-text-primary-color);
 }
 
+.color {
+  &-success {
+    color: var(--p-button-text-success-color);
+  }
+
+  &-danger {
+    color: var(--p-button-text-danger-color);
+  }
+}
+
 .color-secondary {
   color: var(--p-button-text-secondary-color);
+}
+
+.outlined {
+  outline-offset: 4px;
+  outline: 2px solid var(--p-button-text-secondary-color);
 }

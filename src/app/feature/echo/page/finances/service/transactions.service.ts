@@ -11,4 +11,9 @@ export class TransactionsService {
   addTransaction$(transaction: EchoTransaction): Observable<void> {
     return this.#transactionsApiService.addTransaction$(transaction);
   }
+
+  deleteTransaction$(txId: string) {
+    // eslint-disable-next-line no-console
+    console.log(txId);
+  }
 }

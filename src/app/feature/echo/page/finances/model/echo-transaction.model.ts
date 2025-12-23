@@ -4,6 +4,7 @@ import { TransactionType } from '#finances/model';
 
 export interface EchoTransaction {
   uid: string;
+  id: string;
   amount: number;
   createdAt: Timestamp;
   type: TransactionType;

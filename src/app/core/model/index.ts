@@ -7,3 +7,4 @@ export * from './loading-dictionary.model';
 export * from './state-object.model';
 export * from './collection.model';
 export * from './echo-link.model';
+export * from './option-with-label.model';

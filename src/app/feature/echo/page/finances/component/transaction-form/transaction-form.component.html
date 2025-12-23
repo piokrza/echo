@@ -1,20 +1,31 @@
-<form class="grid gap-3" [formGroup]="form" (ngSubmit)="save()">
+<form class="grid gap-3" [formGroup]="txForm" (ngSubmit)="save()">
   <p-floatlabel variant="in">
-    @let isAmountInvalid = form.controls.amount.touched && form.controls.amount.dirty;
+    @let isAmountInvalid = txForm.controls.amount.touched && txForm.controls.amount.dirty;
 
-    <p-inputnumber id="amount" autocomplete="off" class="w-full" [formControl]="form.controls.amount" />
-    <label for="amount">Amount</label>
+    <p-inputnumber id="amount" autocomplete="off" class="w-full" [formControl]="txForm.controls.amount" />
+    <label for="amount">Amount (zł)</label>
   </p-floatlabel>
-
   @if (isAmountInvalid) {
-    @if (form.controls.amount.hasError('required')) {
+    @if (txForm.controls.amount.hasError('required')) {
       <p-message severity="error" size="small" variant="simple">Amount is required</p-message>
     }
   }
 
   <div class="flex-grow">
-    <p-select class="w-full" [formControl]="form.controls.type" [options]="transactionTypes" placeholder="Select transaction type" />
+    @let isTypeInvalid = txForm.controls.type.touched && txForm.controls.type.dirty;
+    <p-select
+      class="w-full"
+      optionValue="value"
+      optionLabel="label"
+      [options]="transactionTypes"
+      [formControl]="txForm.controls.type"
+      placeholder="Select transaction type" />
   </div>
+  @if (isTypeInvalid) {
+    @if (txForm.controls.type.hasError('required')) {
+      <p-message severity="error" size="small" variant="simple">Amount is required</p-message>
+    }
+  }
 
   <p-floatlabel variant="in">
     <textarea
@@ -24,9 +35,9 @@
       class="w-full"
       id="description"
       style="resize: none"
-      [formControl]="form.controls.description"></textarea>
+      [formControl]="txForm.controls.description"></textarea>
     <label for="description">Description</label>
   </p-floatlabel>
 
-  <p-button label="Submit" class="wide" [loading]="isProcessing()" (onClick)="save()" />
+  <p-button label="Save" class="wide" [loading]="isProcessing()" (onClick)="save()" />
 </form>

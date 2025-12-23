@@ -23,7 +23,10 @@ const imports = [ButtonModule, AuthFormComponent, CardModule, RouterLink];
 
             <p-button
               class="wide"
+              size="large"
+              severity="info"
               label="Login with Google"
+              [outlined]="true"
               [icon]="PrimeIcons.GOOGLE"
               [loading]="state().isPerformingGoogleAuth"
               (click)="loginWithGoogle()" />
@@ -35,7 +38,7 @@ const imports = [ButtonModule, AuthFormComponent, CardModule, RouterLink];
               (toggleFormType)="setFormType($event)"
               (formSubmit)="authenticateWithEmailAndPassword($event)" />
 
-            <a pButton class="w-fit" [text]="true" [routerLink]="['']">Back</a>
+            <button pButton link class="w-fit mt-6" [icon]="PrimeIcons.ARROW_LEFT" [text]="true" [routerLink]="['']">Back to Echo</button>
           </div>
         </p-card>
       </div>

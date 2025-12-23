@@ -10,13 +10,13 @@ import { TimestampToDatePipe } from '#ui/pipe';
 const imports = [CardModule, TitleCasePipe, TimestampToDatePipe, DatePipe];
 
 @Component({
-  selector: 'echo-transaction-brick',
+  selector: 'echo-overview-brick',
   template: `
     <p-card appearance="outlined" class="min-w-[200px]" [header]="brickTitle() | titlecase">
       <p>{{ dateRange() | timestampToDate | date }}</p>
 
       <div>
-        @if (type() === 'expenses') {
+        @if (type() === 'expense') {
           <span>-</span>
         }
         {{ amount() }}zł
@@ -25,7 +25,7 @@ const imports = [CardModule, TitleCasePipe, TimestampToDatePipe, DatePipe];
   `,
   imports,
 })
-export class TransactionBrickComponent {
+export class OverviewBrickComponent {
   readonly brickTitle = input.required<string>();
   readonly dateRange = input.required<Timestamp>();
   readonly amount = input.required<number>();

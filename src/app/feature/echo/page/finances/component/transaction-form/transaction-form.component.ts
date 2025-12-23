@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, signal } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Auth } from '@angular/fire/auth';
 import { Timestamp } from '@angular/fire/firestore';
@@ -7,7 +7,7 @@ import { tap } from 'rxjs';
 
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
-import { DynamicDialogRef } from 'primeng/dynamicdialog';
+import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
@@ -16,7 +16,8 @@ import { RadioButtonModule } from 'primeng/radiobutton';
 import { SelectModule } from 'primeng/select';
 import { TextareaModule } from 'primeng/textarea';
 
-import { EchoTransaction } from '#finances/model';
+import { OptionWithLabel } from '#core/model';
+import { EchoTransaction, TransactionType } from '#finances/model';
 import { TransactionsService } from '#finances/service';
 
 const imports = [
@@ -36,34 +37,46 @@ const imports = [
   templateUrl: './transaction-form.component.html',
   imports,
 })
-export class TransactionFormComponent {
+export class TransactionFormComponent implements OnInit {
   readonly #destroyRef = inject(DestroyRef);
   readonly #messageService = inject(MessageService);
   readonly #dynamicDialogRef = inject(DynamicDialogRef);
   readonly #transactionService = inject(TransactionsService);
 
-  readonly form = new FormGroup({
-    amount: new FormControl<number>(0, { nonNullable: true, validators: [Validators.required] }),
-    type: new FormControl<EchoTransaction['type']>('income', { nonNullable: true, validators: [Validators.required] }),
+  readonly tx?: EchoTransaction = inject(DynamicDialogConfig).data;
+
+  readonly txForm = new FormGroup({
+    amount: new FormControl<number | null>(null, { nonNullable: true, validators: [Validators.required] }),
+    type: new FormControl<TransactionType>('income', { nonNullable: true, validators: [Validators.required] }),
     description: new FormControl<string>('', { nonNullable: true }),
   });
 
-  readonly userId = inject(Auth).currentUser?.uid ?? '';
-  readonly transactionTypes: EchoTransaction['type'][] = ['income', 'expenses', 'remaining'];
-
   readonly isProcessing = signal(false);
+  readonly userId = inject(Auth).currentUser?.uid ?? '';
+  readonly transactionTypes: OptionWithLabel<TransactionType>[] = [
+    { value: 'income', label: 'Income' },
+    { value: 'expense', label: 'Expense' },
+  ];
+
+  ngOnInit(): void {
+    if (this.tx) this.txForm.patchValue(this.tx);
+  }
 
   save(): void {
-    if (this.form.invalid) return;
+    if (this.txForm.invalid) {
+      this.txForm.markAllAsDirty();
+      return;
+    }
 
-    const { amount, description, type } = this.form.controls;
+    const { amount, description, type } = this.txForm.controls;
     const transaction: EchoTransaction = {
-      amount: amount.value,
+      amount: amount.value ?? 0,
       createdAt: Timestamp.now(),
       description: description.value,
       lastUpdate: Timestamp.now(),
       type: type.value,
       uid: this.userId,
+      id: this.tx?.id ?? '2414', //TODO: use id generator
     };
 
     this.isProcessing.set(true);

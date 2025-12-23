@@ -20,7 +20,7 @@ const imports = [ToolbarModule, RouterLink, ButtonModule, ThemeButtonsComponent]
         <ng-template #end>
           <div class="flex gap-3">
             <echo-theme-buttons />
-            <a pButton severity="secondary" [icon]="PrimeIcons.SIGN_IN" [routerLink]="[Path.AUTH]">Login</a>
+            <a pButton severity="secondary" [outlined]="true" [icon]="PrimeIcons.SIGN_IN" [routerLink]="[Path.AUTH]">Login</a>
           </div>
         </ng-template>
       </p-toolbar>

@@ -1,4 +1,4 @@
-import { TitleCasePipe } from '@angular/common';
+import { CurrencyPipe, TitleCasePipe } from '@angular/common';
 import { Component, computed, input, output } from '@angular/core';
 
 import { PrimeIcons } from 'primeng/api';
@@ -9,7 +9,7 @@ import { ChipModule } from 'primeng/chip';
 import { EchoTransaction } from '#finances/model';
 import { TimestampToTextPipe } from '#ui/pipe';
 
-const imports = [CardModule, ButtonModule, TimestampToTextPipe, TitleCasePipe, ChipModule];
+const imports = [CardModule, ButtonModule, TimestampToTextPipe, TitleCasePipe, ChipModule, CurrencyPipe];
 
 @Component({
   selector: 'echo-transaction-mobile-tile',
@@ -20,7 +20,7 @@ const imports = [CardModule, ButtonModule, TimestampToTextPipe, TitleCasePipe, C
           <i [class]="txIcon() + ' ' + (isIncome() ? 'color-success' : 'color-danger')"></i>
           <p [class]="['text-2xl', isIncome() ? 'color-success' : 'color-danger']">{{ tx().name | titlecase }}</p>
         </div>
-        <p-chip [icon]="isIncome() ? PrimeIcons.ARROW_UP : PrimeIcons.ARROW_DOWN" [label]="tx().amount + ' PLN'" />
+        <p-chip [icon]="isIncome() ? PrimeIcons.ARROW_UP : PrimeIcons.ARROW_DOWN" [label]="(tx().amount | currency: 'USD') ?? ''" />
       </div>
 
       <div class="flex items-center gap-2">
@@ -46,7 +46,7 @@ export class TransactionMobileTileComponent {
 
   readonly isIncome = computed(() => this.tx().type === 'income');
   readonly txIcon = computed(() => {
-    // TODO: icon category based on category
+    // TODO: icon based on category
     switch (this.tx().type) {
       case 'expense':
         return PrimeIcons.BITCOIN;

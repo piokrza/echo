@@ -8,3 +8,4 @@ export * from './scroll-to-element';
 export * from './scroll-to-top';
 export * from './set-path';
 export * from './track-by-fn';
+export * from './deep-equal';

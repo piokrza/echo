@@ -7,6 +7,7 @@ import { tap } from 'rxjs';
 
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
+import { DatePickerModule } from 'primeng/datepicker';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { InputNumberModule } from 'primeng/inputnumber';
@@ -17,7 +18,7 @@ import { SelectModule } from 'primeng/select';
 import { TextareaModule } from 'primeng/textarea';
 
 import { OptionWithLabel } from '#core/model';
-import { EchoTransaction, TransactionType } from '#finances/model';
+import { EchoTransaction, EchoTransactionCategory, TransactionType } from '#finances/model';
 import { TransactionsService } from '#finances/service';
 
 const imports = [
@@ -26,6 +27,7 @@ const imports = [
   MessageModule,
   TextareaModule,
   InputTextModule,
+  DatePickerModule,
   FloatLabelModule,
   InputNumberModule,
   RadioButtonModule,
@@ -46,9 +48,12 @@ export class TransactionFormComponent implements OnInit {
   readonly tx?: EchoTransaction = inject(DynamicDialogConfig).data;
 
   readonly txForm = new FormGroup({
+    name: new FormControl<string | null>(null, { nonNullable: true, validators: [Validators.required] }),
     amount: new FormControl<number | null>(null, { nonNullable: true, validators: [Validators.required] }),
     type: new FormControl<TransactionType>('income', { nonNullable: true, validators: [Validators.required] }),
-    description: new FormControl<string>('', { nonNullable: true }),
+    description: new FormControl<string | null>(null),
+    category: new FormControl<string | null>(null),
+    txDate: new FormControl<Date | null>(null),
   });
 
   readonly isProcessing = signal(false);
@@ -57,9 +62,18 @@ export class TransactionFormComponent implements OnInit {
     { value: 'income', label: 'Income' },
     { value: 'expense', label: 'Expense' },
   ];
+  readonly categories: EchoTransactionCategory[] = [
+    { name: 'Piesek', id: '251512' },
+    { name: 'Kotek', id: '6515222212' },
+  ];
 
   ngOnInit(): void {
-    if (this.tx) this.txForm.patchValue(this.tx);
+    if (this.tx) {
+      this.txForm.patchValue({
+        ...this.tx,
+        txDate: this.tx.txDate.toDate(),
+      });
+    }
   }
 
   save(): void {
@@ -68,15 +82,18 @@ export class TransactionFormComponent implements OnInit {
       return;
     }
 
-    const { amount, description, type } = this.txForm.controls;
+    const { name, amount, description, type, category, txDate } = this.txForm.controls;
     const transaction: EchoTransaction = {
-      amount: amount.value ?? 0,
-      createdAt: Timestamp.now(),
-      description: description.value,
-      lastUpdate: Timestamp.now(),
-      type: type.value,
-      uid: this.userId,
       id: this.tx?.id ?? '2414', //TODO: use id generator
+      uid: this.userId,
+      name: name.value!,
+      amount: amount.value ?? 0,
+      type: type.value,
+      categoryId: category.value,
+      description: description.value,
+      createdAt: Timestamp.now(),
+      lastUpdate: Timestamp.now(),
+      txDate: Timestamp.fromDate(txDate.value!),
     };
 
     this.isProcessing.set(true);

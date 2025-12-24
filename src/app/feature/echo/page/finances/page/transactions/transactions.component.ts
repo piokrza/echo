@@ -32,6 +32,7 @@ export class TransactionsComponent {
   readonly PrimeIcons = PrimeIcons;
   readonly transactions: EchoTransaction[] = [
     {
+      name: 'Zakupy',
       amount: 4200,
       createdAt: Timestamp.now(),
       type: 'expense',
@@ -39,8 +40,11 @@ export class TransactionsComponent {
       description: 'pizdziocha zwachania description',
       lastUpdate: Timestamp.now(),
       id: '24141241',
+      categoryId: '42',
+      txDate: Timestamp.now(),
     },
     {
+      name: 'piwo',
       amount: 124200,
       createdAt: Timestamp.now(),
       type: 'income',
@@ -48,6 +52,8 @@ export class TransactionsComponent {
       description: 'opis tego remaining income',
       lastUpdate: Timestamp.now(),
       id: '241412412455151',
+      categoryId: '55',
+      txDate: Timestamp.now(),
     },
   ];
 

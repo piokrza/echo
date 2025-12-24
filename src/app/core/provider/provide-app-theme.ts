@@ -3,7 +3,7 @@ import Aura from '@primeuix/themes/aura';
 
 import { providePrimeNG } from 'primeng/config';
 
-import { Key } from '#core/enum';
+import { Key } from '#core/constant';
 import { ThemeService } from '#ui/service';
 
 export const provideAppTheme = (): EnvironmentProviders => {

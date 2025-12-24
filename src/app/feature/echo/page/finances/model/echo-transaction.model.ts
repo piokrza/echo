@@ -5,10 +5,12 @@ import { TransactionType } from '#finances/model';
 export interface EchoTransaction {
   uid: string;
   id: string;
+  name: string;
   amount: number;
-  createdAt: Timestamp;
   type: TransactionType;
+  txDate: Timestamp;
+  createdAt: Timestamp;
   lastUpdate: Timestamp;
-  description: string;
-  // location: unknown; TODO: add optional location
+  categoryId: string | null;
+  description: string | null;
 }

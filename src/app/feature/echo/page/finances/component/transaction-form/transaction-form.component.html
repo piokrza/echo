@@ -1,5 +1,17 @@
 <form class="grid gap-3" [formGroup]="txForm" (ngSubmit)="save()">
   <p-floatlabel variant="in">
+    @let isNameInvalid = txForm.controls.name.touched && txForm.controls.name.dirty;
+
+    <input pInputText id="name" autocomplete="off" class="w-full" [formControl]="txForm.controls.name" />
+    <label for="amount">Name</label>
+  </p-floatlabel>
+  @if (isNameInvalid) {
+    @if (txForm.controls.name.hasError('required')) {
+      <p-message severity="error" size="small" variant="simple">Namet is required</p-message>
+    }
+  }
+
+  <p-floatlabel variant="in">
     @let isAmountInvalid = txForm.controls.amount.touched && txForm.controls.amount.dirty;
 
     <p-inputnumber id="amount" autocomplete="off" class="w-full" [formControl]="txForm.controls.amount" />
@@ -11,21 +23,38 @@
     }
   }
 
-  <div class="flex-grow">
-    @let isTypeInvalid = txForm.controls.type.touched && txForm.controls.type.dirty;
-    <p-select
-      class="w-full"
-      optionValue="value"
-      optionLabel="label"
-      [options]="transactionTypes"
-      [formControl]="txForm.controls.type"
-      placeholder="Select transaction type" />
+  <div class="grid gap-3 grid-cols-1 md:grid-cols-2">
+    <div>
+      @let isTypeInvalid = txForm.controls.type.touched && txForm.controls.type.dirty;
+      <p-select class="w-full" optionValue="value" optionLabel="label" [options]="transactionTypes" [formControl]="txForm.controls.type" />
+      @if (isTypeInvalid) {
+        @if (txForm.controls.type.hasError('required')) {
+          <p-message severity="error" size="small" variant="simple">Amount is required</p-message>
+        }
+      }
+    </div>
+
+    <div>
+      <p-select
+        class="w-full"
+        optionValue="id"
+        optionLabel="name"
+        placeholder="Select category"
+        [showClear]="true"
+        [options]="categories"
+        [formControl]="txForm.controls.category" />
+    </div>
   </div>
-  @if (isTypeInvalid) {
-    @if (txForm.controls.type.hasError('required')) {
-      <p-message severity="error" size="small" variant="simple">Amount is required</p-message>
+
+  <div>
+    @let isTxDateInvalid = txForm.controls.txDate.touched && txForm.controls.txDate.dirty;
+    <p-date-picker class="wide" [formControl]="txForm.controls.txDate" appendTo="body" />
+    @if (isTxDateInvalid) {
+      @if (txForm.controls.txDate.hasError('required')) {
+        <p-message severity="error" size="small" variant="simple">Transaction date is required</p-message>
+      }
     }
-  }
+  </div>
 
   <p-floatlabel variant="in">
     <textarea

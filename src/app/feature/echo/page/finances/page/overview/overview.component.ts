@@ -31,6 +31,7 @@ export class OverviewComponent {
 
   readonly transactionMock: EchoTransaction[] = [
     {
+      name: 'piwo',
       amount: 4222,
       createdAt: Timestamp.now(),
       type: 'income',
@@ -38,8 +39,11 @@ export class OverviewComponent {
       lastUpdate: Timestamp.now(),
       description: '',
       id: 'dwa',
+      categoryId: '2414',
+      txDate: Timestamp.now(),
     },
     {
+      name: 'fajki',
       amount: 622,
       createdAt: Timestamp.now(),
       type: 'expense',
@@ -47,8 +51,11 @@ export class OverviewComponent {
       lastUpdate: Timestamp.now(),
       description: '',
       id: 'dwa42',
+      categoryId: '51251',
+      txDate: Timestamp.now(),
     },
     {
+      name: 'takie tego tam',
       amount: 1622,
       createdAt: Timestamp.now(),
       type: 'expense',
@@ -56,6 +63,8 @@ export class OverviewComponent {
       lastUpdate: Timestamp.now(),
       description: '',
       id: 'dwa442141242',
+      categoryId: '421412',
+      txDate: Timestamp.now(),
     },
   ];
 }

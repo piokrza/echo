@@ -48,7 +48,7 @@
 
   <div>
     @let isTxDateInvalid = txForm.controls.txDate.touched && txForm.controls.txDate.dirty;
-    <p-date-picker class="wide" [formControl]="txForm.controls.txDate" appendTo="body" />
+    <p-date-picker class="wide" appendTo="body" placeholder="Select transaction date" [formControl]="txForm.controls.txDate" />
     @if (isTxDateInvalid) {
       @if (txForm.controls.txDate.hasError('required')) {
         <p-message severity="error" size="small" variant="simple">Transaction date is required</p-message>

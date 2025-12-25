@@ -17,7 +17,7 @@ const imports = [ButtonModule, TableModule, TimestampToDatePipe, DatePipe, Trans
   selector: 'echo-transaction-list',
   template: `
     @if (isOverSmBreakpoint()) {
-      <p-table selectionMode="single" [value]="transactions()" (onRowSelect)="goToTxDetails($event)">
+      <p-table selectionMode="single" [value]="transactions()" (onRowSelect)="rowClick($event)">
         <ng-template #header>
           <tr>
             <th>Description</th>
@@ -39,23 +39,6 @@ const imports = [ButtonModule, TableModule, TimestampToDatePipe, DatePipe, Trans
               <div class="flex items-center justify-center">
                 <i [class]="PrimeIcons.CHEVRON_CIRCLE_RIGHT"></i>
               </div>
-
-              <!-- <div class="flex gap-3">
-                <p-button
-                  pTooltip="Edit"
-                  severity="info"
-                  tooltipPosition="bottom"
-                  [icon]="PrimeIcons.FILE_EDIT"
-                  [text]="true"
-                  (onClick)="editTx.emit(tx)" />
-                <p-button
-                  pTooltip="Delete"
-                  severity="danger"
-                  tooltipPosition="bottom"
-                  [icon]="PrimeIcons.ERASER"
-                  [text]="true"
-                  (onClick)="deleteTx.emit(tx.id)" />
-              </div> -->
             </td>
           </tr>
         </ng-template>
@@ -63,7 +46,7 @@ const imports = [ButtonModule, TableModule, TimestampToDatePipe, DatePipe, Trans
     } @else {
       <div class="grid gap-3">
         @for (tx of transactions(); track tx.createdAt) {
-          <echo-transaction-mobile-tile [tx]="tx" (deleteTx)="deleteTx.emit($event)" (editTx)="editTx.emit($event)" />
+          <echo-transaction-mobile-tile [tx]="tx" (itemClick)="goToDetails($event)" />
         }
       </div>
     }
@@ -84,8 +67,12 @@ export class TransactionListComponent {
   selectedTx!: EchoTransaction;
   readonly PrimeIcons = PrimeIcons;
 
-  goToTxDetails(event: TableRowSelectEvent<EchoTransaction>) {
-    const txId = event.data;
+  rowClick(event: TableRowSelectEvent<EchoTransaction>): void {
+    const txId = (event.data as EchoTransaction).id;
+    this.goToDetails(txId);
+  }
+
+  goToDetails(txId: string): void {
     this.#router.navigate([txId], { relativeTo: this.#activatedRoute });
   }
 }

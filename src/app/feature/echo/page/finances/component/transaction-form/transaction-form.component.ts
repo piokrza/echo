@@ -48,12 +48,12 @@ export class TransactionFormComponent implements OnInit {
   readonly tx?: EchoTransaction = inject(DynamicDialogConfig).data;
 
   readonly txForm = new FormGroup({
-    name: new FormControl<string | null>(null, { nonNullable: true, validators: [Validators.required] }),
-    amount: new FormControl<number | null>(null, { nonNullable: true, validators: [Validators.required] }),
-    type: new FormControl<TransactionType>('income', { nonNullable: true, validators: [Validators.required] }),
-    description: new FormControl<string | null>(null),
     category: new FormControl<string | null>(null),
-    txDate: new FormControl<Date | null>(null),
+    description: new FormControl<string | null>(null),
+    txDate: new FormControl<Date | null>(null, { validators: [Validators.required] }),
+    name: new FormControl<string | null>(null, { validators: [Validators.required] }),
+    amount: new FormControl<number | null>(null, { validators: [Validators.required] }),
+    type: new FormControl<TransactionType>('income', { nonNullable: true, validators: [Validators.required] }),
   });
 
   readonly isProcessing = signal(false);

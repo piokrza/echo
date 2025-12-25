@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 
 import { Path } from '#core/enum';
+import { setPath } from '#core/util';
 
 export const FinanceRoutes: Routes = [
   {
@@ -19,6 +20,10 @@ export const FinanceRoutes: Routes = [
       {
         path: Path.TRANSACTIONS,
         loadComponent: async () => (await import('#finances/page/transactions')).TransactionsComponent,
+      },
+      {
+        path: setPath(Path.TRANSACTIONS, Path.PARAM_ID),
+        loadComponent: async () => (await import('#finances/page/transaction-details')).TransactionDetailsComponent,
       },
       {
         path: Path.CATEGORIES,

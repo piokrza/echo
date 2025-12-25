@@ -69,10 +69,8 @@ export class TransactionFormComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.tx) {
-      this.txForm.patchValue({
-        ...this.tx,
-        txDate: this.tx.txDate.toDate(),
-      });
+      const txDate: Date = this.tx.txDate.toDate();
+      this.txForm.patchValue({ ...this.tx, txDate });
     }
   }
 

@@ -8,7 +8,7 @@ import { firebaseConfig } from '#firebase/provider';
 export const provideEchoFirebaseConfig = (): EnvironmentProviders => {
   return makeEnvironmentProviders([
     provideAuth(() => getAuth()),
-    provideFirestore(() => getFirestore()),
     provideFirebaseApp(() => initializeApp(firebaseConfig)),
+    provideFirestore(() => getFirestore()),
   ]);
 };

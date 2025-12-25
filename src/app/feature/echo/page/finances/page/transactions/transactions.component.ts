@@ -1,6 +1,5 @@
-import { Component, inject } from '@angular/core';
-import { Auth } from '@angular/fire/auth';
-import { Timestamp } from '@angular/fire/firestore';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { ConfirmationService, PrimeIcons } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
@@ -18,44 +17,32 @@ const imports = [ButtonModule, TableModule, DynamicDialogModule, TooltipModule, 
 @Component({
   selector: 'echo-transactions',
   template: `
-    <button pButton class="mb-4" (click)="openTransactionDialog()">Add transaction</button>
-    <echo-transaction-list [transactions]="transactions" (editTx)="openTransactionDialog($event)" (deleteTx)="deleteTransaction($event)" />
+    @let s = state();
+    @if (s.isLoading) {
+      <h1>LOADING...</h1>
+    } @else {
+      <button pButton class="mb-4" (click)="openTransactionDialog()">Add transaction</button>
+      <echo-transaction-list
+        [transactions]="s.transactions"
+        (editTx)="openTransactionDialog($event)"
+        (deleteTx)="deleteTransaction($event)" />
+    }
   `,
   imports,
 })
-export class TransactionsComponent {
+export class TransactionsComponent implements OnInit {
+  readonly #destroyRef = inject(DestroyRef);
   readonly #dialogService = inject(DialogService);
   readonly #transactionsService = inject(TransactionsService);
   readonly #confirmationService = inject(ConfirmationService);
 
-  readonly #userId = inject(Auth).currentUser?.uid ?? '';
+  readonly state = this.#transactionsService.state;
+
   readonly PrimeIcons = PrimeIcons;
-  readonly transactions: EchoTransaction[] = [
-    {
-      name: 'Zakupy',
-      amount: 4200,
-      createdAt: Timestamp.now(),
-      type: 'expense',
-      uid: this.#userId ?? '',
-      description: 'pizdziocha zwachania description',
-      lastUpdate: Timestamp.now(),
-      id: '24141241',
-      categoryId: '42',
-      txDate: Timestamp.now(),
-    },
-    {
-      name: 'piwo',
-      amount: 124200,
-      createdAt: Timestamp.now(),
-      type: 'income',
-      uid: this.#userId ?? '',
-      description: 'opis tego remaining income',
-      lastUpdate: Timestamp.now(),
-      id: '241412412455151',
-      categoryId: '55',
-      txDate: Timestamp.now(),
-    },
-  ];
+
+  ngOnInit(): void {
+    this.#transactionsService.getTransactions$().pipe(takeUntilDestroyed(this.#destroyRef)).subscribe();
+  }
 
   openTransactionDialog(tx?: EchoTransaction): void {
     this.#dialogService.open(TransactionFormComponent, {

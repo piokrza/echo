@@ -30,10 +30,10 @@ const imports = [AvatarModule, PopoverModule, ButtonModule, ClickOutsideDirectiv
         <div class="flex flex-col gap-3 items-center min-w-12">
           <div class="text-sm color-secondary">{{ user?.email }}</div>
 
-          @if (user) {
-            <p-avatar size="xlarge" shape="circle" [image]="user.photoURL ?? ''" (click)="popover.toggle($event)" />
-            <div>Hello {{ user.displayName ?? 'user' }}</div>
+          @if (user?.photoURL) {
+            <p-avatar size="xlarge" shape="circle" [image]="user?.photoURL ?? ''" (click)="popover.toggle($event)" />
           }
+          <div>Hello {{ user?.displayName ?? 'user' }}</div>
         </div>
 
         <div class="mt-4">

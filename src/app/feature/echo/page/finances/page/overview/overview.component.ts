@@ -1,11 +1,14 @@
 import { Component } from '@angular/core';
 import { Timestamp } from '@angular/fire/firestore';
 
+import { ChartModule } from 'primeng/chart';
+
 import { Path } from '#core/enum';
+import { ExpenseCategoryChartComponent } from '#finances/component/expense-category-chart';
 import { OverviewBrickComponent } from '#finances/component/overview-brick';
 import { EchoTransaction } from '#finances/model';
 
-const imports = [OverviewBrickComponent];
+const imports = [OverviewBrickComponent, ChartModule, ExpenseCategoryChartComponent];
 
 @Component({
   selector: 'echo-overview',
@@ -22,13 +25,16 @@ const imports = [OverviewBrickComponent];
           }
         </div>
       </div>
+
+      <div class="w-8 mt-6">
+        <echo-expense-category-chart />
+      </div>
     </section>
   `,
   imports,
 })
 export class OverviewComponent {
   readonly Path = Path;
-
   readonly transactionMock: EchoTransaction[] = [
     {
       name: 'piwo',

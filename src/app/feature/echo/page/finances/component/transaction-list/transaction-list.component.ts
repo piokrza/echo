@@ -1,17 +1,18 @@
-import { DatePipe } from '@angular/common';
+import { CurrencyPipe, DatePipe } from '@angular/common';
 import { Component, inject, input, output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { PrimeIcons } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
+import { TagModule } from 'primeng/tag';
 
 import { TransactionMobileTileComponent } from '#finances/component/transaction-mobile-tile';
 import { EchoTransaction } from '#finances/model';
 import { TimestampToDatePipe } from '#ui/pipe';
 import { BreakpointService } from '#ui/service';
 
-const imports = [ButtonModule, TableModule, TimestampToDatePipe, DatePipe, TransactionMobileTileComponent];
+const imports = [ButtonModule, TableModule, TagModule, TimestampToDatePipe, DatePipe, CurrencyPipe, TransactionMobileTileComponent];
 
 @Component({
   selector: 'echo-transaction-list',
@@ -20,22 +21,26 @@ const imports = [ButtonModule, TableModule, TimestampToDatePipe, DatePipe, Trans
       <p-table [value]="transactions()">
         <ng-template #header>
           <tr>
-            <th>Description</th>
+            <th>Name</th>
             <th>Amount</th>
-            <th>Type</th>
             <th>Transaction date</th>
-            <th>Create date</th>
+            <th>Category</th>
             <th></th>
           </tr>
         </ng-template>
 
         <ng-template #body let-tx>
           <tr>
-            <td>{{ tx.description }}</td>
-            <td>{{ tx.amount }}</td>
-            <td>{{ tx.type }}</td>
+            <td>{{ tx.name }}</td>
+            <td>
+              @let isIncome = tx.type === 'income';
+              <p-tag
+                [severity]="isIncome ? 'success' : 'danger'"
+                [value]="(tx.amount | currency) ?? ''"
+                [icon]="isIncome ? PrimeIcons.ARROW_UP : PrimeIcons.ARROW_DOWN" />
+            </td>
             <td>{{ tx.txDate | timestampToDate | date }}</td>
-            <td>{{ tx.createdAt | timestampToDate | date }}</td>
+            <td>{{ tx.categoryId }}</td>
             <td>
               <p-button severity="secondary" [text]="true" [icon]="PrimeIcons.CHEVRON_CIRCLE_RIGHT" (onClick)="goToDetails(tx.id)" />
             </td>

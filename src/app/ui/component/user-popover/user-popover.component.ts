@@ -23,7 +23,7 @@ const imports = [AvatarModule, PopoverModule, ButtonModule, ClickOutsideDirectiv
         class="cursor-pointer"
         [image]="user?.photoURL ?? ''"
         [class]="focused() ? 'outlined' : ''"
-        [icon]="user?.photoURL ? '' : PrimeIcons.USER"
+        [icon]="user?.photoURL ? undefined : PrimeIcons.USER"
         (clickOutside)="focused.set(false)" />
 
       <p-popover #popover>

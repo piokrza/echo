@@ -4,6 +4,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ConfirmationService, PrimeIcons } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { DialogService, DynamicDialogModule } from 'primeng/dynamicdialog';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { TableModule } from 'primeng/table';
 import { TooltipModule } from 'primeng/tooltip';
 
@@ -12,14 +13,16 @@ import { TransactionListComponent } from '#finances/component/transaction-list';
 import { EchoTransaction } from '#finances/model';
 import { TransactionsService } from '#finances/service';
 
-const imports = [ButtonModule, TableModule, DynamicDialogModule, TooltipModule, TransactionListComponent];
+const imports = [ButtonModule, TableModule, DynamicDialogModule, TooltipModule, TransactionListComponent, ProgressSpinnerModule];
 
 @Component({
   selector: 'echo-transactions',
   template: `
     @let s = state();
     @if (s.isLoading) {
-      <h1>LOADING...</h1>
+      <div class="flex justify-center">
+        <p-progress-spinner ariaLabel="loading" />
+      </div>
     } @else {
       <button pButton class="mb-4" (click)="openTransactionDialog()">Add transaction</button>
       <echo-transaction-list

@@ -63,8 +63,8 @@ export class TransactionFormComponent implements OnInit {
     { value: 'expense', label: 'Expense' },
   ];
   readonly categories: EchoTransactionCategory[] = [
-    { name: 'Piesek', id: '251512' },
-    { name: 'Kotek', id: '6515222212' },
+    { name: 'Flat fees', id: '251512' },
+    { name: 'Daily', id: '6515222212' },
   ];
 
   ngOnInit(): void {

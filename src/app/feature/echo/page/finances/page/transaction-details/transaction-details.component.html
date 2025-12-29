@@ -1,9 +1,9 @@
 <p-button label="Back to transactions" class="mb-6 block" [icon]="PrimeIcons.ARROW_LEFT" [text]="true" [routerLink]="['../']" />
 
-@if (isLoading()) {
+@if (state().isLoading) {
   <echo-spinner />
 } @else {
-  @if (tx(); as tx) {
+  @if (state().tx; as tx) {
     <div class="flex justify-center">
       <p-card class="w-full max-w-[40rem]">
         <div class="flex gap-4 justify-between">

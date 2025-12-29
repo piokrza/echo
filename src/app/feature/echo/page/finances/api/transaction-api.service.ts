@@ -1,12 +1,14 @@
 import { inject, Injectable } from '@angular/core';
+import { Auth } from '@angular/fire/auth';
 import { addDoc, collection, deleteDoc, doc, Firestore, getDocs, query, updateDoc, where } from '@angular/fire/firestore';
-import { EMPTY, from, map, Observable } from 'rxjs';
+import { EMPTY, from, map, Observable, throwError } from 'rxjs';
 
 import { EchoCollection } from '#core/enum';
 import { EchoTransaction } from '#finances/model';
 
 @Injectable({ providedIn: 'root' })
 export class TransactonApiService {
+  readonly #auth = inject(Auth);
   readonly #firestore = inject(Firestore);
 
   readonly #transactionsCollection = collection(this.#firestore, EchoCollection.TRANSACTIONS);
@@ -24,8 +26,13 @@ export class TransactonApiService {
     ) as Observable<EchoTransaction[]>;
   }
 
-  getTransactionById$(txId: string, uid: string): Observable<EchoTransaction | null> {
-    const q = query(this.#transactionsCollection, where('uid', '==', uid), where('id', '==', txId));
+  getTransactionById$(txId: string): Observable<EchoTransaction | null> {
+    const userId = this.#auth.currentUser?.uid;
+    if (!userId) {
+      return throwError(() => 'User id is missing');
+    }
+
+    const q = query(this.#transactionsCollection, where('uid', '==', userId), where('id', '==', txId));
 
     return from(getDocs(q)).pipe(
       map((snap) => {

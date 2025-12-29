@@ -1,8 +1,8 @@
 import { CurrencyPipe, DatePipe, TitleCasePipe } from '@angular/common';
-import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit, Signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { finalize, tap } from 'rxjs';
+import { tap } from 'rxjs';
 
 import { ConfirmationService, MessageService, PrimeIcons } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
@@ -12,8 +12,8 @@ import { DialogService } from 'primeng/dynamicdialog';
 import { TagModule } from 'primeng/tag';
 
 import { TransactionFormComponent } from '#finances/component/transaction-form';
-import { EchoTransaction } from '#finances/model';
-import { TransactionsService } from '#finances/service';
+import { TransactionDetailsState } from '#finances/model';
+import { TransactionDetailsService } from '#finances/service';
 import { SpinnerComponent } from '#ui/component/spinner';
 import { TimestampToDatePipe } from '#ui/pipe';
 
@@ -42,10 +42,9 @@ export class TransactionDetailsComponent implements OnInit {
   readonly #messageService = inject(MessageService);
   readonly #activatedRoute = inject(ActivatedRoute);
   readonly #confirmationService = inject(ConfirmationService);
-  readonly #transactionsService = inject(TransactionsService);
+  readonly #transactionDetailsService = inject(TransactionDetailsService);
 
-  readonly isLoading = signal<boolean>(false);
-  readonly tx = signal<EchoTransaction | null>(null);
+  readonly state: Signal<TransactionDetailsState> = this.#transactionDetailsService.state;
 
   readonly PrimeIcons = PrimeIcons;
 
@@ -55,7 +54,7 @@ export class TransactionDetailsComponent implements OnInit {
 
   editTransaction(): void {
     this.#dialogService.open(TransactionFormComponent, {
-      data: this.tx(),
+      data: this.state().tx,
       closable: true,
       closeOnEscape: true,
       header: 'Edit transaction',
@@ -89,8 +88,7 @@ export class TransactionDetailsComponent implements OnInit {
       return;
     }
 
-    this.isLoading.set(true);
-    this.#transactionsService
+    this.#transactionDetailsService
       .getTransactionById$(txId)
       .pipe(
         tap((tx) => {
@@ -98,17 +96,14 @@ export class TransactionDetailsComponent implements OnInit {
             this.#router.navigate(['../'], { relativeTo: this.#activatedRoute });
             return;
           }
-
-          this.tx.set(tx);
         }),
-        finalize(() => this.isLoading.set(false)),
         takeUntilDestroyed(this.#destroyRef)
       )
       .subscribe();
   }
 
   private handleDeleteTransaction(txId: string): void {
-    this.#transactionsService
+    this.#transactionDetailsService
       .deleteTransaction$(txId)
       .pipe(
         tap({

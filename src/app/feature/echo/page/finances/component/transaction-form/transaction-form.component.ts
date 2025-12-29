@@ -18,7 +18,7 @@ import { TextareaModule } from 'primeng/textarea';
 
 import { OptionWithLabel } from '#core/model';
 import { EchoTransaction, EchoTransactionCategory, TransactionType } from '#finances/model';
-import { TransactionsService } from '#finances/service';
+import { TransactionDetailsService, TransactionsService } from '#finances/service';
 
 const imports = [
   ButtonModule,
@@ -42,7 +42,8 @@ export class TransactionFormComponent implements OnInit {
   readonly #destroyRef = inject(DestroyRef);
   readonly #messageService = inject(MessageService);
   readonly #dynamicDialogRef = inject(DynamicDialogRef);
-  readonly #transactionService = inject(TransactionsService);
+  readonly #transactionsService = inject(TransactionsService);
+  readonly #transactionDetailsService = inject(TransactionDetailsService);
 
   readonly tx?: EchoTransaction = inject(DynamicDialogConfig).data;
 
@@ -113,11 +114,11 @@ export class TransactionFormComponent implements OnInit {
   }
 
   private updateTransaction(): void {
-    this.performTxProcess(this.#transactionService.updateTransaction$(this.payload));
+    this.performTxProcess(this.#transactionDetailsService.updateTransaction$(this.payload));
   }
 
   private addTransaction(): void {
-    this.performTxProcess(this.#transactionService.addTransaction$(this.payload));
+    this.performTxProcess(this.#transactionsService.addTransaction$(this.payload));
   }
 
   private performTxProcess<T>(obs: Observable<T>): void {

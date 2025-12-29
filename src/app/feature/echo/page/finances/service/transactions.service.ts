@@ -3,7 +3,7 @@ import { Auth } from '@angular/fire/auth';
 import { finalize, Observable, tap, throwError } from 'rxjs';
 
 import { TransactonApiService } from '#finances/api';
-import { EchoTransaction } from '#finances/model';
+import { EchoTransaction, TransactionType } from '#finances/model';
 import { TransactionsState, TransactionsStore } from '#finances/state';
 
 @Injectable({ providedIn: 'root' })
@@ -16,10 +16,6 @@ export class TransactionsService {
 
   addTransaction$(transaction: Partial<EchoTransaction>): Observable<string> {
     return this.#transactionsApiService.addTransaction$({ ...transaction, uid: this.#auth.currentUser?.uid });
-  }
-
-  updateTransaction$(transaction: Partial<EchoTransaction>): Observable<void> {
-    return this.#transactionsApiService.updateTransaction$(transaction);
   }
 
   getTransactions$(): Observable<EchoTransaction[]> {
@@ -37,16 +33,7 @@ export class TransactionsService {
     );
   }
 
-  getTransactionById$(txId: string): Observable<EchoTransaction | null> {
-    const userId = this.#auth.currentUser?.uid;
-    if (!userId) {
-      return throwError(() => 'User id is missing');
-    }
-
-    return this.#transactionsApiService.getTransactionById$(txId, userId);
-  }
-
-  deleteTransaction$(txId: string): Observable<void> {
-    return this.#transactionsApiService.deleteTransaction$(txId);
+  setSelectedTxType(type: TransactionType): void {
+    this.#transactionsStore.update('selectedTxType', type);
   }
 }

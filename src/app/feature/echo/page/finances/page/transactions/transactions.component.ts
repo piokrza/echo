@@ -1,7 +1,7 @@
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-import { ConfirmationService, PrimeIcons } from 'primeng/api';
+import { PrimeIcons } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { DialogService, DynamicDialogModule } from 'primeng/dynamicdialog';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
@@ -25,10 +25,7 @@ const imports = [ButtonModule, TableModule, DynamicDialogModule, TooltipModule, 
       </div>
     } @else {
       <button pButton class="mb-4" (click)="openTransactionDialog()">Add transaction</button>
-      <echo-transaction-list
-        [transactions]="s.transactions"
-        (editTx)="openTransactionDialog($event)"
-        (deleteTx)="deleteTransaction($event)" />
+      <echo-transaction-list [transactions]="s.transactions" />
     }
   `,
   imports,
@@ -37,7 +34,6 @@ export class TransactionsComponent implements OnInit {
   readonly #destroyRef = inject(DestroyRef);
   readonly #dialogService = inject(DialogService);
   readonly #transactionsService = inject(TransactionsService);
-  readonly #confirmationService = inject(ConfirmationService);
 
   readonly state = this.#transactionsService.state;
 
@@ -54,25 +50,6 @@ export class TransactionsComponent implements OnInit {
       styleClass: 'md',
       closeOnEscape: true,
       header: `${tx ? 'Edit' : 'Add'} transaction`,
-    });
-  }
-
-  deleteTransaction(txId: string): void {
-    this.#confirmationService.confirm({
-      header: 'Do you want to delete this transaction?',
-      closable: false,
-      rejectButtonProps: {
-        label: 'Cancel',
-        severity: 'secondary',
-        outlined: true,
-      },
-      acceptButtonProps: {
-        label: 'Delete',
-        severity: 'danger',
-      },
-      accept: () => {
-        this.#transactionsService.deleteTransaction$(txId);
-      },
     });
   }
 }

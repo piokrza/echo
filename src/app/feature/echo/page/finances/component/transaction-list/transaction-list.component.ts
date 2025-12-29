@@ -1,5 +1,5 @@
 import { CurrencyPipe, DatePipe } from '@angular/common';
-import { Component, inject, input, output } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { PrimeIcons } from 'primeng/api';
@@ -63,14 +63,11 @@ export class TransactionListComponent {
 
   readonly transactions = input.required<EchoTransaction[]>();
 
-  readonly deleteTx = output<string>();
-  readonly editTx = output<EchoTransaction>();
-
+  readonly PrimeIcons = PrimeIcons;
   readonly isOverSmBreakpoint = inject(BreakpointService).observe('sm');
 
-  readonly PrimeIcons = PrimeIcons;
-
   goToDetails(txId: string): void {
+    // TODO: use routerlink
     this.#router.navigate([txId], { relativeTo: this.#activatedRoute });
   }
 }

@@ -15,39 +15,43 @@ const imports = [AvatarModule, PopoverModule, ButtonModule, ClickOutsideDirectiv
 @Component({
   selector: 'echo-user-popover',
   template: `
-    <button class="flex" (click)="popover.toggle($event); focused.set(true)" (keyup.enter)="popover.toggle($event); focused.set(true)">
+    <button
+      pButton
+      class="p-1 overflow-visible"
+      severity="secondary"
+      [text]="true"
+      (click)="popover.toggle($event); focused.set(true)"
+      (keyup.enter)="popover.toggle($event); focused.set(true)">
       <p-avatar
-        tabindex="0"
         size="normal"
         shape="circle"
-        class="cursor-pointer"
         [image]="user?.photoURL ?? ''"
         [class]="focused() ? 'outlined' : ''"
         [icon]="user?.photoURL ? undefined : PrimeIcons.USER"
         (clickOutside)="focused.set(false)" />
-
-      <p-popover #popover>
-        <div class="flex flex-col gap-3 items-center min-w-12">
-          <div class="text-sm color-secondary">{{ user?.email }}</div>
-
-          @if (user?.photoURL) {
-            <p-avatar size="xlarge" shape="circle" [image]="user?.photoURL ?? ''" (click)="popover.toggle($event)" />
-          }
-          <div>Hello {{ user?.displayName ?? 'user' }}</div>
-        </div>
-
-        <div class="mt-4">
-          <p-button
-            class="wide"
-            label="Logout"
-            severity="danger"
-            tooltipPosition="bottom"
-            [text]="true"
-            [icon]="PrimeIcons.SIGN_OUT"
-            (click)="logout()" />
-        </div>
-      </p-popover>
     </button>
+
+    <p-popover #popover>
+      <div class="flex flex-col gap-3 items-center min-w-12">
+        <div class="text-sm color-secondary">{{ user?.email }}</div>
+
+        @if (user?.photoURL) {
+          <p-avatar size="xlarge" shape="circle" [image]="user?.photoURL ?? ''" (click)="popover.toggle($event)" />
+        }
+        <div>Hello {{ user?.displayName ?? 'user' }}</div>
+      </div>
+
+      <div class="mt-4">
+        <p-button
+          class="wide"
+          label="Logout"
+          severity="danger"
+          tooltipPosition="bottom"
+          [text]="true"
+          [icon]="PrimeIcons.SIGN_OUT"
+          (click)="logout()" />
+      </div>
+    </p-popover>
   `,
   imports,
 })

@@ -1,6 +1,6 @@
 import { inject, Injectable, Signal } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
-import { finalize, from, Observable, tap, throwError } from 'rxjs';
+import { finalize, Observable, tap, throwError } from 'rxjs';
 
 import { TransactonApiService } from '#finances/api';
 import { EchoTransaction } from '#finances/model';
@@ -14,9 +14,12 @@ export class TransactionsService {
 
   readonly state: Signal<TransactionsState> = this.#transactionsStore.state;
 
-  // TODO: add return type
-  addTransaction$(transaction: EchoTransaction) {
-    return from(this.#transactionsApiService.addTransaction$(transaction));
+  addTransaction$(transaction: Partial<EchoTransaction>): Observable<string> {
+    return this.#transactionsApiService.addTransaction$(transaction);
+  }
+
+  updateTransaction$(transaction: Partial<EchoTransaction>): Observable<void> {
+    return this.#transactionsApiService.updateTransaction$(transaction);
   }
 
   getTransactions$(): Observable<EchoTransaction[]> {
@@ -43,7 +46,7 @@ export class TransactionsService {
     return this.#transactionsApiService.getTransactionById$(txId, userId);
   }
 
-  deleteTransaction$(txId: string) {
-    this.#transactionsApiService.deleteTransaction$(txId);
+  deleteTransaction$(txId: string): Observable<void> {
+    return this.#transactionsApiService.deleteTransaction$(txId);
   }
 }

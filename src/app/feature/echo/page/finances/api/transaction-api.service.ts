@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
-import { addDoc, collection, deleteDoc, doc, Firestore, getDocs, query, where } from '@angular/fire/firestore';
-import { from, map, Observable } from 'rxjs';
+import { addDoc, collection, deleteDoc, doc, Firestore, getDocs, query, updateDoc, where } from '@angular/fire/firestore';
+import { EMPTY, from, map, Observable } from 'rxjs';
 
 import { EchoCollection } from '#core/enum';
 import { EchoTransaction } from '#finances/model';
@@ -40,8 +40,21 @@ export class TransactonApiService {
     );
   }
 
-  addTransaction$(transaction: EchoTransaction): Observable<string> {
-    return from(addDoc(this.#transactionsCollection, transaction).then((res) => res.id));
+  addTransaction$(transaction: Partial<EchoTransaction>): Observable<string> {
+    return from(
+      addDoc(this.#transactionsCollection, transaction).then((docRef) => {
+        const docId = docRef.id;
+        updateDoc(docRef, { id: docId });
+        return docId;
+      })
+    );
+  }
+
+  updateTransaction$(transaction: Partial<EchoTransaction>): Observable<void> {
+    if (!transaction.id) return EMPTY;
+    const docRef = doc(this.#firestore, EchoCollection.TRANSACTIONS, transaction.id);
+
+    return from(updateDoc(docRef, transaction));
   }
 
   deleteTransaction$(txId: string): Observable<void> {

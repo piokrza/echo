@@ -1,9 +1,8 @@
 import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Auth } from '@angular/fire/auth';
 import { Timestamp } from '@angular/fire/firestore';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { tap } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 
 import { MessageService, PrimeIcons } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
@@ -57,11 +56,11 @@ export class TransactionFormComponent implements OnInit {
   });
 
   readonly isProcessing = signal(false);
-  readonly userId = inject(Auth).currentUser?.uid ?? '';
   readonly transactionTypes: OptionWithLabel<TransactionType>[] = [
     { value: 'income', label: 'Income' },
     { value: 'expense', label: 'Expense' },
   ];
+  // TODO: categories from userStore
   readonly categories: EchoTransactionCategory[] = [
     {
       name: 'Flat fees',
@@ -85,23 +84,42 @@ export class TransactionFormComponent implements OnInit {
       return;
     }
 
+    this.isProcessing.set(true);
+
+    if (this.tx) {
+      this.updateTransaction();
+      return;
+    }
+
+    this.addTransaction();
+  }
+
+  private get payload(): Partial<EchoTransaction> {
     const { name, amount, description, type, category, txDate } = this.txForm.controls;
-    const transaction: EchoTransaction = {
-      id: this.tx?.id ?? '2414', //TODO: use id generator
-      uid: this.userId,
-      name: name.value!,
+    const formValue: Partial<EchoTransaction> = {
+      name: name.value ?? '',
       amount: amount.value ?? 0,
       type: type.value,
       categoryId: category.value,
       description: description.value,
       createdAt: Timestamp.now(),
       lastUpdate: Timestamp.now(),
-      txDate: Timestamp.fromDate(txDate.value!),
+      txDate: Timestamp.fromDate(txDate.value ?? new Date()),
     };
 
-    this.isProcessing.set(true);
-    this.#transactionService
-      .addTransaction$(transaction)
+    return { ...this.tx, ...formValue };
+  }
+
+  private updateTransaction(): void {
+    this.performTxProcess(this.#transactionService.updateTransaction$(this.payload));
+  }
+
+  private addTransaction(): void {
+    this.performTxProcess(this.#transactionService.addTransaction$(this.payload));
+  }
+
+  private performTxProcess<T>(obs: Observable<T>): void {
+    obs
       .pipe(
         tap({
           next: () => {
@@ -114,7 +132,7 @@ export class TransactionFormComponent implements OnInit {
               severity: 'error',
             });
           },
-          finalize: () => {
+          complete: () => {
             this.isProcessing.set(false);
           },
         }),

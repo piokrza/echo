@@ -34,6 +34,15 @@ export class TransactionsService {
     );
   }
 
+  getTransactionById$(txId: string): Observable<EchoTransaction | null> {
+    const userId = this.#auth.currentUser?.uid;
+    if (!userId) {
+      return throwError(() => 'User id is missing');
+    }
+
+    return this.#transactionsApiService.getTransactionById$(txId, userId);
+  }
+
   deleteTransaction$(txId: string) {
     this.#transactionsApiService.deleteTransaction$(txId);
   }

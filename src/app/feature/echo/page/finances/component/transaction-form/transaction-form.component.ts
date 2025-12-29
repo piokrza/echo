@@ -5,7 +5,7 @@ import { Timestamp } from '@angular/fire/firestore';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { tap } from 'rxjs';
 
-import { MessageService } from 'primeng/api';
+import { MessageService, PrimeIcons } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { DatePickerModule } from 'primeng/datepicker';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
@@ -63,8 +63,13 @@ export class TransactionFormComponent implements OnInit {
     { value: 'expense', label: 'Expense' },
   ];
   readonly categories: EchoTransactionCategory[] = [
-    { name: 'Flat fees', id: '251512' },
-    { name: 'Daily', id: '6515222212' },
+    {
+      name: 'Flat fees',
+      id: '251512',
+      icon: PrimeIcons.AMAZON,
+      createDate: Timestamp.now(),
+      type: 'expense',
+    },
   ];
 
   ngOnInit(): void {

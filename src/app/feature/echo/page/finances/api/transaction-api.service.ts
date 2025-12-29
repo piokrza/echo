@@ -24,6 +24,22 @@ export class TransactonApiService {
     ) as Observable<EchoTransaction[]>;
   }
 
+  getTransactionById$(txId: string, uid: string): Observable<EchoTransaction | null> {
+    const q = query(this.#transactionsCollection, where('uid', '==', uid), where('id', '==', txId));
+
+    return from(getDocs(q)).pipe(
+      map((snap) => {
+        if (snap.empty) return null;
+
+        const doc = snap.docs[0];
+        return {
+          id: doc.id,
+          ...doc.data(),
+        } as EchoTransaction;
+      })
+    );
+  }
+
   addTransaction$(transaction: EchoTransaction): Observable<string> {
     return from(addDoc(this.#transactionsCollection, transaction).then((res) => res.id));
   }

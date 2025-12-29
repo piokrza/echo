@@ -42,7 +42,7 @@ const imports = [ButtonModule, TableModule, TagModule, TimestampToDatePipe, Date
             <td>{{ tx.txDate | timestampToDate | date }}</td>
             <td>{{ tx.categoryId }}</td>
             <td>
-              <p-button severity="secondary" [text]="true" [icon]="PrimeIcons.CHEVRON_CIRCLE_RIGHT" (onClick)="goToDetails(tx.id)" />
+              <p-button severity="secondary" [text]="true" [icon]="PrimeIcons.CHEVRON_RIGHT" (onClick)="goToDetails(tx.id)" />
             </td>
           </tr>
         </ng-template>

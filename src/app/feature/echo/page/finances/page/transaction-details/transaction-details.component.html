@@ -1,0 +1,26 @@
+<p-button label="Back to transactios" [icon]="PrimeIcons.ARROW_LEFT" [text]="true" [routerLink]="['../']" />
+
+@if (isLoading()) {
+  <echo-spinner />
+} @else {
+  <p-card class="w-full max-w-[40rem]">
+    <div class="flex gap-4 justify-between">
+      <div class="flex gap-4 ites-center">
+        <i style="font-size: 3rem" [class]="PrimeIcons.ARROWS_H"></i>
+        <div>
+          <h2 class="text-3xl">
+            {{ tx()?.name }}
+          </h2>
+
+          <div class="flex gap-4 mt-2">
+            <!-- TODO: remove if used once -->
+            @let isIncome = tx()?.type === 'income';
+            <p-tag [severity]="isIncome ? 'success' : 'danger'" [value]="(tx()?.type | titlecase) ?? ''" />
+          </div>
+        </div>
+      </div>
+
+      <p-button severity="secondary" label="Edit" [icon]="PrimeIcons.FILE_EDIT" />
+    </div>
+  </p-card>
+}

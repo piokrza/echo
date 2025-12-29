@@ -2,27 +2,30 @@ import { Component, inject } from '@angular/core';
 import { ActivatedRoute, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 
 import { ButtonModule } from 'primeng/button';
+import { ButtonGroupModule } from 'primeng/buttongroup';
 
 import { Path } from '#core/enum';
 import { EchoLink } from '#core/model';
 
-const imports = [RouterOutlet, RouterLink, ButtonModule, RouterLinkActive];
+const imports = [RouterOutlet, RouterLink, ButtonModule, ButtonGroupModule, RouterLinkActive];
 
 @Component({
   selector: 'echo-finances-frame',
   template: `
     <div class="flex gap-4 flex-wrap mb-8">
-      @for (link of links; track $index) {
-        <a
-          pButton
-          severity="secondary"
-          routerLinkActive="link-active"
-          [outlined]="true"
-          [routerLink]="[link.routerLink]"
-          [relativeTo]="activatedRoute">
-          {{ link.label }}
-        </a>
-      }
+      <p-button-group>
+        @for (link of links; track $index) {
+          <a
+            pButton
+            severity="secondary"
+            routerLinkActive="link-active"
+            [outlined]="true"
+            [relativeTo]="activatedRoute"
+            [routerLink]="[link.routerLink]">
+            {{ link.label }}
+          </a>
+        }
+      </p-button-group>
     </div>
 
     <section>

@@ -1,9 +1,4 @@
-p-dialog {
-  .p-dialog {
-    width: 90vw;
-
-    &.md {
-      max-width: 550px;
-    }
-  }
+p-dialog .p-dialog {
+  width: 90vw;
+  max-width: 550px;
 }

@@ -96,6 +96,7 @@ export class TransactionFormComponent implements OnInit {
 
   private get payload(): Partial<EchoTransaction> {
     const { name, amount, description, type, category, txDate } = this.txForm.controls;
+
     const formValue: Partial<EchoTransaction> = {
       name: name.value ?? '',
       amount: amount.value ?? 0,
@@ -107,7 +108,7 @@ export class TransactionFormComponent implements OnInit {
       txDate: Timestamp.fromDate(txDate.value ?? new Date()),
     };
 
-    return { ...this.tx, ...formValue };
+    return { ...(this.tx ?? []), ...formValue };
   }
 
   private updateTransaction(): void {

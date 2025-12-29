@@ -44,6 +44,9 @@ export class TransactionDetailsComponent implements OnInit {
   editTransaction(): void {
     this.#dialogService.open(TransactionFormComponent, {
       data: this.tx(),
+      closable: true,
+      closeOnEscape: true,
+      header: 'Edit transaction',
     });
   }
 

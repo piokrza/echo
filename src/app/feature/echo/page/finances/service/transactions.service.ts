@@ -15,7 +15,7 @@ export class TransactionsService {
   readonly state: Signal<TransactionsState> = this.#transactionsStore.state;
 
   addTransaction$(transaction: Partial<EchoTransaction>): Observable<string> {
-    return this.#transactionsApiService.addTransaction$(transaction);
+    return this.#transactionsApiService.addTransaction$({ ...transaction, uid: this.#auth.currentUser?.uid });
   }
 
   updateTransaction$(transaction: Partial<EchoTransaction>): Observable<void> {

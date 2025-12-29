@@ -10,7 +10,6 @@ import { TooltipModule } from 'primeng/tooltip';
 
 import { TransactionFormComponent } from '#finances/component/transaction-form';
 import { TransactionListComponent } from '#finances/component/transaction-list';
-import { EchoTransaction } from '#finances/model';
 import { TransactionsService } from '#finances/service';
 
 const imports = [ButtonModule, TableModule, DynamicDialogModule, TooltipModule, TransactionListComponent, ProgressSpinnerModule];
@@ -24,7 +23,7 @@ const imports = [ButtonModule, TableModule, DynamicDialogModule, TooltipModule, 
         <p-progress-spinner ariaLabel="loading" />
       </div>
     } @else {
-      <button pButton class="mb-4" (click)="openTransactionDialog()">Add transaction</button>
+      <button pButton class="mb-4" (click)="addTransaction()">Add transaction</button>
       <echo-transaction-list [transactions]="s.transactions" />
     }
   `,
@@ -43,13 +42,11 @@ export class TransactionsComponent implements OnInit {
     this.#transactionsService.getTransactions$().pipe(takeUntilDestroyed(this.#destroyRef)).subscribe();
   }
 
-  openTransactionDialog(tx?: EchoTransaction): void {
+  addTransaction(): void {
     this.#dialogService.open(TransactionFormComponent, {
-      data: tx,
       closable: true,
-      styleClass: 'md',
       closeOnEscape: true,
-      header: `${tx ? 'Edit' : 'Add'} transaction`,
+      header: 'Add transaction',
     });
   }
 }

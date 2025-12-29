@@ -46,9 +46,10 @@ export class TransactionFormComponent implements OnInit {
 
   readonly tx?: EchoTransaction = inject(DynamicDialogConfig).data;
 
+  readonly maxDescriptionLength = 100;
   readonly txForm = new FormGroup({
     category: new FormControl<string | null>(null),
-    description: new FormControl<string | null>(null),
+    description: new FormControl<string | null>(null, { validators: [Validators.maxLength(this.maxDescriptionLength)] }),
     txDate: new FormControl<Date | null>(null, { validators: [Validators.required] }),
     name: new FormControl<string | null>(null, { validators: [Validators.required] }),
     amount: new FormControl<number | null>(null, { validators: [Validators.required] }),

@@ -1,4 +1,4 @@
-import { CurrencyPipe, TitleCasePipe } from '@angular/common';
+import { CurrencyPipe, DatePipe, TitleCasePipe } from '@angular/common';
 import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
@@ -15,8 +15,20 @@ import { TransactionFormComponent } from '#finances/component/transaction-form';
 import { EchoTransaction } from '#finances/model';
 import { TransactionsService } from '#finances/service';
 import { SpinnerComponent } from '#ui/component/spinner';
+import { TimestampToDatePipe } from '#ui/pipe';
 
-const imports = [TagModule, RouterLink, CardModule, CurrencyPipe, ButtonModule, TitleCasePipe, DividerModule, SpinnerComponent];
+const imports = [
+  DatePipe,
+  TagModule,
+  RouterLink,
+  CardModule,
+  CurrencyPipe,
+  ButtonModule,
+  TitleCasePipe,
+  DividerModule,
+  SpinnerComponent,
+  TimestampToDatePipe,
+];
 
 @Component({
   selector: 'echo-transaction-details',
@@ -32,10 +44,10 @@ export class TransactionDetailsComponent implements OnInit {
   readonly #confirmationService = inject(ConfirmationService);
   readonly #transactionsService = inject(TransactionsService);
 
-  readonly PrimeIcons = PrimeIcons;
-
   readonly isLoading = signal<boolean>(false);
   readonly tx = signal<EchoTransaction | null>(null);
+
+  readonly PrimeIcons = PrimeIcons;
 
   ngOnInit(): void {
     this.loadTransaction();

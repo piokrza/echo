@@ -1,34 +1,36 @@
 <form class="grid gap-3" [formGroup]="txForm" (ngSubmit)="save()">
-  <p-floatlabel variant="in">
-    @let isNameInvalid = txForm.controls.name.touched && txForm.controls.name.dirty;
-
-    <input pInputText id="name" autocomplete="off" class="w-full" [formControl]="txForm.controls.name" />
-    <label for="amount">Name</label>
-  </p-floatlabel>
-  @if (isNameInvalid) {
-    @if (txForm.controls.name.hasError('required')) {
-      <p-message severity="error" size="small" variant="simple">Namet is required</p-message>
+  <div>
+    <p-floatlabel variant="in">
+      @let name = txForm.controls.name;
+      <input pInputText id="name" autocomplete="off" class="w-full" [formControl]="name" />
+      <label for="amount">Name</label>
+    </p-floatlabel>
+    @if (name.touched && name.dirty) {
+      @if (name.hasError('required')) {
+        <p-message severity="error" size="small" variant="simple">Namet is required</p-message>
+      }
     }
-  }
+  </div>
 
-  <p-floatlabel variant="in">
-    @let isAmountInvalid = txForm.controls.amount.touched && txForm.controls.amount.dirty;
-
-    <p-inputnumber id="amount" autocomplete="off" class="w-full" [formControl]="txForm.controls.amount" />
-    <label for="amount">Amount (zł)</label>
-  </p-floatlabel>
-  @if (isAmountInvalid) {
-    @if (txForm.controls.amount.hasError('required')) {
-      <p-message severity="error" size="small" variant="simple">Amount is required</p-message>
+  <div>
+    <p-floatlabel variant="in">
+      @let amount = txForm.controls.amount;
+      <p-inputnumber id="amount" autocomplete="off" class="w-full" [formControl]="amount" />
+      <label for="amount">Amount (zł)</label>
+    </p-floatlabel>
+    @if (amount.invalid && amount.dirty) {
+      @if (amount.hasError('required')) {
+        <p-message severity="error" size="small" variant="simple">Amount is required</p-message>
+      }
     }
-  }
+  </div>
 
   <div class="grid gap-3 grid-cols-1 md:grid-cols-2">
     <div>
-      @let isTypeInvalid = txForm.controls.type.touched && txForm.controls.type.dirty;
-      <p-select class="w-full" optionValue="value" optionLabel="label" [options]="transactionTypes" [formControl]="txForm.controls.type" />
-      @if (isTypeInvalid) {
-        @if (txForm.controls.type.hasError('required')) {
+      @let type = txForm.controls.type;
+      <p-select class="w-full" optionValue="value" optionLabel="label" [options]="transactionTypes" [formControl]="type" />
+      @if (type.touched && type.dirty) {
+        @if (type.hasError('required')) {
           <p-message severity="error" size="small" variant="simple">Amount is required</p-message>
         }
       }
@@ -47,26 +49,29 @@
   </div>
 
   <div>
-    @let isTxDateInvalid = txForm.controls.txDate.touched && txForm.controls.txDate.dirty;
-    <p-date-picker class="wide" appendTo="body" placeholder="Select transaction date" [formControl]="txForm.controls.txDate" />
-    @if (isTxDateInvalid) {
-      @if (txForm.controls.txDate.hasError('required')) {
+    @let txDate = txForm.controls.txDate;
+    <p-date-picker class="wide" appendTo="body" placeholder="Select transaction date" [formControl]="txDate" />
+    @if (txDate.touched && txDate.dirty) {
+      @if (txDate.hasError('required')) {
         <p-message severity="error" size="small" variant="simple">Transaction date is required</p-message>
       }
     }
   </div>
 
-  <p-floatlabel variant="in">
-    <textarea
-      pTextarea
-      rows="5"
-      cols="30"
-      class="w-full"
-      id="description"
-      style="resize: none"
-      [formControl]="txForm.controls.description"></textarea>
-    <label for="description">Description</label>
-  </p-floatlabel>
+  <div>
+    <p-floatlabel variant="in">
+      @let description = txForm.controls.description;
+      <textarea pTextarea rows="5" cols="30" class="w-full" id="description" style="resize: none" [formControl]="description"></textarea>
+      <label for="description">Description</label>
+    </p-floatlabel>
+    @if (description.touched && description.dirty) {
+      @if (description.hasError('maxlength')) {
+        <p-message severity="error" size="small" variant="simple">
+          Maximum length exceeded ({{ maxDescriptionLength - (description.value?.length ?? 0) }})
+        </p-message>
+      }
+    }
+  </div>
 
-  <p-button label="Save" class="wide" [loading]="isProcessing()" (onClick)="save()" />
+  <p-button label="Save" class="wide mt-3" [loading]="isProcessing()" (onClick)="save()" />
 </form>

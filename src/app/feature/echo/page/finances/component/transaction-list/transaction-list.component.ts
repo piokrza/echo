@@ -1,4 +1,4 @@
-import { CurrencyPipe, DatePipe } from '@angular/common';
+import { CurrencyPipe, DatePipe, TitleCasePipe } from '@angular/common';
 import { Component, inject, input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -12,7 +12,16 @@ import { EchoTransaction } from '#finances/model';
 import { TimestampToDatePipe } from '#ui/pipe';
 import { BreakpointService } from '#ui/service';
 
-const imports = [ButtonModule, TableModule, TagModule, TimestampToDatePipe, DatePipe, CurrencyPipe, TransactionMobileTileComponent];
+const imports = [
+  ButtonModule,
+  TableModule,
+  TagModule,
+  TimestampToDatePipe,
+  TitleCasePipe,
+  DatePipe,
+  CurrencyPipe,
+  TransactionMobileTileComponent,
+];
 
 @Component({
   selector: 'echo-transaction-list',
@@ -26,8 +35,9 @@ const imports = [ButtonModule, TableModule, TagModule, TimestampToDatePipe, Date
             <tr>
               <th>Name</th>
               <th>Amount</th>
-              <th>Transaction date</th>
+              <th>Type</th>
               <th>Category</th>
+              <th>Transaction date</th>
               <th></th>
             </tr>
           </ng-template>
@@ -42,10 +52,16 @@ const imports = [ButtonModule, TableModule, TagModule, TimestampToDatePipe, Date
                   [value]="(tx.amount | currency) ?? ''"
                   [icon]="isIncome ? PrimeIcons.ARROW_UP : PrimeIcons.ARROW_DOWN" />
               </td>
-              <td>{{ tx.txDate | timestampToDate | date }}</td>
+              <td>{{ tx.type | titlecase }}</td>
               <td>{{ tx.categoryId ?? 'Uncategorized' }}</td>
+              <td>{{ tx.txDate | timestampToDate | date }}</td>
               <td>
-                <p-button severity="secondary" [text]="true" [icon]="PrimeIcons.CHEVRON_RIGHT" (onClick)="goToDetails(tx.id)" />
+                <p-button
+                  severity="secondary"
+                  class="wide"
+                  [text]="true"
+                  [icon]="PrimeIcons.CHEVRON_RIGHT"
+                  (onClick)="goToDetails(tx.id)" />
               </td>
             </tr>
           </ng-template>

@@ -1,4 +1,4 @@
-import { Component, computed, DestroyRef, inject, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 
@@ -15,6 +15,7 @@ import { TransactionFormComponent } from '#finances/component/transaction-form';
 import { TransactionListComponent } from '#finances/component/transaction-list';
 import { TransactionType } from '#finances/model';
 import { TransactionsService } from '#finances/service';
+import { TransactionsStore } from '#finances/state';
 
 const imports = [
   TableModule,
@@ -30,8 +31,7 @@ const imports = [
 @Component({
   selector: 'echo-transactions',
   template: `
-    @let s = state();
-    @if (s.isLoading) {
+    @if (store.isLoading()) {
       <div class="flex justify-center">
         <p-progress-spinner ariaLabel="loading" />
       </div>
@@ -46,7 +46,8 @@ const imports = [
           [(ngModel)]="selectedTransactionType"
           (onChange)="txTypeChange($event)" />
       </div>
-      <echo-transaction-list [transactions]="state().filteredTransactions" />
+
+      <echo-transaction-list [transactions]="store.filteredTransactions()" />
     }
   `,
   imports,
@@ -56,23 +57,11 @@ export class TransactionsComponent implements OnInit {
   readonly #dialogService = inject(DialogService);
   readonly #transactionsService = inject(TransactionsService);
 
-  readonly state = this.#transactionsService.state;
-
-  // TODO: use signal store
-  readonly filteredTransactions = computed(() => {
-    switch (this.state().selectedTxType) {
-      case 'expense':
-        return this.state().transactions.filter(({ type }) => type === 'expense');
-      case 'income':
-        return this.state().transactions.filter(({ type }) => type === 'income');
-      default:
-        return this.state().transactions;
-    }
-  });
+  readonly store = inject(TransactionsStore);
 
   readonly PrimeIcons = PrimeIcons;
 
-  readonly selectedTransactionType: TransactionType = this.state().selectedTxType;
+  readonly selectedTransactionType: TransactionType = this.store.selectedTxType();
   readonly transactionTypes: OptionWithLabel<TransactionType>[] = [
     { value: 'all', label: 'All' },
     { value: 'income', label: 'Income' },

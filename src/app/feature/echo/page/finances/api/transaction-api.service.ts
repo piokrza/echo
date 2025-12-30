@@ -26,7 +26,7 @@ export class TransactonApiService {
     ) as Observable<EchoTransaction[]>;
   }
 
-  getTransactionById$(txId: string): Observable<EchoTransaction | null> {
+  getTransactionById$(txId: string): Observable<EchoTransaction> {
     const userId = this.#auth.currentUser?.uid;
     if (!userId) {
       return throwError(() => 'User id is missing');
@@ -36,8 +36,6 @@ export class TransactonApiService {
 
     return from(getDocs(q)).pipe(
       map((snap) => {
-        if (snap.empty) return null;
-
         const doc = snap.docs[0];
         return {
           id: doc.id,

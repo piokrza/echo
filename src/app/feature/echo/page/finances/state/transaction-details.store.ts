@@ -1,14 +1,21 @@
-import { Injectable } from '@angular/core';
+import { patchState, signalStore, withMethods, withState } from '@ngrx/signals';
 
-import { Store } from '#core/store';
-import { TransactionDetailsState } from '#finances/model';
+import { EchoTransaction, TransactionDetailsState } from '#finances/model';
 
-@Injectable({ providedIn: 'root' })
-export class TransactionDetailsStore extends Store<TransactionDetailsState> {
-  constructor() {
-    super({
-      tx: null,
-      isLoading: false,
-    });
-  }
-}
+const initialState: TransactionDetailsState = {
+  tx: null,
+  isLoading: false,
+};
+
+export const TransactionDetailsStore = signalStore(
+  { providedIn: 'root' },
+  withState(initialState),
+  withMethods((store) => ({
+    updateTransaction(tx: EchoTransaction): void {
+      patchState(store, (state) => ({ ...state, tx }));
+    },
+    updateIsLoading(isLoading: boolean): void {
+      patchState(store, (state) => ({ ...state, isLoading }));
+    },
+  }))
+);

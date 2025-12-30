@@ -30,7 +30,7 @@ const imports = [
       <p class="text-center">No transactions yet</p>
     } @else {
       @if (isOverSmBreakpoint()) {
-        <p-table [value]="transactions()">
+        <p-table [tableStyle]="{ 'table-layout': 'fixed' }" [value]="transactions()">
           <ng-template #header>
             <tr>
               <th>Name</th>

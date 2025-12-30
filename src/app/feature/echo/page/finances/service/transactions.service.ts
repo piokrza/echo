@@ -1,18 +1,16 @@
-import { inject, Injectable, Signal } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
 import { finalize, Observable, tap, throwError } from 'rxjs';
 
 import { TransactonApiService } from '#finances/api';
 import { EchoTransaction, TransactionType } from '#finances/model';
-import { TransactionsState, TransactionsStore } from '#finances/state';
+import { TransactionsStore } from '#finances/state';
 
 @Injectable({ providedIn: 'root' })
 export class TransactionsService {
   readonly #auth = inject(Auth);
   readonly #transactionsStore = inject(TransactionsStore);
   readonly #transactionsApiService = inject(TransactonApiService);
-
-  readonly state: Signal<TransactionsState> = this.#transactionsStore.state;
 
   addTransaction$(transaction: Partial<EchoTransaction>): Observable<string> {
     return this.#transactionsApiService.addTransaction$({ ...transaction, uid: this.#auth.currentUser?.uid });
@@ -24,16 +22,16 @@ export class TransactionsService {
       return throwError(() => 'User id is missing');
     }
 
-    this.#transactionsStore.update('isLoading', true);
+    this.#transactionsStore.updateIsLoading(true);
     return this.#transactionsApiService.getTransactions$(userId).pipe(
       tap((transactions) => {
-        this.#transactionsStore.update('transactions', transactions);
+        this.#transactionsStore.updateTransactions(transactions);
       }),
-      finalize(() => this.#transactionsStore.update('isLoading', false))
+      finalize(() => this.#transactionsStore.updateIsLoading(false))
     );
   }
 
   setSelectedTxType(type: TransactionType): void {
-    this.#transactionsStore.update('selectedTxType', type);
+    this.#transactionsStore.updateTxType(type);
   }
 }

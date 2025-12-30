@@ -1,23 +1,40 @@
-import { Injectable } from '@angular/core';
+import { computed } from '@angular/core';
+import { patchState, signalStore, withComputed, withMethods, withState } from '@ngrx/signals';
 
-import { Store } from '#core/store';
-import { EchoTransaction, TransactionType } from '#finances/model';
+import { EchoTransaction, TransactionsState, TransactionType } from '#finances/model';
 
-export interface TransactionsState {
-  isLoading: boolean;
-  transactions: EchoTransaction[];
-  filteredTransactions: EchoTransaction[];
-  selectedTxType: TransactionType;
-}
+const initialState: TransactionsState = {
+  isLoading: false,
+  transactions: [],
+  selectedTxType: 'all',
+};
 
-@Injectable({ providedIn: 'root' })
-export class TransactionsStore extends Store<TransactionsState> {
-  constructor() {
-    super({
-      isLoading: false,
-      transactions: [],
-      selectedTxType: 'all',
-      filteredTransactions: [],
-    });
-  }
-}
+export const TransactionsStore = signalStore(
+  { providedIn: 'root' },
+  withState(initialState),
+  withMethods((store) => ({
+    updateTxType(type: TransactionType): void {
+      patchState(store, (state) => ({ ...state, selectedTxType: type }));
+    },
+    updateIsLoading(isLoading: boolean): void {
+      patchState(store, (state) => ({ ...state, isLoading }));
+    },
+    updateTransactions(transactions: EchoTransaction[]): void {
+      patchState(store, (state) => ({ ...state, transactions }));
+    },
+  })),
+  withComputed(({ selectedTxType, transactions }) => ({
+    filteredTransactions: computed<EchoTransaction[]>(() => {
+      const get = (selectedType: TransactionType) => transactions().filter(({ type }) => type === selectedType);
+
+      switch (selectedTxType()) {
+        case 'expense':
+          return get('expense');
+        case 'income':
+          return get('income');
+        default:
+          return transactions();
+      }
+    }),
+  }))
+);

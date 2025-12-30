@@ -1,5 +1,5 @@
 import { CurrencyPipe, DatePipe, TitleCasePipe } from '@angular/common';
-import { Component, DestroyRef, inject, OnInit, Signal } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { tap } from 'rxjs';
@@ -12,8 +12,8 @@ import { DialogService } from 'primeng/dynamicdialog';
 import { TagModule } from 'primeng/tag';
 
 import { TransactionFormComponent } from '#finances/component/transaction-form';
-import { TransactionDetailsState } from '#finances/model';
 import { TransactionDetailsService } from '#finances/service';
+import { TransactionDetailsStore } from '#finances/state';
 import { SpinnerComponent } from '#ui/component/spinner';
 import { TimestampToDatePipe } from '#ui/pipe';
 
@@ -44,7 +44,7 @@ export class TransactionDetailsComponent implements OnInit {
   readonly #confirmationService = inject(ConfirmationService);
   readonly #transactionDetailsService = inject(TransactionDetailsService);
 
-  readonly state: Signal<TransactionDetailsState> = this.#transactionDetailsService.state;
+  readonly store = inject(TransactionDetailsStore);
 
   readonly PrimeIcons = PrimeIcons;
 
@@ -54,7 +54,7 @@ export class TransactionDetailsComponent implements OnInit {
 
   editTransaction(): void {
     this.#dialogService.open(TransactionFormComponent, {
-      data: this.state().tx,
+      data: this.store.tx(),
       closable: true,
       closeOnEscape: true,
       header: 'Edit transaction',

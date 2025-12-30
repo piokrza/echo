@@ -10,22 +10,20 @@ export class TransactionDetailsService {
   readonly #transactionsApiService = inject(TransactonApiService);
   readonly #transactionDetailsStore = inject(TransactionDetailsStore);
 
-  readonly state = this.#transactionDetailsStore.state;
-
   updateTransaction$(transaction: Partial<EchoTransaction>): Observable<void> {
     return this.#transactionsApiService.updateTransaction$(transaction);
   }
 
   getTransactionById$(txId: string): Observable<EchoTransaction | null> {
-    this.#transactionDetailsStore.update('isLoading', true);
+    this.#transactionDetailsStore.updateIsLoading(true);
 
     return this.#transactionsApiService.getTransactionById$(txId).pipe(
       tap({
         next: (tx) => {
-          this.#transactionDetailsStore.update('tx', tx);
+          this.#transactionDetailsStore.updateTransaction(tx);
         },
         finalize: () => {
-          this.#transactionDetailsStore.update('isLoading', false);
+          this.#transactionDetailsStore.updateIsLoading(false);
         },
       })
     );

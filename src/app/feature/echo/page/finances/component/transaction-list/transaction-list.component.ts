@@ -9,6 +9,7 @@ import { TagModule } from 'primeng/tag';
 
 import { TransactionMobileTileComponent } from '#finances/component/transaction-mobile-tile';
 import { EchoTransaction } from '#finances/model';
+import { paginatorOptions } from '#ui/constant';
 import { TimestampToDatePipe } from '#ui/pipe';
 import { BreakpointService } from '#ui/service';
 
@@ -30,7 +31,12 @@ const imports = [
       <p class="text-center">No transactions yet</p>
     } @else {
       @if (isOverSmBreakpoint()) {
-        <p-table [tableStyle]="{ 'table-layout': 'fixed' }" [value]="transactions()">
+        <p-table
+          [value]="transactions()"
+          [rows]="paginatorOptions.minRows"
+          [tableStyle]="{ 'table-layout': 'fixed' }"
+          [rowsPerPageOptions]="paginatorOptions.rowsPerPage"
+          [paginator]="transactions().length > paginatorOptions.minRows">
           <ng-template #header>
             <tr>
               <th>Name</th>
@@ -48,8 +54,8 @@ const imports = [
               <td>
                 @let isIncome = tx.type === 'income';
                 <p-tag
-                  [severity]="isIncome ? 'success' : 'danger'"
                   [value]="(tx.amount | currency) ?? ''"
+                  [severity]="isIncome ? 'success' : 'danger'"
                   [icon]="isIncome ? PrimeIcons.ARROW_UP : PrimeIcons.ARROW_DOWN" />
               </td>
               <td>{{ tx.type | titlecase }}</td>
@@ -57,8 +63,8 @@ const imports = [
               <td>{{ tx.txDate | timestampToDate | date }}</td>
               <td>
                 <p-button
-                  severity="secondary"
                   class="wide"
+                  severity="secondary"
                   [text]="true"
                   [icon]="PrimeIcons.CHEVRON_RIGHT"
                   (onClick)="goToDetails(tx.id)" />
@@ -84,6 +90,7 @@ export class TransactionListComponent {
   readonly transactions = input.required<EchoTransaction[]>();
 
   readonly PrimeIcons = PrimeIcons;
+  readonly paginatorOptions = paginatorOptions;
   readonly isOverSmBreakpoint = inject(BreakpointService).observe('sm');
 
   goToDetails(txId: string): void {

@@ -68,7 +68,6 @@ export class TransactionFormComponent implements OnInit {
       name: 'Flat fees',
       id: '251512',
       icon: PrimeIcons.AMAZON,
-      createDate: Timestamp.now(),
       type: 'expense',
     },
   ];

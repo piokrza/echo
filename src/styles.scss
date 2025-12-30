@@ -19,10 +19,10 @@ body {
   &-danger {
     color: var(--p-button-text-danger-color);
   }
-}
 
-.color-secondary {
-  color: var(--p-button-text-secondary-color);
+  &-secondary {
+    color: var(--p-button-text-secondary-color);
+  }
 }
 
 .outlined {

@@ -1,18 +1,16 @@
 import { inject, Injectable } from '@angular/core';
-import { Observable, tap } from 'rxjs';
+import { map, Observable, switchMap, tap } from 'rxjs';
 
 import { TransactonApiService } from '#finances/api';
 import { EchoTransaction } from '#finances/model';
+import { TransactionsService } from '#finances/service';
 import { TransactionDetailsStore } from '#finances/state';
 
 @Injectable({ providedIn: 'root' })
 export class TransactionDetailsService {
+  readonly #transactionsService = inject(TransactionsService);
   readonly #transactionsApiService = inject(TransactonApiService);
   readonly #transactionDetailsStore = inject(TransactionDetailsStore);
-
-  updateTransaction$(transaction: Partial<EchoTransaction>): Observable<void> {
-    return this.#transactionsApiService.updateTransaction$(transaction);
-  }
 
   getTransactionById$(txId: string): Observable<EchoTransaction | null> {
     this.#transactionDetailsStore.updateIsLoading(true);
@@ -29,7 +27,18 @@ export class TransactionDetailsService {
     );
   }
 
-  deleteTransaction$(txId: string): Observable<void> {
-    return this.#transactionsApiService.deleteTransaction$(txId);
+  updateTransaction$(transaction: Partial<EchoTransaction>): Observable<null> {
+    return this.#transactionsApiService.updateTransaction$(transaction).pipe(
+      tap(() => {
+        this.#transactionDetailsStore.updateTransaction(transaction);
+      }),
+      switchMap(() => this.#transactionsService.loadTransactions$().pipe(map(() => null)))
+    );
+  }
+
+  deleteTransaction$(txId: string): Observable<null> {
+    return this.#transactionsApiService
+      .deleteTransaction$(txId)
+      .pipe(switchMap(() => this.#transactionsService.loadTransactions$().pipe(map(() => null))));
   }
 }

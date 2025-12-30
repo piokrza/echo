@@ -13,10 +13,7 @@ const imports = [CardModule, ButtonModule, DividerModule];
   selector: 'echo-transaction-category-list',
   template: `
     <p-card>
-      <div class="flex justify-between items-center">
-        <h2 class="text-lg">{{ heading() }}</h2>
-        <p-button severity="secondary" size="small" [icon]="PrimeIcons.PLUS" (onClick)="addCategory.emit()" />
-      </div>
+      <h2 class="text-lg">{{ heading() }}</h2>
 
       <p-divider />
 
@@ -48,7 +45,6 @@ export class TransactionCategoryListComponent {
   readonly heading = input.required<string>();
   readonly categories = input.required<EchoTransactionCategory[]>();
 
-  readonly addCategory = output<void>();
   readonly deleteCategory = output<string>();
   readonly editCategory = output<EchoTransactionCategory>();
 

@@ -15,8 +15,16 @@ export const CategoriesStore = signalStore(
     updateIsLoading(isLoading: boolean): void {
       patchState(store, (state) => ({ ...state, isLoading }));
     },
+    addCategory(category: EchoTransactionCategory): void {
+      const updatedCategories = [...(store.categories() ?? []), category];
+      patchState(store, (state) => ({ ...state, categories: updatedCategories }));
+    },
     updateCategories(categories: EchoTransactionCategory[]): void {
       patchState(store, (state) => ({ ...state, categories }));
+    },
+    deleteCategory(categoryId: string): void {
+      const updatedCategories = store.categories()?.filter(({ id }) => categoryId === id);
+      patchState(store, (state) => ({ ...state, categories: updatedCategories }));
     },
   })),
   withComputed((store) => ({

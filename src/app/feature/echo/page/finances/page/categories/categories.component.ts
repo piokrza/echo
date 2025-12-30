@@ -3,6 +3,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { tap } from 'rxjs';
 
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { DialogService } from 'primeng/dynamicdialog';
 
@@ -11,27 +12,33 @@ import { TransactionCategoryListComponent } from '#finances/component/transactio
 import { EchoTransactionCategory } from '#finances/model';
 import { CategoriesService } from '#finances/service';
 import { CategoriesStore } from '#finances/state';
+import { SpinnerComponent } from '#ui/component/spinner';
 
-const imports = [CardModule, TransactionCategoryListComponent];
+const imports = [CardModule, ButtonModule, TransactionCategoryListComponent, SpinnerComponent];
 
 @Component({
   selector: 'echo-categories',
   template: `
-    <div class="grid gap-4 md:grid-cols-2">
-      <echo-transaction-category-list
-        heading="Incomes"
-        [categories]="store.incomeCategories()"
-        (addCategory)="addCategory()"
-        (editCategory)="editCategory($event)"
-        (deleteCategory)="deleteCategory($event)" />
-
-      <echo-transaction-category-list
-        heading="Expenses"
-        [categories]="store.expenseCategories()"
-        (addCategory)="addCategory()"
-        (editCategory)="editCategory($event)"
-        (deleteCategory)="deleteCategory($event)" />
+    <div class="mb-4">
+      <p-button label="Add category" (onClick)="addCategory()" />
     </div>
+    @if (store.isLoading()) {
+      <echo-spinner />
+    } @else {
+      <div class="grid gap-4 md:grid-cols-2">
+        <echo-transaction-category-list
+          heading="Incomes"
+          [categories]="store.incomeCategories()"
+          (editCategory)="editCategory($event)"
+          (deleteCategory)="deleteCategory($event)" />
+
+        <echo-transaction-category-list
+          heading="Expenses"
+          [categories]="store.expenseCategories()"
+          (editCategory)="editCategory($event)"
+          (deleteCategory)="deleteCategory($event)" />
+      </div>
+    }
   `,
   imports,
 })

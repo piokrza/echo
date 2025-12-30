@@ -9,20 +9,21 @@ import { TagModule } from 'primeng/tag';
 
 import { TransactionMobileTileComponent } from '#finances/component/transaction-mobile-tile';
 import { EchoTransaction } from '#finances/model';
+import { TxCategoryLabelPipe } from '#finances/pipe';
 import { paginatorOptions } from '#ui/constant';
 import { TimestampToDatePipe } from '#ui/pipe';
 import { BreakpointService } from '#ui/service';
 
 const imports = [
-  ButtonModule,
-  TableModule,
-  RouterLink,
-  TagModule,
-  TimestampToDatePipe,
-
-  TitleCasePipe,
   DatePipe,
+  TagModule,
+  RouterLink,
+  TableModule,
+  ButtonModule,
   CurrencyPipe,
+  TitleCasePipe,
+  TimestampToDatePipe,
+  TxCategoryLabelPipe,
   TransactionMobileTileComponent,
 ];
 
@@ -61,7 +62,7 @@ const imports = [
                   [icon]="isIncome ? PrimeIcons.ARROW_UP : PrimeIcons.ARROW_DOWN" />
               </td>
               <td>{{ tx.type | titlecase }}</td>
-              <td>{{ tx.categoryId ?? 'Uncategorized' }}</td>
+              <td>{{ tx.categoryId | txCategoryLabel }}</td>
               <td>{{ tx.txDate | timestampToDate | date }}</td>
               <td>
                 <a pButton class="w-full" severity="secondary" [text]="true" [routerLink]="[tx.id]">

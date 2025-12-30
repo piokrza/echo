@@ -11,8 +11,11 @@ export const TransactionDetailsStore = signalStore(
   { providedIn: 'root' },
   withState(initialState),
   withMethods((store) => ({
-    updateTransaction(tx: EchoTransaction): void {
-      patchState(store, (state) => ({ ...state, tx }));
+    updateTransaction(tx: Partial<EchoTransaction>): void {
+      patchState(store, (state) => {
+        const updatedTx = { ...store.tx(), ...tx } as EchoTransaction;
+        return { ...state, tx: updatedTx };
+      });
     },
     updateIsLoading(isLoading: boolean): void {
       patchState(store, (state) => ({ ...state, isLoading }));

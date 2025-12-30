@@ -69,7 +69,8 @@ export class TransactionFormComponent implements OnInit {
   ngOnInit(): void {
     if (this.tx) {
       const txDate: Date = this.tx.txDate.toDate();
-      this.txForm.patchValue({ ...this.tx, txDate });
+      const category = this.tx.categoryId;
+      this.txForm.patchValue({ ...this.tx, txDate, category });
     }
   }
 
@@ -128,7 +129,7 @@ export class TransactionFormComponent implements OnInit {
               severity: 'error',
             });
           },
-          complete: () => {
+          finalize: () => {
             this.isProcessing.set(false);
           },
         }),

@@ -12,6 +12,7 @@ import { DialogService } from 'primeng/dynamicdialog';
 import { TagModule } from 'primeng/tag';
 
 import { TransactionFormComponent } from '#finances/component/transaction-form';
+import { TxCategoryLabelPipe } from '#finances/pipe';
 import { TransactionDetailsService } from '#finances/service';
 import { TransactionDetailsStore } from '#finances/state';
 import { SpinnerComponent } from '#ui/component/spinner';
@@ -27,6 +28,7 @@ const imports = [
   TitleCasePipe,
   DividerModule,
   SpinnerComponent,
+  TxCategoryLabelPipe,
   TimestampToDatePipe,
 ];
 
@@ -84,18 +86,28 @@ export class TransactionDetailsComponent implements OnInit {
     const txId = this.#activatedRoute.snapshot.paramMap.get('id');
 
     if (!txId) {
-      this.#router.navigate(['../']);
+      this.#router.navigate(['../'], { relativeTo: this.#activatedRoute });
       return;
     }
 
     this.#transactionDetailsService
       .getTransactionById$(txId)
       .pipe(
-        tap((tx) => {
-          if (!tx) {
+        tap({
+          next: (tx) => {
+            if (!tx) {
+              this.#router.navigate(['../'], { relativeTo: this.#activatedRoute });
+              return;
+            }
+          },
+          error: () => {
             this.#router.navigate(['../'], { relativeTo: this.#activatedRoute });
-            return;
-          }
+            this.#messageService.add({
+              summary: 'Error!',
+              detail: 'Something went wrong',
+              severity: 'error',
+            });
+          },
         }),
         takeUntilDestroyed(this.#destroyRef)
       )

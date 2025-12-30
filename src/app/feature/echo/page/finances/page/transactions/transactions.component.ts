@@ -39,9 +39,10 @@ const imports = [
       <div class="mb-4 flex justify-between flex-wrap">
         <button pButton (click)="addTransaction()">Add transaction</button>
         <p-select
-          class="w-full max-w-[200px]"
+          variant="filled"
           optionLabel="label"
           optionValue="value"
+          class="w-full max-w-[130px]"
           [options]="transactionTypes"
           [(ngModel)]="selectedTransactionType"
           (onChange)="txTypeChange($event)" />

@@ -45,14 +45,27 @@ export class CategoriesService {
       throwError(() => 'User id is missing');
     }
 
-    return this.#categoryApiService.addCategory$({ ...category, uid: userId });
+    const payload: Partial<EchoTransactionCategory> = { ...category, uid: userId };
+    return this.#categoryApiService.addCategory$(payload).pipe(
+      tap((id) => {
+        this.#categoriesStore.addCategory({ ...payload, id } as EchoTransactionCategory);
+      })
+    );
   }
 
   updateCategory$(category: Partial<EchoTransactionCategory>): Observable<void> {
-    return this.#categoryApiService.updateCategory$(category);
+    return this.#categoryApiService.updateCategory$(category).pipe(
+      tap(() => {
+        // TODO: store update category here
+      })
+    );
   }
 
   deleteCategory$(id: string): Observable<void> {
-    return this.#categoryApiService.deleteCategory$(id);
+    return this.#categoryApiService.deleteCategory$(id).pipe(
+      tap(() => {
+        this.#categoriesStore.deleteCategory(id);
+      })
+    );
   }
 }

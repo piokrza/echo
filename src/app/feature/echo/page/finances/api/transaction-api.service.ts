@@ -50,7 +50,7 @@ export class TransactonApiService {
       addDoc(this.#transactionsCollection, transaction).then((docRef) => {
         const docId = docRef.id;
         updateDoc(docRef, { id: docId });
-        return docId;
+        return docRef.id;
       })
     );
   }

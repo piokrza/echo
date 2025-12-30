@@ -13,7 +13,13 @@ export class TransactionsService {
   readonly #transactionsApiService = inject(TransactonApiService);
 
   addTransaction$(transaction: Partial<EchoTransaction>): Observable<string> {
-    return this.#transactionsApiService.addTransaction$({ ...transaction, uid: this.#auth.currentUser?.uid });
+    const tx: Partial<EchoTransaction> = { ...transaction, uid: this.#auth.currentUser?.uid };
+
+    return this.#transactionsApiService.addTransaction$(tx).pipe(
+      tap((id) => {
+        this.#transactionsStore.addTransaction({ ...tx, id } as EchoTransaction);
+      })
+    );
   }
 
   getTransactions$(): Observable<EchoTransaction[]> {

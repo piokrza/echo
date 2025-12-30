@@ -163,7 +163,7 @@ export class TransactionCategoryFormComponent implements OnInit {
               severity: 'error',
             });
           },
-          complete: () => {
+          finalize: () => {
             this.isProcessing.set(false);
           },
         }),

@@ -22,6 +22,10 @@ export const TransactionsStore = signalStore(
     updateTransactions(transactions: EchoTransaction[]): void {
       patchState(store, (state) => ({ ...state, transactions }));
     },
+    addTransaction(transaction: EchoTransaction): void {
+      const currentTransactions = store.transactions() ?? [];
+      patchState(store, (state) => ({ ...state, transactions: [...currentTransactions, transaction] }));
+    },
   })),
   withComputed(({ selectedTxType, transactions }) => ({
     filteredTransactions: computed<EchoTransaction[]>(() => {

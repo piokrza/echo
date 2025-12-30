@@ -1,15 +1,10 @@
 import { computed } from '@angular/core';
 import { patchState, signalStore, withComputed, withMethods, withState } from '@ngrx/signals';
 
-import { EchoTransactionCategory } from '#finances/model';
-
-interface CategoriesState {
-  isLoading: boolean;
-  categories: EchoTransactionCategory[];
-}
+import { CategoriesState, EchoTransactionCategory } from '#finances/model';
 
 const initialState: CategoriesState = {
-  categories: [],
+  categories: null,
   isLoading: false,
 };
 
@@ -25,7 +20,7 @@ export const CategoriesStore = signalStore(
     },
   })),
   withComputed((store) => ({
-    incomeCategories: computed(() => store.categories().filter(({ type }) => type === 'income')),
-    expenseCategories: computed(() => store.categories().filter(({ type }) => type === 'expense')),
+    incomeCategories: computed(() => (store.categories() ?? []).filter(({ type }) => type === 'income')),
+    expenseCategories: computed(() => (store.categories() ?? []).filter(({ type }) => type === 'expense')),
   }))
 );

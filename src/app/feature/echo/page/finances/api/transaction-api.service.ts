@@ -13,13 +13,8 @@ export class TransactonApiService {
 
   readonly #transactionsCollection = collection(this.#firestore, EchoCollection.TRANSACTIONS);
 
-  getTransactions$(): Observable<EchoTransaction[]> {
-    const userId = this.#auth.currentUser?.uid;
-    if (!userId) {
-      return throwError(() => 'User id is missing');
-    }
-
-    const queryDocs = query(this.#transactionsCollection, where('uid', '==', userId));
+  getTransactions$(uid: string): Observable<EchoTransaction[]> {
+    const queryDocs = query(this.#transactionsCollection, where('uid', '==', uid));
 
     // TODO: workaround for firestore err:
     // FirebaseError: Type does not match the expected instance. Did you pass a reference from a different Firestore SDK?

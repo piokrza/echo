@@ -5,7 +5,7 @@ import { EchoTransaction, TransactionsState, TransactionType } from '#finances/m
 
 const initialState: TransactionsState = {
   isLoading: false,
-  transactions: [],
+  transactions: null,
   selectedTxType: 'all',
 };
 
@@ -25,7 +25,7 @@ export const TransactionsStore = signalStore(
   })),
   withComputed(({ selectedTxType, transactions }) => ({
     filteredTransactions: computed<EchoTransaction[]>(() => {
-      const get = (selectedType: TransactionType) => transactions().filter(({ type }) => type === selectedType);
+      const get = (selectedType: TransactionType) => transactions()?.filter(({ type }) => type === selectedType) ?? [];
 
       switch (selectedTxType()) {
         case 'expense':
@@ -33,7 +33,7 @@ export const TransactionsStore = signalStore(
         case 'income':
           return get('income');
         default:
-          return transactions();
+          return transactions() ?? [];
       }
     }),
   }))

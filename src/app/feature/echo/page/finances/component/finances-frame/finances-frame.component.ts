@@ -1,11 +1,13 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { forkJoin, take } from 'rxjs';
 
 import { ButtonModule } from 'primeng/button';
 import { ButtonGroupModule } from 'primeng/buttongroup';
 
 import { Path } from '#core/enum';
 import { EchoLink } from '#core/model';
+import { CategoriesService, TransactionsService } from '#finances/service';
 
 const imports = [RouterOutlet, RouterLink, ButtonModule, ButtonGroupModule, RouterLinkActive];
 
@@ -34,8 +36,10 @@ const imports = [RouterOutlet, RouterLink, ButtonModule, ButtonGroupModule, Rout
   `,
   imports,
 })
-export class FinancesFrameComponent {
+export class FinancesFrameComponent implements OnInit {
   readonly activatedRoute = inject(ActivatedRoute);
+  readonly #categoriesService = inject(CategoriesService);
+  readonly #transactionsService = inject(TransactionsService);
 
   readonly Path = Path;
   readonly links: EchoLink[] = [
@@ -43,4 +47,13 @@ export class FinancesFrameComponent {
     { label: 'Transactions', routerLink: Path.TRANSACTIONS },
     { label: 'Categories', routerLink: Path.CATEGORIES },
   ];
+
+  ngOnInit(): void {
+    this.loadFinancesData();
+  }
+
+  private loadFinancesData(): void {
+    const financeDataRequests = [this.#categoriesService.getCategories$(), this.#transactionsService.getTransactions$()];
+    forkJoin(financeDataRequests).pipe(take(1)).subscribe();
+  }
 }

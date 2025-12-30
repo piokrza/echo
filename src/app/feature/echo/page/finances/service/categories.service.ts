@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
-import { Observable, tap, throwError } from 'rxjs';
+import { EMPTY, Observable, tap, throwError } from 'rxjs';
 
 import { CategoryApiService } from '#finances/api';
 import { EchoTransactionCategory } from '#finances/model';
@@ -13,6 +13,14 @@ export class CategoriesService {
   readonly #categoryApiService = inject(CategoryApiService);
 
   getCategories$(): Observable<EchoTransactionCategory[]> {
+    if (this.#categoriesStore.categories() !== null) {
+      return EMPTY;
+    }
+
+    return this.loadCategories$();
+  }
+
+  loadCategories$(): Observable<EchoTransactionCategory[]> {
     const userId = this.#auth.currentUser?.uid;
     if (!userId) {
       return throwError(() => 'User id is missing');

@@ -1,4 +1,4 @@
-<p-button label="Back to transactions" class="mb-6 block" [icon]="PrimeIcons.ARROW_LEFT" [text]="true" [routerLink]="['../']" />
+<a pButton class="mb-6" [icon]="PrimeIcons.ARROW_LEFT" [text]="true" [routerLink]="['../']">Back to transactions</a>
 
 @if (store.isLoading()) {
   <echo-spinner />

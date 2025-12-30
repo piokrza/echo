@@ -14,7 +14,7 @@ const imports = [CardModule, ButtonModule, TimestampToTextPipe, TitleCasePipe, T
 @Component({
   selector: 'echo-transaction-mobile-tile',
   template: `
-    <p-card tabindex="0" (click)="itemClick.emit(tx().id)" (keyup.space)="itemClick.emit(tx().id)">
+    <p-card (click)="itemClick.emit(tx().id)" (keyup.space)="itemClick.emit(tx().id)">
       <div class="flex justify-between items-center">
         <div>
           <div class="flex justify-between items-center gap-4 mb-2">

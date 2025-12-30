@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
-import { finalize, Observable, tap, throwError } from 'rxjs';
+import { finalize, Observable, tap } from 'rxjs';
 
 import { TransactonApiService } from '#finances/api';
 import { EchoTransaction, TransactionType } from '#finances/model';
@@ -17,13 +17,8 @@ export class TransactionsService {
   }
 
   getTransactions$(): Observable<EchoTransaction[]> {
-    const userId = this.#auth.currentUser?.uid;
-    if (!userId) {
-      return throwError(() => 'User id is missing');
-    }
-
     this.#transactionsStore.updateIsLoading(true);
-    return this.#transactionsApiService.getTransactions$(userId).pipe(
+    return this.#transactionsApiService.getTransactions$().pipe(
       tap((transactions) => {
         this.#transactionsStore.updateTransactions(transactions);
       }),

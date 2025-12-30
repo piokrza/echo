@@ -65,6 +65,7 @@ export class TransactionFormComponent implements OnInit {
   // TODO: categories from userStore
   readonly categories: EchoTransactionCategory[] = [
     {
+      uid: '',
       name: 'Flat fees',
       id: '251512',
       icon: PrimeIcons.AMAZON,

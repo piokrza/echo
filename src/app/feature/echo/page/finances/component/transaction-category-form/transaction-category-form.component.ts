@@ -57,9 +57,11 @@ const imports = [ReactiveFormsModule, InputTextModule, FloatLabelModule, SelectM
           <p-select
             class="w-full"
             appendTo="body"
-            placeholder="Pick icon"
+            filterBy="label"
             optionValue="value"
             optionLabel="label"
+            placeholder="Pick icon"
+            [filter]="true"
             [options]="primeIcons"
             [formControl]="icon">
             <ng-template #selectedItem let-selectedOption>
@@ -104,10 +106,7 @@ export class TransactionCategoryFormComponent implements OnInit {
     { label: 'Income', value: 'income' },
     { label: 'Expense', value: 'expense' },
   ];
-  readonly primeIcons: OptionWithLabel<TransactionType>[] = Object.entries(PrimeIcons).map(([label, value]) => ({
-    label,
-    value,
-  }));
+  readonly primeIcons: OptionWithLabel<TransactionType>[] = Object.entries(PrimeIcons).map(([label, value]) => ({ label, value }));
   readonly isProcessing = signal(false);
 
   ngOnInit(): void {
@@ -122,7 +121,9 @@ export class TransactionCategoryFormComponent implements OnInit {
       return;
     }
 
-    if (this.category) {
+    this.isProcessing.set(true);
+
+    if (!this.category) {
       this.performTxProcess(this.addCategory$());
       return;
     }

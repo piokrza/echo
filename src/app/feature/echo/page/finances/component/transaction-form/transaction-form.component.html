@@ -43,7 +43,7 @@
         optionLabel="name"
         placeholder="Select category"
         [showClear]="true"
-        [options]="categories"
+        [options]="type.value === 'income' ? categoriesStore.incomeCategories() : categoriesStore.expenseCategories()"
         [formControl]="txForm.controls.category" />
     </div>
   </div>

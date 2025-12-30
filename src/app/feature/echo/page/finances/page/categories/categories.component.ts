@@ -1,12 +1,16 @@
-import { Component, inject } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { tap } from 'rxjs';
 
-import { PrimeIcons } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { CardModule } from 'primeng/card';
 import { DialogService } from 'primeng/dynamicdialog';
 
 import { TransactionCategoryFormComponent } from '#finances/component/transaction-category-form';
 import { TransactionCategoryListComponent } from '#finances/component/transaction-category-list';
 import { EchoTransactionCategory } from '#finances/model';
+import { CategoriesService } from '#finances/service';
+import { CategoriesStore } from '#finances/state';
 
 const imports = [CardModule, TransactionCategoryListComponent];
 
@@ -16,14 +20,14 @@ const imports = [CardModule, TransactionCategoryListComponent];
     <div class="grid gap-4 md:grid-cols-2">
       <echo-transaction-category-list
         heading="Incomes"
-        [categories]="mockCategories"
+        [categories]="store.incomeCategories()"
         (addCategory)="addCategory()"
         (editCategory)="editCategory($event)"
         (deleteCategory)="deleteCategory($event)" />
 
       <echo-transaction-category-list
         heading="Expenses"
-        [categories]="mockCategories"
+        [categories]="store.expenseCategories()"
         (addCategory)="addCategory()"
         (editCategory)="editCategory($event)"
         (deleteCategory)="deleteCategory($event)" />
@@ -31,47 +35,18 @@ const imports = [CardModule, TransactionCategoryListComponent];
   `,
   imports,
 })
-export class CategoriesComponent {
-  constructor() {
-    this.#dialogService.open(TransactionCategoryFormComponent, {
-      header: 'Add category',
-      closable: true,
-      closeOnEscape: true,
-    });
-  }
-
+export class CategoriesComponent implements OnInit {
+  readonly #destroyRef = inject(DestroyRef);
   readonly #dialogService = inject(DialogService);
+  readonly #messageService = inject(MessageService);
+  readonly #categoriesService = inject(CategoriesService);
+  readonly #confirmationService = inject(ConfirmationService);
 
-  readonly mockCategories: EchoTransactionCategory[] = [
-    {
-      icon: PrimeIcons.ADDRESS_BOOK,
-      id: '241412',
-      name: 'Zakupy',
-      type: 'expense',
-      uid: '',
-    },
-    {
-      icon: PrimeIcons.ALIGN_JUSTIFY,
-      id: '241412',
-      name: 'Kurs',
-      type: 'expense',
-      uid: '',
-    },
-    {
-      icon: PrimeIcons.ANGLE_DOUBLE_DOWN,
-      id: '241412',
-      name: 'Wynagrodzenie',
-      type: 'income',
-      uid: '',
-    },
-    {
-      uid: '',
-      icon: PrimeIcons.CODE,
-      id: '241412',
-      name: 'Koncert',
-      type: 'income',
-    },
-  ];
+  readonly store = inject(CategoriesStore);
+
+  ngOnInit(): void {
+    this.#categoriesService.getCategories$().pipe(takeUntilDestroyed(this.#destroyRef)).subscribe();
+  }
 
   addCategory(): void {
     this.#dialogService.open(TransactionCategoryFormComponent, {
@@ -82,12 +57,48 @@ export class CategoriesComponent {
   }
 
   editCategory(category: EchoTransactionCategory): void {
-    // eslint-disable-next-line no-console
-    console.log(category);
+    this.#dialogService.open(TransactionCategoryFormComponent, {
+      header: 'Edit category',
+      closable: true,
+      closeOnEscape: true,
+      data: category,
+    });
   }
 
-  deleteCategory(id: string): void {
-    // eslint-disable-next-line no-console
-    console.log(id);
+  deleteCategory(categoryId: string): void {
+    this.#confirmationService.confirm({
+      header: 'Do you want to delete this category?',
+      closable: false,
+      rejectButtonProps: {
+        label: 'Cancel',
+        severity: 'secondary',
+        outlined: true,
+      },
+      acceptButtonProps: {
+        label: 'Delete',
+        severity: 'danger',
+      },
+      accept: () => {
+        this.handleDeleteCategory(categoryId);
+      },
+    });
+  }
+
+  private handleDeleteCategory(categoryId: string) {
+    this.#categoriesService
+      .deleteCategory$(categoryId)
+      .pipe(
+        tap({
+          error: () => {
+            this.#messageService.add({
+              summary: 'Error!',
+              detail: 'Something went wrong',
+              severity: 'error',
+            });
+          },
+        }),
+        takeUntilDestroyed(this.#destroyRef)
+      )
+      .subscribe();
   }
 }

@@ -4,7 +4,7 @@ import { Timestamp } from '@angular/fire/firestore';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Observable, tap } from 'rxjs';
 
-import { MessageService, PrimeIcons } from 'primeng/api';
+import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { DatePickerModule } from 'primeng/datepicker';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
@@ -17,8 +17,9 @@ import { SelectModule } from 'primeng/select';
 import { TextareaModule } from 'primeng/textarea';
 
 import { OptionWithLabel } from '#core/model';
-import { EchoTransaction, EchoTransactionCategory, TransactionType } from '#finances/model';
+import { EchoTransaction, TransactionType } from '#finances/model';
 import { TransactionDetailsService, TransactionsService } from '#finances/service';
+import { CategoriesStore } from '#finances/state';
 
 const imports = [
   ButtonModule,
@@ -45,6 +46,8 @@ export class TransactionFormComponent implements OnInit {
   readonly #transactionsService = inject(TransactionsService);
   readonly #transactionDetailsService = inject(TransactionDetailsService);
 
+  protected readonly categoriesStore = inject(CategoriesStore);
+
   readonly tx?: EchoTransaction = inject(DynamicDialogConfig).data;
 
   readonly maxDescriptionLength = 100;
@@ -61,16 +64,6 @@ export class TransactionFormComponent implements OnInit {
   readonly transactionTypes: OptionWithLabel<TransactionType>[] = [
     { value: 'income', label: 'Income' },
     { value: 'expense', label: 'Expense' },
-  ];
-  // TODO: categories from userStore
-  readonly categories: EchoTransactionCategory[] = [
-    {
-      uid: '',
-      name: 'Flat fees',
-      id: '251512',
-      icon: PrimeIcons.AMAZON,
-      type: 'expense',
-    },
   ];
 
   ngOnInit(): void {

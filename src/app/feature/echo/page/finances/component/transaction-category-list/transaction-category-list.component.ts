@@ -21,19 +21,23 @@ const imports = [CardModule, ButtonModule, DividerModule];
       <p-divider />
 
       <div class="grid gap-2 mt-4">
-        @for (category of categories(); track $index) {
-          <div class="flex justify-between items-center gap-3">
-            <div class="flex items-center gap-2">
-              <i [class]="category.icon"></i>
-              <span class="color-secondary">
-                {{ category.name }}
-              </span>
+        @if (!categories().length) {
+          <p>No categories</p>
+        } @else {
+          @for (category of categories(); track $index) {
+            <div class="flex justify-between items-center gap-3">
+              <div class="flex items-center gap-2">
+                <i [class]="category.icon"></i>
+                <span class="color-secondary">
+                  {{ category.name }}
+                </span>
+              </div>
+              <div class="flex gap-3">
+                <p-button severity="secondary" size="small" [icon]="PrimeIcons.FILE_EDIT" (onClick)="editCategory.emit(category)" />
+                <p-button severity="danger" size="small" [icon]="PrimeIcons.DELETE_LEFT" (onClick)="deleteCategory.emit(category.id)" />
+              </div>
             </div>
-            <div class="flex gap-3">
-              <p-button severity="secondary" size="small" [icon]="PrimeIcons.FILE_EDIT" (onClick)="editCategory.emit(category)" />
-              <p-button severity="danger" size="small" [icon]="PrimeIcons.DELETE_LEFT" (onClick)="deleteCategory.emit(category.id)" />
-            </div>
-          </div>
+          }
         }
       </div>
     </p-card>

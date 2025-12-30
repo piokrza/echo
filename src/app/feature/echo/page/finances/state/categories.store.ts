@@ -1,4 +1,5 @@
-import { patchState, signalStore, withMethods, withState } from '@ngrx/signals';
+import { computed } from '@angular/core';
+import { patchState, signalStore, withComputed, withMethods, withState } from '@ngrx/signals';
 
 import { EchoTransactionCategory } from '#finances/model';
 
@@ -22,5 +23,9 @@ export const CategoriesStore = signalStore(
     updateCategories(categories: EchoTransactionCategory[]): void {
       patchState(store, (state) => ({ ...state, categories }));
     },
+  })),
+  withComputed((store) => ({
+    incomeCategories: computed(() => store.categories().filter(({ type }) => type === 'income')),
+    expenseCategories: computed(() => store.categories().filter(({ type }) => type === 'expense')),
   }))
 );

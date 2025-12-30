@@ -1,25 +1,18 @@
 import { inject, Injectable } from '@angular/core';
-import { Auth } from '@angular/fire/auth';
 import { Firestore, addDoc, collection, deleteDoc, doc, getDocs, query, updateDoc, where } from '@angular/fire/firestore';
-import { EMPTY, from, map, Observable, throwError } from 'rxjs';
+import { EMPTY, from, map, Observable } from 'rxjs';
 
 import { EchoCollection } from '#core/enum';
 import { EchoTransactionCategory } from '#finances/model';
 
 @Injectable({ providedIn: 'root' })
 export class CategoryApiService {
-  readonly #auth = inject(Auth);
   readonly #firestore = inject(Firestore);
 
   readonly #transactionCategoriesCollection = collection(this.#firestore, EchoCollection.TRANSACTION_CATEGORIES);
 
-  getCategories$(): Observable<EchoTransactionCategory[]> {
-    const userId = this.#auth.currentUser?.uid;
-    if (!userId) {
-      throwError(() => 'User id is missing');
-    }
-
-    const queryDocs = query(this.#transactionCategoriesCollection, where('uid', '==', userId));
+  getCategories$(uid: string): Observable<EchoTransactionCategory[]> {
+    const queryDocs = query(this.#transactionCategoriesCollection, where('uid', '==', uid));
 
     // TODO: workaround for firestore err:
     // FirebaseError: Type does not match the expected instance. Did you pass a reference from a different Firestore SDK?

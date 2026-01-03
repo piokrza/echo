@@ -20,6 +20,10 @@ body {
     color: var(--p-button-text-danger-color);
   }
 
+  &-warn {
+    color: var(--p-button-text-warn-color);
+  }
+
   &-secondary {
     color: var(--p-button-text-secondary-color);
   }

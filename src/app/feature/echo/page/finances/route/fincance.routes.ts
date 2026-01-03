@@ -15,7 +15,7 @@ export const FinanceRoutes: Routes = [
       },
       {
         path: Path.OVERVIEW,
-        loadComponent: async () => (await import('#finances/page/overview')).OverviewComponent,
+        loadComponent: async () => (await import('#finances/page/finances-overview')).FinancesOverviewComponent,
       },
       {
         path: Path.TRANSACTIONS,

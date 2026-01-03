@@ -16,12 +16,15 @@ export const TransactionsStore = signalStore(
     updateTxType(type: TransactionType): void {
       patchState(store, (state) => ({ ...state, selectedTxType: type }));
     },
+
     updateIsLoading(isLoading: boolean): void {
       patchState(store, (state) => ({ ...state, isLoading }));
     },
+
     updateTransactions(transactions: EchoTransaction[]): void {
       patchState(store, (state) => ({ ...state, transactions }));
     },
+
     addTransaction(transaction: EchoTransaction): void {
       const currentTransactions = store.transactions() ?? [];
       patchState(store, (state) => ({ ...state, transactions: [...currentTransactions, transaction] }));
@@ -39,6 +42,29 @@ export const TransactionsStore = signalStore(
         default:
           return transactions() ?? [];
       }
+    }),
+
+    finantialSummary: computed(() => {
+      return (transactions() ?? []).reduce(
+        (acc, tx) => {
+          if (tx.type === 'income') {
+            acc.income += tx.amount;
+            acc.balance += tx.amount;
+          }
+
+          if (tx.type === 'expense') {
+            acc.expenses += tx.amount;
+            acc.balance -= tx.amount;
+          }
+
+          return acc;
+        },
+        {
+          income: 0,
+          expenses: 0,
+          balance: 0,
+        }
+      );
     }),
   }))
 );

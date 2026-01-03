@@ -50,6 +50,7 @@ export class TransactionFormComponent implements OnInit {
 
   readonly tx?: EchoTransaction = inject(DynamicDialogConfig).data;
 
+  readonly today = new Date();
   readonly maxDescriptionLength = 100;
   readonly txForm = new FormGroup({
     category: new FormControl<string | null>(null),

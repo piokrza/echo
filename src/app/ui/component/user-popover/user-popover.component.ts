@@ -20,6 +20,7 @@ const imports = [AvatarModule, PopoverModule, ButtonModule, ClickOutsideDirectiv
       class="p-1 overflow-visible"
       severity="secondary"
       [text]="true"
+      [rounded]="true"
       (click)="popover.toggle($event); focused.set(true)"
       (keyup.enter)="popover.toggle($event); focused.set(true)">
       <p-avatar

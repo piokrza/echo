@@ -3,13 +3,14 @@ import { Component, inject } from '@angular/core';
 
 import { CardModule } from 'primeng/card';
 import { ChartModule } from 'primeng/chart';
+import { SkeletonModule } from 'primeng/skeleton';
 
 import { Path } from '#core/enum';
 import { ExpenseCategoryChartComponent } from '#finances/component/expense-category-chart';
 import { EchoTransaction } from '#finances/model';
 import { TransactionsStore } from '#finances/state';
 
-const imports = [CardModule, ChartModule, CurrencyPipe, ExpenseCategoryChartComponent];
+const imports = [CardModule, ChartModule, CurrencyPipe, ExpenseCategoryChartComponent, SkeletonModule];
 
 @Component({
   selector: 'echo-overview',
@@ -17,19 +18,39 @@ const imports = [CardModule, ChartModule, CurrencyPipe, ExpenseCategoryChartComp
     <section>
       <div class="flex gap-4 flex-wrap">
         <div class="grid gap-4 md:grid-cols-3 flex-grow-1">
+          @let finantialSummary = transactionsStore.finantialSummary();
+          @let isLoading = transactionsStore.isLoading();
           <p-card>
             <h2 class="text-lg">Income</h2>
-            <div>{{ '242424' | currency }}</div>
+            <div class="mt-2">
+              @if (!isLoading) {
+                <div class="color-success">{{ finantialSummary.income | currency }}</div>
+              } @else {
+                <p-skeleton />
+              }
+            </div>
           </p-card>
 
           <p-card>
             <h2 class="text-lg">Expense</h2>
-            <div>{{ '242424' | currency }}</div>
+            <div class="mt-2">
+              @if (!isLoading) {
+                <div class="color-warn">{{ finantialSummary.expenses | currency }}</div>
+              } @else {
+                <p-skeleton />
+              }
+            </div>
           </p-card>
 
           <p-card>
             <h2 class="text-lg">Balance</h2>
-            <div>{{ '242424' | currency }}</div>
+            <div class="mt-2">
+              @if (!isLoading) {
+                <div>{{ finantialSummary.balance | currency }}</div>
+              } @else {
+                <p-skeleton />
+              }
+            </div>
           </p-card>
         </div>
       </div>
@@ -41,7 +62,7 @@ const imports = [CardModule, ChartModule, CurrencyPipe, ExpenseCategoryChartComp
   `,
   imports,
 })
-export class OverviewComponent {
+export class FinancesOverviewComponent {
   readonly transactionsStore = inject(TransactionsStore);
 
   readonly Path = Path;

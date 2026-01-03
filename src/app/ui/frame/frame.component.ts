@@ -6,6 +6,7 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { ConfirmationService, PrimeIcons } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { ConfirmDialog } from 'primeng/confirmdialog';
+import { DividerModule } from 'primeng/divider';
 import { DrawerModule } from 'primeng/drawer';
 import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
@@ -24,6 +25,7 @@ const imports = [
   ButtonModule,
   DrawerModule,
   ToolbarModule,
+  DividerModule,
   ConfirmDialog,
   TooltipModule,
   RouterLinkActive,

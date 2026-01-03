@@ -46,7 +46,7 @@ export class TransactionDetailsComponent implements OnInit {
   readonly #confirmationService = inject(ConfirmationService);
   readonly #transactionDetailsService = inject(TransactionDetailsService);
 
-  readonly store = inject(TransactionDetailsStore);
+  protected readonly store = inject(TransactionDetailsStore);
 
   readonly PrimeIcons = PrimeIcons;
 

@@ -56,7 +56,7 @@ export class CategoriesService {
   updateCategory$(category: Partial<EchoTransactionCategory>): Observable<void> {
     return this.#categoryApiService.updateCategory$(category).pipe(
       tap(() => {
-        // TODO: store update category here
+        this.#categoriesStore.updateCategory(category);
       })
     );
   }

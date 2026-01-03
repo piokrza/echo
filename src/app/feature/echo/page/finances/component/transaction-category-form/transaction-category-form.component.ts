@@ -62,6 +62,7 @@ const imports = [ReactiveFormsModule, InputTextModule, FloatLabelModule, SelectM
             optionLabel="label"
             placeholder="Pick icon"
             [filter]="true"
+            [showClear]="true"
             [options]="primeIcons"
             [formControl]="icon">
             <ng-template #selectedItem let-selectedOption>

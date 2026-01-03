@@ -6,6 +6,7 @@ import { PrimeIcons } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
+import { TooltipModule } from 'primeng/tooltip';
 
 import { TransactionMobileTileComponent } from '#finances/component/transaction-mobile-tile';
 import { EchoTransaction } from '#finances/model';
@@ -21,6 +22,7 @@ const imports = [
   TableModule,
   ButtonModule,
   CurrencyPipe,
+  TooltipModule,
   TitleCasePipe,
   TimestampToDatePipe,
   TxCategoryLabelPipe,
@@ -63,7 +65,9 @@ const imports = [
               </td>
               <td>{{ tx.type | titlecase }}</td>
               <td>{{ tx.categoryId | txCategoryLabel }}</td>
-              <td>{{ tx.txDate | timestampToDate | date }}</td>
+              <td [pTooltip]="(tx.txDate | timestampToDate | date) ?? ''" tooltipPosition="bottom">
+                {{ tx.txDate | timestampToDate | date }}
+              </td>
               <td>
                 <a pButton class="w-full" severity="secondary" [text]="true" [routerLink]="[tx.id]">
                   <i [class]="PrimeIcons.CHEVRON_RIGHT"></i>

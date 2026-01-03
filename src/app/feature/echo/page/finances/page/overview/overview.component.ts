@@ -1,3 +1,4 @@
+import { CurrencyPipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
 
 import { CardModule } from 'primeng/card';
@@ -8,7 +9,7 @@ import { ExpenseCategoryChartComponent } from '#finances/component/expense-categ
 import { EchoTransaction } from '#finances/model';
 import { TransactionsStore } from '#finances/state';
 
-const imports = [CardModule, ChartModule, ExpenseCategoryChartComponent];
+const imports = [CardModule, ChartModule, CurrencyPipe, ExpenseCategoryChartComponent];
 
 @Component({
   selector: 'echo-overview',
@@ -18,15 +19,17 @@ const imports = [CardModule, ChartModule, ExpenseCategoryChartComponent];
         <div class="grid gap-4 md:grid-cols-3 flex-grow-1">
           <p-card>
             <h2 class="text-lg">Income</h2>
-            <div>{{ '242424' }}</div>
+            <div>{{ '242424' | currency }}</div>
           </p-card>
 
           <p-card>
             <h2 class="text-lg">Expense</h2>
+            <div>{{ '242424' | currency }}</div>
           </p-card>
 
           <p-card>
             <h2 class="text-lg">Balance</h2>
+            <div>{{ '242424' | currency }}</div>
           </p-card>
         </div>
       </div>

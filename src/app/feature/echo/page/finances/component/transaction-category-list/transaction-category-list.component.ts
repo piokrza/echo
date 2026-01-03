@@ -24,14 +24,26 @@ const imports = [CardModule, ButtonModule, DividerModule];
           @for (category of categories(); track $index) {
             <div class="flex justify-between items-center gap-3">
               <div class="flex items-center gap-2">
-                <i [class]="category.icon"></i>
+                @if (category.icon) {
+                  <i [class]="category.icon"></i>
+                }
                 <span class="color-secondary">
                   {{ category.name }}
                 </span>
               </div>
-              <div class="flex gap-3">
-                <p-button severity="secondary" size="small" [icon]="PrimeIcons.FILE_EDIT" (onClick)="editCategory.emit(category)" />
-                <p-button severity="danger" size="small" [icon]="PrimeIcons.DELETE_LEFT" (onClick)="deleteCategory.emit(category.id)" />
+              <div class="flex gap-1">
+                <p-button
+                  severity="secondary"
+                  size="small"
+                  [text]="true"
+                  [icon]="PrimeIcons.FILE_EDIT"
+                  (onClick)="editCategory.emit(category)" />
+                <p-button
+                  size="small"
+                  severity="danger"
+                  [text]="true"
+                  [icon]="PrimeIcons.DELETE_LEFT"
+                  (onClick)="deleteCategory.emit(category.id)" />
               </div>
             </div>
           }

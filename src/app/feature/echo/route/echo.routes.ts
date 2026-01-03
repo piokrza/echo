@@ -18,9 +18,4 @@ export const EchoRoutes: Routes = [
     title: 'Fincances',
     loadChildren: async () => (await import('#finances/route')).FinanceRoutes,
   },
-  {
-    path: Path.SETTINGS,
-    title: 'Settings',
-    loadComponent: async () => (await import('#echo/page/settings')).SettingsComponent,
-  },
 ];

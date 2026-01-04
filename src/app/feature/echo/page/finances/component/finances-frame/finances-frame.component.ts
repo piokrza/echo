@@ -37,12 +37,12 @@ const imports = [RouterOutlet, RouterLink, ButtonModule, ButtonGroupModule, Rout
   imports,
 })
 export class FinancesFrameComponent implements OnInit {
-  readonly activatedRoute = inject(ActivatedRoute);
   readonly #categoriesService = inject(CategoriesService);
   readonly #transactionsService = inject(TransactionsService);
 
-  readonly Path = Path;
-  readonly links: EchoLink[] = [
+  protected readonly activatedRoute = inject(ActivatedRoute);
+  protected readonly Path = Path;
+  protected readonly links: EchoLink[] = [
     { label: 'Overview', routerLink: Path.OVERVIEW },
     { label: 'Transactions', routerLink: Path.TRANSACTIONS },
     { label: 'Categories', routerLink: Path.CATEGORIES },

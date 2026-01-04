@@ -47,8 +47,14 @@ const imports = [
               <th>Name</th>
               <th>Amount</th>
               <th>Type</th>
-              <th>Category</th>
-              <th>Transaction date</th>
+              <th pSortableColumn="category">
+                Category
+                <p-sortIcon field="category" />
+              </th>
+              <th pSortableColumn="txDate">
+                Transaction date
+                <p-sortIcon field="txDate" />
+              </th>
               <th></th>
             </tr>
           </ng-template>

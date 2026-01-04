@@ -83,12 +83,7 @@ export class TransactionDetailsComponent implements OnInit {
   }
 
   private loadTransaction(): void {
-    const txId = this.#activatedRoute.snapshot.paramMap.get('id');
-
-    if (!txId) {
-      this.#router.navigate(['../'], { relativeTo: this.#activatedRoute });
-      return;
-    }
+    const txId = this.#activatedRoute.snapshot.paramMap.get('id') ?? '';
 
     this.#transactionDetailsService
       .getTransactionById$(txId)

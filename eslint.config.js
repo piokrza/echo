@@ -70,5 +70,11 @@ module.exports = tseslint.config(
       '@angular-eslint/template/no-distracting-elements': 'error',
       '@angular-eslint/template/use-track-by-function': 'error',
     },
+  },
+  {
+    files: ['**/*.spec.ts'],
+    rules: {
+      '@typescript-eslint/no-explicit-any': 'off',
+    },
   }
 );

@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Timestamp } from '@angular/fire/firestore';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -37,6 +37,7 @@ const imports = [
 @Component({
   selector: 'echo-transaction-form',
   templateUrl: './transaction-form.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports,
 })
 export class TransactionFormComponent implements OnInit {

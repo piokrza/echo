@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Auth } from '@angular/fire/auth';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
@@ -36,6 +36,7 @@ const imports = [
 @Component({
   selector: 'echo-frame',
   templateUrl: './frame.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports,
 })
 export class FrameComponent {

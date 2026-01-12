@@ -1,5 +1,5 @@
 import { CurrencyPipe, DatePipe, TitleCasePipe } from '@angular/common';
-import { Component, inject, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 import { PrimeIcons } from 'primeng/api';
@@ -93,6 +93,7 @@ const imports = [
       }
     }
   `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports,
 })
 export class TransactionListComponent {

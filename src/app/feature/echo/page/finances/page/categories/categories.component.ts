@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { tap } from 'rxjs';
 
@@ -40,6 +40,7 @@ const imports = [CardModule, ButtonModule, TransactionCategoryListComponent, Spi
       </div>
     }
   `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports,
 })
 export class CategoriesComponent implements OnInit {

@@ -1,5 +1,5 @@
 import { isPlatformBrowser } from '@angular/common';
-import { Component, computed, DOCUMENT, effect, inject, input, PLATFORM_ID, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, DOCUMENT, effect, inject, input, PLATFORM_ID, signal } from '@angular/core';
 
 import { CardModule } from 'primeng/card';
 import { ChartModule } from 'primeng/chart';
@@ -24,6 +24,7 @@ const imports = [ChartModule, SpinnerComponent, CardModule];
       }
     </p-card>
   `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports,
 })
 export class CashFlowCategoryChartComponent {

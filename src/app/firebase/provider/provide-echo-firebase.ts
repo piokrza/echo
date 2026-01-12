@@ -3,7 +3,7 @@ import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
 import { getAuth, provideAuth } from '@angular/fire/auth';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 
-import { firebaseConfig } from '#firebase/provider';
+import { firebaseConfig } from '#firebase/firebase-config';
 
 export const provideEchoFirebaseConfig = (): EnvironmentProviders => {
   return makeEnvironmentProviders([

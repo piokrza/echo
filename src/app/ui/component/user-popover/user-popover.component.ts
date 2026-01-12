@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Auth } from '@angular/fire/auth';
 
@@ -54,6 +54,7 @@ const imports = [AvatarModule, PopoverModule, ButtonModule, ClickOutsideDirectiv
       </div>
     </p-popover>
   `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports,
 })
 export class UserPopoverComponent {

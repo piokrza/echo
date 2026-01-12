@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 import { PrimeIcons } from 'primeng/api';
@@ -31,6 +31,7 @@ const imports = [ToolbarModule, RouterLink, ButtonModule, ThemeButtonsComponent]
       </div>
     </section>
   `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports,
 })
 export class LandingPageViewComponent {

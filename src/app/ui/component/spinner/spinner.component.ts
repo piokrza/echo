@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
@@ -11,6 +11,7 @@ const imports = [ProgressSpinnerModule];
       <p-progress-spinner ariaLabel="loading" />
     </div>
   `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports,
 })
 export class SpinnerComponent {}

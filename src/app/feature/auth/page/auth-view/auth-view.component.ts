@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, Signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, inject, Signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RouterLink } from '@angular/router';
 
@@ -44,6 +44,7 @@ const imports = [ButtonModule, AuthFormComponent, CardModule, RouterLink];
       </div>
     </section>
   `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports,
 })
 export class AuthViewComponent {

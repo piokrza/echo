@@ -1,5 +1,5 @@
 import { CurrencyPipe, TitleCasePipe } from '@angular/common';
-import { Component, computed, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
 
 import { PrimeIcons } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
@@ -37,6 +37,7 @@ const imports = [CardModule, ButtonModule, TimestampToTextPipe, TitleCasePipe, T
       </div>
     </p-card>
   `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports,
 })
 export class TransactionMobileTileComponent {

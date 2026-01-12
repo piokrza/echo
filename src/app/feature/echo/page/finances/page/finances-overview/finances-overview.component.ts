@@ -1,5 +1,5 @@
 import { CurrencyPipe } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 
 import { CardModule } from 'primeng/card';
 import { ChartModule } from 'primeng/chart';
@@ -63,6 +63,7 @@ const imports = [CardModule, ChartModule, CurrencyPipe, CashFlowCategoryChartCom
       </div>
     </section>
   `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports,
 })
 export class FinancesOverviewComponent {

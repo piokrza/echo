@@ -1,4 +1,4 @@
-import { Component, inject, input, OnDestroy, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, input, OnDestroy, output } from '@angular/core';
 import { customError, Field, submit } from '@angular/forms/signals';
 
 import { ButtonModule } from 'primeng/button';
@@ -16,6 +16,7 @@ const imports = [Field, InputTextModule, FloatLabel, MessageModule, PasswordModu
   selector: 'echo-auth-form',
   templateUrl: './auth-form.component.html',
   styleUrl: './auth-form.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports,
 })
 export class AuthFormComponent implements OnDestroy {

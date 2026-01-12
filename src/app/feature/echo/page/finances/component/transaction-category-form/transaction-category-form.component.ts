@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Observable, tap } from 'rxjs';
@@ -87,6 +87,7 @@ const imports = [ReactiveFormsModule, InputTextModule, FloatLabelModule, SelectM
       <p-button label="Save" class="wide mt-3" [loading]="isProcessing()" (onClick)="save()" />
     </form>
   `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports,
 })
 export class TransactionCategoryFormComponent implements OnInit {

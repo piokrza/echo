@@ -1,5 +1,5 @@
 import { CurrencyPipe, DatePipe, TitleCasePipe } from '@angular/common';
-import { Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { tap } from 'rxjs';
@@ -35,6 +35,7 @@ const imports = [
 @Component({
   selector: 'echo-transaction-details',
   templateUrl: './transaction-details.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports,
 })
 export class TransactionDetailsComponent implements OnInit {

@@ -1,4 +1,4 @@
-import { Component, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 
 import { PrimeIcons } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
@@ -51,6 +51,7 @@ const imports = [CardModule, ButtonModule, DividerModule];
       </div>
     </p-card>
   `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports,
 })
 export class TransactionCategoryListComponent {

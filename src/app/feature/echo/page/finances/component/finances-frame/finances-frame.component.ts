@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { forkJoin, take } from 'rxjs';
 
@@ -34,6 +34,7 @@ const imports = [RouterOutlet, RouterLink, ButtonModule, ButtonGroupModule, Rout
       <router-outlet />
     </section>
   `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports,
 })
 export class FinancesFrameComponent implements OnInit {

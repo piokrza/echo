@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 
@@ -51,6 +51,8 @@ const imports = [
       <echo-transaction-list [transactions]="store.filteredTransactions()" />
     }
   `,
+
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports,
 })
 export class TransactionsComponent implements OnInit {

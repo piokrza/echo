@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
@@ -14,6 +14,7 @@ const imports = [ProgressSpinnerModule];
       </div>
     </div>
   `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports,
 })
 export class LoaderComponent {}

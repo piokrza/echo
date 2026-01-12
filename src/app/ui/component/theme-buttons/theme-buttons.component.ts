@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 
 import { PrimeIcons } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
@@ -14,6 +14,7 @@ const imports = [ButtonModule];
       <p-button severity="secondary" [text]="true" [icon]="isDarkMode() ? PrimeIcons.MOON : PrimeIcons.SUN" (click)="toggleIsDarkMode()" />
     </div>
   `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports,
 })
 export class ThemeButtonsComponent {

@@ -1,6 +1,6 @@
 import { Injectable, isSignal } from '@angular/core';
 
-import { Store } from '#core/store';
+import { EchoStore } from '#core/store';
 
 interface TestStoreState {
   isProcessing: boolean;
@@ -13,7 +13,7 @@ const initialStateValue: TestStoreState = {
 };
 
 @Injectable({ providedIn: 'root' })
-class TestStore extends Store<TestStoreState> {
+class TestStore extends EchoStore<TestStoreState> {
   constructor() {
     super(initialStateValue);
   }

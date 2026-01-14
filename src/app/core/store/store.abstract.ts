@@ -1,6 +1,6 @@
 import { computed, Signal, signal, WritableSignal } from '@angular/core';
 
-export abstract class Store<T extends object> {
+export abstract class EchoStore<T extends object> {
   constructor(private readonly initialState: T) {
     this.#state = signal(initialState);
   }

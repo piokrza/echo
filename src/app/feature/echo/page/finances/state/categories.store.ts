@@ -4,7 +4,7 @@ import { patchState, signalStore, withComputed, withMethods, withState } from '@
 import { CategoriesState, EchoTransactionCategory } from '#finances/model';
 
 const initialState: CategoriesState = {
-  categories: null,
+  categories: [],
   isLoading: false,
 };
 
@@ -17,7 +17,7 @@ export const CategoriesStore = signalStore(
     },
 
     addCategory(category: EchoTransactionCategory): void {
-      const updatedCategories = [...(store.categories() ?? []), category];
+      const updatedCategories = [...store.categories(), category];
       patchState(store, (state) => ({ ...state, categories: updatedCategories }));
     },
 

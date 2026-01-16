@@ -4,7 +4,7 @@
       @let isUsernameInvalid = authForm.username().touched() && authForm.username().dirty();
 
       <!-- TODO: add username control invalid state  -->
-      <input pInputText id="username" autocomplete="off" class="w-full" type="text" [field]="authForm.username" />
+      <input pInputText id="username" autocomplete="off" class="w-full" type="text" [formField]="authForm.username" />
       <label for="username">Username</label>
     </p-floatlabel>
 
@@ -19,7 +19,7 @@
     @let isEmailInvalid = authForm.email().touched() && authForm.email().dirty();
 
     <!-- TODO: add email control invalid state  -->
-    <input pInputText id="email" type="email" autocomplete="off" class="w-full" [field]="authForm.email" />
+    <input pInputText id="email" type="email" autocomplete="off" class="w-full" [formField]="authForm.email" />
     <label for="email">Email</label>
   </p-floatlabel>
 
@@ -32,13 +32,7 @@
   <p-floatlabel variant="in">
     @let isPasswordInvalid = authForm.password().touched() && authForm.password().dirty();
 
-    <p-password
-      id="password"
-      class="w-full"
-      autocomplete="off"
-      [feedback]="false"
-      [field]="authForm.password"
-      [invalid]="isPasswordInvalid" />
+    <input pInputText id="password" class="w-full" autocomplete="off" type="password" [formField]="authForm.password" />
     <label for="password">Password</label>
   </p-floatlabel>
 

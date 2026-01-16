@@ -1,16 +1,16 @@
 import { ChangeDetectionStrategy, Component, inject, input, OnDestroy, output } from '@angular/core';
-import { customError, Field, submit } from '@angular/forms/signals';
+import { FormField, submit } from '@angular/forms/signals';
 
 import { ButtonModule } from 'primeng/button';
 import { FloatLabel } from 'primeng/floatlabel';
 import { InputTextModule } from 'primeng/inputtext';
 import { MessageModule } from 'primeng/message';
-import { PasswordModule } from 'primeng/password';
+// import { PasswordModule } from 'primeng/password'; //TODO: use after signalForm Regex error
 
 import { AuthForm, AuthFormType } from '#auth/model';
 import { AuthFormService } from '#auth/service';
 
-const imports = [Field, InputTextModule, FloatLabel, MessageModule, PasswordModule, ButtonModule];
+const imports = [FormField, InputTextModule, FloatLabel, MessageModule, ButtonModule];
 
 @Component({
   selector: 'echo-auth-form',
@@ -35,12 +35,7 @@ export class AuthFormComponent implements OnDestroy {
     if (this.authForm().invalid()) return;
 
     submit(this.authForm, async (form) => {
-      try {
-        this.formSubmit.emit(form().value());
-        return null;
-      } catch {
-        return customError({ message: 'Something went wrong' });
-      }
+      this.formSubmit.emit(form().value());
     });
   }
 

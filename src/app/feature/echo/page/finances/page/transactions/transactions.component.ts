@@ -38,14 +38,16 @@ const imports = [
     } @else {
       <div class="mb-4 flex justify-between flex-wrap">
         <button pButton (click)="addTransaction()">Add transaction</button>
-        <p-select
-          variant="filled"
-          optionLabel="label"
-          optionValue="value"
-          class="w-full max-w-[130px]"
-          [options]="transactionTypes"
-          [(ngModel)]="selectedTransactionType"
-          (onChange)="txTypeChange($event)" />
+        @if (store.transactions()?.length ?? 0 > 1) {
+          <p-select
+            variant="filled"
+            optionLabel="label"
+            optionValue="value"
+            class="w-full max-w-[130px]"
+            [options]="transactionTypes"
+            [(ngModel)]="selectedTransactionType"
+            (onChange)="txTypeChange($event)" />
+        }
       </div>
 
       <echo-transaction-list [transactions]="store.filteredTransactions()" />

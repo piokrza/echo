@@ -46,7 +46,7 @@ export class CashFlowCategoryChartComponent {
   readonly data = signal<object>({});
   readonly options = signal<object>({});
 
-  private readonly COLOR_PALETTE = [
+  readonly #colorPalette = [
     '--p-red-500',
     '--p-blue-500',
     '--p-green-500',
@@ -97,10 +97,10 @@ export class CashFlowCategoryChartComponent {
           {
             data: this.computedCashFlow().map((d) => d.totalAmount),
             backgroundColor: this.computedCashFlow().map((_, index) =>
-              documentStyle.getPropertyValue(this.COLOR_PALETTE[index % this.COLOR_PALETTE.length])
+              documentStyle.getPropertyValue(this.#colorPalette[index % this.#colorPalette.length])
             ),
             hoverBackgroundColor: this.computedCashFlow().map((_, index) =>
-              documentStyle.getPropertyValue(this.COLOR_PALETTE[index % this.COLOR_PALETTE.length].replace('500', '400'))
+              documentStyle.getPropertyValue(this.#colorPalette[index % this.#colorPalette.length].replace('500', '400'))
             ),
           },
         ],

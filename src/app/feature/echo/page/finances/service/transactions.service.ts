@@ -23,11 +23,7 @@ export class TransactionsService {
   }
 
   getTransactions$(): Observable<EchoTransaction[]> {
-    if (this.#transactionsStore.transactions() !== null) {
-      return EMPTY;
-    }
-
-    return this.loadTransactions$();
+    return this.#transactionsStore.transactions() !== null ? EMPTY : this.loadTransactions$();
   }
 
   loadTransactions$(): Observable<EchoTransaction[]> {

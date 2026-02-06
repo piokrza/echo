@@ -91,18 +91,10 @@ export class TransactionDetailsComponent implements OnInit {
       .pipe(
         tap({
           next: (tx) => {
-            if (!tx) {
-              this.#router.navigate(['../'], { relativeTo: this.#activatedRoute });
-              return;
-            }
+            if (!tx) this.#router.navigate(['../'], { relativeTo: this.#activatedRoute });
           },
           error: () => {
             this.#router.navigate(['../'], { relativeTo: this.#activatedRoute });
-            this.#messageService.add({
-              summary: 'Error!',
-              detail: 'Something went wrong',
-              severity: 'error',
-            });
           },
         }),
         takeUntilDestroyed(this.#destroyRef)

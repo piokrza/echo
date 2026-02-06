@@ -89,7 +89,7 @@ export class CashFlowCategoryChartComponent {
   initChart(): void {
     if (isPlatformBrowser(this.#platformId)) {
       const documentStyle = getComputedStyle(this.#document.documentElement);
-      const textColor = documentStyle.getPropertyValue('--text-color');
+      const textColor = documentStyle.getPropertyValue('--p-button-outlined-secondary-color');
 
       this.data.set({
         labels: this.computedCashFlow().map((d) => d.categoryName),

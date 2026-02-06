@@ -7,7 +7,6 @@ import { SkeletonModule } from 'primeng/skeleton';
 
 import { Path } from '#core/enum';
 import { CashFlowCategoryChartComponent } from '#finances/component/cash-flow-category-chart';
-import { EchoTransaction } from '#finances/model';
 import { TransactionsStore } from '#finances/state';
 
 const imports = [CardModule, ChartModule, CurrencyPipe, CashFlowCategoryChartComponent, SkeletonModule];
@@ -70,5 +69,4 @@ export class FinancesOverviewComponent {
   readonly transactionsStore = inject(TransactionsStore);
 
   readonly Path = Path;
-  readonly transactionMock: EchoTransaction[] = [];
 }

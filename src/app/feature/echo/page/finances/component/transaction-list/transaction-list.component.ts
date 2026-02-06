@@ -47,10 +47,7 @@ const imports = [
               <th>Name</th>
               <th>Amount</th>
               <th>Type</th>
-              <th pSortableColumn="category">
-                Category
-                <p-sortIcon field="category" />
-              </th>
+              <th>Category</th>
               <th pSortableColumn="txDate">
                 Transaction date
                 <p-sortIcon field="txDate" />
@@ -71,9 +68,7 @@ const imports = [
               </td>
               <td>{{ tx.type | titlecase }}</td>
               <td>{{ tx.categoryId | txCategoryLabel }}</td>
-              <td [pTooltip]="(tx.txDate | timestampToDate | date) ?? ''" tooltipPosition="bottom">
-                {{ tx.txDate | timestampToDate | date }}
-              </td>
+              <td>{{ tx.txDate | timestampToDate | date }}</td>
               <td>
                 <a pButton class="w-full" severity="secondary" [text]="true" [routerLink]="[tx.id]">
                   <i [class]="PrimeIcons.CHEVRON_RIGHT"></i>

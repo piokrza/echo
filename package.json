@@ -49,11 +49,6 @@
     "typescript-eslint": "8.46.3",
     "vitest": "^4.0.8"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
   "lint-staged": {
     "*.{ts,html}": [
       "prettier --write",

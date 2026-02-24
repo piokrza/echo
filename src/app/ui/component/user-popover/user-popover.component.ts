@@ -27,7 +27,7 @@ const imports = [AvatarModule, PopoverModule, ButtonModule, ClickOutsideDirectiv
         size="normal"
         shape="circle"
         [image]="user?.photoURL ?? ''"
-        [class]="focused() ? 'outlined' : ''"
+        [class.outlined]="focused()"
         [icon]="user?.photoURL ? undefined : PrimeIcons.USER"
         (clickOutside)="focused.set(false)" />
     </button>
@@ -61,10 +61,10 @@ export class UserPopoverComponent {
   readonly #destroyRef = inject(DestroyRef);
   readonly #frameService = inject(FrameService);
 
+  readonly focused = signal(false);
+
   readonly user = inject(Auth).currentUser;
   readonly PrimeIcons = PrimeIcons;
-
-  focused = signal(false);
 
   logout(): void {
     this.#frameService.logout$().pipe(takeUntilDestroyed(this.#destroyRef)).subscribe();

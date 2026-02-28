@@ -24,7 +24,7 @@ export class AuthFormService {
   readonly form = form(this.#formModel, this.#formSchema);
 
   resetForm(): void {
-    this.form().setControlValue(this.#initialFormValue);
+    this.form().value.set(this.#initialFormValue);
     this.form().reset();
   }
 }

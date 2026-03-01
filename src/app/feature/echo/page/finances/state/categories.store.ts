@@ -16,11 +16,6 @@ export const CategoriesStore = signalStore(
       patchState(store, (state) => ({ ...state, isLoading }));
     },
 
-    addCategory(category: EchoTransactionCategory): void {
-      const updatedCategories = [...(store.categories() ?? []), category];
-      patchState(store, (state) => ({ ...state, categories: updatedCategories }));
-    },
-
     updateCategories(categories: EchoTransactionCategory[]): void {
       patchState(store, (state) => ({ ...state, categories }));
     },
@@ -31,6 +26,11 @@ export const CategoriesStore = signalStore(
         return c;
       });
 
+      patchState(store, (state) => ({ ...state, categories: updatedCategories }));
+    },
+
+    addCategory(category: EchoTransactionCategory): void {
+      const updatedCategories = [...(store.categories() ?? []), category];
       patchState(store, (state) => ({ ...state, categories: updatedCategories }));
     },
 

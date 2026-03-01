@@ -26,32 +26,30 @@ const imports = [CardModule, ButtonModule, TransactionCategoryListComponent, Spi
     @if (store.isLoading()) {
       <echo-spinner />
     } @else {
-      <div class="flex justify-center">
-        <p-card>
-          <p-tabs value="0" class="w-xl">
-            <p-tablist>
-              <p-tab value="0">Incomes</p-tab>
-              <p-tab value="1">Expenses</p-tab>
-            </p-tablist>
+      <p-card class="w-fit">
+        <p-tabs value="0" class="w-xl">
+          <p-tablist>
+            <p-tab value="0">Incomes</p-tab>
+            <p-tab value="1">Expenses</p-tab>
+          </p-tablist>
 
-            <p-tabpanels>
-              <p-tabpanel value="0">
-                <echo-transaction-category-list
-                  [categories]="store.incomeCategories()"
-                  (editCategory)="editCategory($event)"
-                  (deleteCategory)="deleteCategory($event)" />
-              </p-tabpanel>
+          <p-tabpanels>
+            <p-tabpanel value="0">
+              <echo-transaction-category-list
+                [categories]="store.incomeCategories()"
+                (editCategory)="editCategory($event)"
+                (deleteCategory)="deleteCategory($event)" />
+            </p-tabpanel>
 
-              <p-tabpanel value="1">
-                <echo-transaction-category-list
-                  [categories]="store.expenseCategories()"
-                  (editCategory)="editCategory($event)"
-                  (deleteCategory)="deleteCategory($event)" />
-              </p-tabpanel>
-            </p-tabpanels>
-          </p-tabs>
-        </p-card>
-      </div>
+            <p-tabpanel value="1">
+              <echo-transaction-category-list
+                [categories]="store.expenseCategories()"
+                (editCategory)="editCategory($event)"
+                (deleteCategory)="deleteCategory($event)" />
+            </p-tabpanel>
+          </p-tabpanels>
+        </p-tabs>
+      </p-card>
     }
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,

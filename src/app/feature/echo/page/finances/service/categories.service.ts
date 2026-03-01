@@ -13,30 +13,7 @@ export class CategoriesService {
   readonly #categoryApiService = inject(CategoryApiService);
 
   getCategories$(): Observable<EchoTransactionCategory[]> {
-    if (this.#categoriesStore.categories() !== null) {
-      return EMPTY;
-    }
-
-    return this.loadCategories$();
-  }
-
-  loadCategories$(): Observable<EchoTransactionCategory[]> {
-    const userId = this.#auth.currentUser?.uid;
-    if (!userId) {
-      return throwError(() => 'User id is missing');
-    }
-
-    this.#categoriesStore.updateIsLoading(true);
-    return this.#categoryApiService.getCategories$(userId).pipe(
-      tap({
-        next: (categories) => {
-          this.#categoriesStore.updateCategories(categories);
-        },
-        finalize: () => {
-          this.#categoriesStore.updateIsLoading(false);
-        },
-      })
-    );
+    return this.#categoriesStore.categories() !== null ? EMPTY : this.loadCategories$();
   }
 
   addCategory$(category: Partial<EchoTransactionCategory>): Observable<string> {
@@ -65,6 +42,25 @@ export class CategoriesService {
     return this.#categoryApiService.deleteCategory$(id).pipe(
       tap(() => {
         this.#categoriesStore.deleteCategory(id);
+      })
+    );
+  }
+
+  private loadCategories$(): Observable<EchoTransactionCategory[]> {
+    const userId = this.#auth.currentUser?.uid;
+    if (!userId) {
+      return throwError(() => 'User id is missing');
+    }
+
+    this.#categoriesStore.updateIsLoading(true);
+    return this.#categoryApiService.getCategories$(userId).pipe(
+      tap({
+        next: (categories) => {
+          this.#categoriesStore.updateCategories(categories);
+        },
+        finalize: () => {
+          this.#categoriesStore.updateIsLoading(false);
+        },
       })
     );
   }

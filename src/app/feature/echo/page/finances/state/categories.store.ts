@@ -35,7 +35,7 @@ export const CategoriesStore = signalStore(
     },
 
     deleteCategory(categoryId: string): void {
-      const updatedCategories = store.categories()?.filter(({ id }) => categoryId === id);
+      const updatedCategories = store.categories()?.filter(({ id }) => categoryId !== id);
       patchState(store, (state) => ({ ...state, categories: updatedCategories }));
     },
   })),

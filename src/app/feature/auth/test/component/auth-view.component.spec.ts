@@ -1,11 +1,12 @@
-import { Provider } from '@angular/core';
+import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, provideRouter } from '@angular/router';
 import { of } from 'rxjs';
 
 import { AuthApiService } from '#auth/api';
 import { AuthForm } from '#auth/model';
 import { AuthViewComponent } from '#auth/page/auth-view';
+import { Path } from '#core/enum';
 
 const authFormMock: AuthForm = {
   email: 'test@gmail.com',
@@ -20,14 +21,18 @@ const authApiServiceStub = {
 };
 const activatedRouteStub = {};
 
+@Component({ template: '' })
+class DummyComponent {}
+
 describe('AuthViewComponent', () => {
   let component: AuthViewComponent;
   let fixture: ComponentFixture<AuthViewComponent>;
 
   beforeEach(() => {
-    const providers: Provider[] = [
+    const providers = [
       { provide: AuthApiService, useValue: authApiServiceStub },
       { provide: ActivatedRoute, useValue: activatedRouteStub },
+      provideRouter([{ path: Path.DASHBOARD, component: DummyComponent }]),
     ];
 
     TestBed.configureTestingModule({ providers });

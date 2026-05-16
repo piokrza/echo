@@ -5,34 +5,22 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Observable, tap } from 'rxjs';
 
 import { MessageService } from 'primeng/api';
-import { ButtonModule } from 'primeng/button';
-import { DatePickerModule } from 'primeng/datepicker';
+import { Button } from 'primeng/button';
+import { DatePicker } from 'primeng/datepicker';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { FloatLabelModule } from 'primeng/floatlabel';
-import { InputNumberModule } from 'primeng/inputnumber';
-import { InputTextModule } from 'primeng/inputtext';
-import { MessageModule } from 'primeng/message';
-import { RadioButtonModule } from 'primeng/radiobutton';
-import { SelectModule } from 'primeng/select';
-import { TextareaModule } from 'primeng/textarea';
+import { FloatLabel } from 'primeng/floatlabel';
+import { InputNumber } from 'primeng/inputnumber';
+import { InputText } from 'primeng/inputtext';
+import { Message } from 'primeng/message';
+import { Select } from 'primeng/select';
+import { Textarea } from 'primeng/textarea';
 
 import { OptionWithLabel } from '#core/model';
 import { EchoTransaction, TransactionType } from '#finances/model';
 import { TransactionDetailsService, TransactionsService } from '#finances/service';
 import { CategoriesStore } from '#finances/state';
 
-const imports = [
-  ButtonModule,
-  SelectModule,
-  MessageModule,
-  TextareaModule,
-  InputTextModule,
-  DatePickerModule,
-  FloatLabelModule,
-  InputNumberModule,
-  RadioButtonModule,
-  ReactiveFormsModule,
-];
+const imports = [Button, Select, Message, Textarea, InputText, DatePicker, FloatLabel, InputNumber, ReactiveFormsModule];
 
 @Component({
   selector: 'echo-transaction-form',

@@ -1,12 +1,11 @@
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 
 import { PrimeIcons } from 'primeng/api';
-import { ButtonModule } from 'primeng/button';
-import { DividerModule } from 'primeng/divider';
+import { Button } from 'primeng/button';
 
 import { EchoTransactionCategory } from '#finances/model';
 
-const imports = [ButtonModule, DividerModule];
+const imports = [Button];
 
 @Component({
   selector: 'echo-transaction-category-list',

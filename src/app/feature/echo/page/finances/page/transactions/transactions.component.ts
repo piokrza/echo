@@ -3,30 +3,19 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 
 import { PrimeIcons } from 'primeng/api';
-import { ButtonModule } from 'primeng/button';
-import { DialogService, DynamicDialogModule } from 'primeng/dynamicdialog';
-import { ProgressSpinnerModule } from 'primeng/progressspinner';
-import { SelectChangeEvent, SelectModule } from 'primeng/select';
+import { ButtonDirective } from 'primeng/button';
+import { DialogService } from 'primeng/dynamicdialog';
+import { ProgressSpinner } from 'primeng/progressspinner';
+import { SelectChangeEvent, Select } from 'primeng/select';
 import { TableModule } from 'primeng/table';
-import { TooltipModule } from 'primeng/tooltip';
 
 import { OptionWithLabel } from '#core/model';
 import { TransactionFormComponent } from '#finances/component/transaction-form';
 import { TransactionListComponent } from '#finances/component/transaction-list';
 import { TransactionType } from '#finances/model';
 import { TransactionsService } from '#finances/service';
-import { TransactionsStore } from '#finances/state';
 
-const imports = [
-  TableModule,
-  FormsModule,
-  SelectModule,
-  ButtonModule,
-  TooltipModule,
-  DynamicDialogModule,
-  ProgressSpinnerModule,
-  TransactionListComponent,
-];
+const imports = [TableModule, ButtonDirective, FormsModule, Select, ProgressSpinner, TransactionListComponent];
 
 @Component({
   selector: 'echo-transactions',
@@ -62,7 +51,7 @@ export class TransactionsComponent implements OnInit {
   readonly #dialogService = inject(DialogService);
   readonly #transactionsService = inject(TransactionsService);
 
-  readonly store = inject(TransactionsStore);
+  readonly store = this.#transactionsService.store;
 
   readonly PrimeIcons = PrimeIcons;
 

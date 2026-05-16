@@ -5,11 +5,11 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { tap } from 'rxjs';
 
 import { ConfirmationService, MessageService, PrimeIcons } from 'primeng/api';
-import { ButtonModule } from 'primeng/button';
-import { CardModule } from 'primeng/card';
-import { DividerModule } from 'primeng/divider';
+import { Button, ButtonDirective } from 'primeng/button';
+import { Card } from 'primeng/card';
+import { Divider } from 'primeng/divider';
 import { DialogService } from 'primeng/dynamicdialog';
-import { TagModule } from 'primeng/tag';
+import { Tag } from 'primeng/tag';
 
 import { TransactionFormComponent } from '#finances/component/transaction-form';
 import { TxCategoryLabelPipe } from '#finances/pipe';
@@ -19,14 +19,15 @@ import { SpinnerComponent } from '#ui/component/spinner';
 import { TimestampToDatePipe } from '#ui/pipe';
 
 const imports = [
+  Tag,
+  Card,
+  Button,
+  Divider,
   DatePipe,
-  TagModule,
   RouterLink,
-  CardModule,
   CurrencyPipe,
-  ButtonModule,
   TitleCasePipe,
-  DividerModule,
+  ButtonDirective,
   SpinnerComponent,
   TxCategoryLabelPipe,
   TimestampToDatePipe,

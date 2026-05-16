@@ -2,14 +2,13 @@ import { CurrencyPipe, TitleCasePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
 
 import { PrimeIcons } from 'primeng/api';
-import { ButtonModule } from 'primeng/button';
-import { CardModule } from 'primeng/card';
-import { TagModule } from 'primeng/tag';
+import { Card } from 'primeng/card';
+import { Tag } from 'primeng/tag';
 
 import { EchoTransaction } from '#finances/model';
 import { TimestampToTextPipe } from '#ui/pipe';
 
-const imports = [CardModule, ButtonModule, TimestampToTextPipe, TitleCasePipe, TagModule, CurrencyPipe];
+const imports = [Card, TimestampToTextPipe, TitleCasePipe, Tag, CurrencyPipe];
 
 @Component({
   selector: 'echo-transaction-mobile-tile',

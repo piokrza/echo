@@ -2,13 +2,13 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 import { PrimeIcons } from 'primeng/api';
-import { ButtonModule } from 'primeng/button';
-import { ToolbarModule } from 'primeng/toolbar';
+import { ButtonDirective } from 'primeng/button';
+import { Toolbar } from 'primeng/toolbar';
 
 import { Path } from '#core/enum';
 import { ThemeButtonsComponent } from '#ui/component/theme-buttons';
 
-const imports = [ToolbarModule, RouterLink, ButtonModule, ThemeButtonsComponent];
+const imports = [Toolbar, RouterLink, ButtonDirective, ThemeButtonsComponent];
 
 @Component({
   selector: 'echo-landing-page-view',

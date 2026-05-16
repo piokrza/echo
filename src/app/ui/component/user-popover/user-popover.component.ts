@@ -3,14 +3,14 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Auth } from '@angular/fire/auth';
 
 import { PrimeIcons } from 'primeng/api';
-import { AvatarModule } from 'primeng/avatar';
-import { ButtonModule } from 'primeng/button';
-import { PopoverModule } from 'primeng/popover';
+import { Avatar } from 'primeng/avatar';
+import { Button, ButtonDirective } from 'primeng/button';
+import { Popover } from 'primeng/popover';
 
 import { ClickOutsideDirective } from '#ui/directive';
 import { FrameService } from '#ui/service';
 
-const imports = [AvatarModule, PopoverModule, ButtonModule, ClickOutsideDirective];
+const imports = [Avatar, Popover, ButtonDirective, Button, ClickOutsideDirective];
 
 @Component({
   selector: 'echo-user-popover',

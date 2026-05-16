@@ -2,14 +2,14 @@ import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/cor
 import { ActivatedRoute, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { forkJoin, take } from 'rxjs';
 
-import { ButtonModule } from 'primeng/button';
-import { ButtonGroupModule } from 'primeng/buttongroup';
+import { ButtonDirective } from 'primeng/button';
+import { ButtonGroup } from 'primeng/buttongroup';
 
 import { Path } from '#core/enum';
 import { EchoLink } from '#core/model';
 import { CategoriesService, TransactionsService } from '#finances/service';
 
-const imports = [RouterOutlet, RouterLink, ButtonModule, ButtonGroupModule, RouterLinkActive];
+const imports = [RouterOutlet, RouterLink, ButtonDirective, ButtonGroup, RouterLinkActive];
 
 @Component({
   selector: 'echo-finances-frame',
@@ -41,9 +41,9 @@ export class FinancesFrameComponent implements OnInit {
   readonly #categoriesService = inject(CategoriesService);
   readonly #transactionsService = inject(TransactionsService);
 
-  protected readonly activatedRoute = inject(ActivatedRoute);
-  protected readonly Path = Path;
-  protected readonly links: EchoLink[] = [
+  readonly activatedRoute = inject(ActivatedRoute);
+  readonly Path = Path;
+  readonly links: EchoLink[] = [
     { label: 'Overview', routerLink: Path.OVERVIEW },
     { label: 'Transactions', routerLink: Path.TRANSACTIONS },
     { label: 'Categories', routerLink: Path.CATEGORIES },

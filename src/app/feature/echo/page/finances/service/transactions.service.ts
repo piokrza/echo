@@ -12,18 +12,20 @@ export class TransactionsService {
   readonly #transactionsStore = inject(TransactionsStore);
   readonly #transactionsApiService = inject(TransactonApiService);
 
+  readonly store = this.#transactionsStore;
+
   addTransaction$(transaction: Partial<EchoTransaction>): Observable<string> {
     const tx: Partial<EchoTransaction> = { ...transaction, uid: this.#auth.currentUser?.uid };
 
     return this.#transactionsApiService.addTransaction$(tx).pipe(
       tap((id) => {
-        this.#transactionsStore.addTransaction({ ...tx, id } as EchoTransaction);
+        this.store.addTransaction({ ...tx, id } as EchoTransaction);
       })
     );
   }
 
   getTransactions$(): Observable<EchoTransaction[]> {
-    return this.#transactionsStore.transactions() !== null ? EMPTY : this.loadTransactions$();
+    return this.store.transactions() !== null ? EMPTY : this.loadTransactions$();
   }
 
   loadTransactions$(): Observable<EchoTransaction[]> {
@@ -32,16 +34,16 @@ export class TransactionsService {
       return throwError(() => 'User id is missing');
     }
 
-    this.#transactionsStore.updateIsLoading(true);
+    this.store.updateIsLoading(true);
     return this.#transactionsApiService.getTransactions$(userId).pipe(
       tap((transactions) => {
-        this.#transactionsStore.updateTransactions(transactions);
+        this.store.updateTransactions(transactions);
       }),
-      finalize(() => this.#transactionsStore.updateIsLoading(false))
+      finalize(() => this.store.updateIsLoading(false))
     );
   }
 
   setSelectedTxType(type: TransactionType): void {
-    this.#transactionsStore.updateTxType(type);
+    this.store.updateTxType(type);
   }
 }

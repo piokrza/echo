@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
-import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { ProgressSpinner } from 'primeng/progressspinner';
 
-const imports = [ProgressSpinnerModule];
+const imports = [ProgressSpinner];
 
 @Component({
   selector: 'echo-spinner',

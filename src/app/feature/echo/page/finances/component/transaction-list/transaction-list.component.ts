@@ -3,10 +3,8 @@ import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core
 import { RouterLink } from '@angular/router';
 
 import { PrimeIcons } from 'primeng/api';
-import { ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
-import { TagModule } from 'primeng/tag';
-import { TooltipModule } from 'primeng/tooltip';
+import { Tag } from 'primeng/tag';
 
 import { TransactionMobileTileComponent } from '#finances/component/transaction-mobile-tile';
 import { EchoTransaction } from '#finances/model';
@@ -16,13 +14,11 @@ import { TimestampToDatePipe } from '#ui/pipe';
 import { BreakpointService } from '#ui/service';
 
 const imports = [
+  Tag,
   DatePipe,
-  TagModule,
   RouterLink,
   TableModule,
-  ButtonModule,
   CurrencyPipe,
-  TooltipModule,
   TitleCasePipe,
   TimestampToDatePipe,
   TxCategoryLabelPipe,

@@ -1,15 +1,15 @@
 import { CurrencyPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 
-import { CardModule } from 'primeng/card';
+import { Card } from 'primeng/card';
 import { ChartModule } from 'primeng/chart';
-import { SkeletonModule } from 'primeng/skeleton';
+import { Skeleton } from 'primeng/skeleton';
 
 import { Path } from '#core/enum';
 import { CashFlowCategoryChartComponent } from '#finances/component/cash-flow-category-chart';
 import { TransactionsStore } from '#finances/state';
 
-const imports = [CardModule, ChartModule, CurrencyPipe, CashFlowCategoryChartComponent, SkeletonModule];
+const imports = [Card, ChartModule, CurrencyPipe, CashFlowCategoryChartComponent, Skeleton];
 
 @Component({
   selector: 'echo-overview',

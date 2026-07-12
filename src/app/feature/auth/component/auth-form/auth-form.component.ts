@@ -1,21 +1,19 @@
 import { ChangeDetectionStrategy, Component, inject, input, OnDestroy, output } from '@angular/core';
 import { FormField, submit } from '@angular/forms/signals';
 
-import { ButtonModule } from 'primeng/button';
-import { FloatLabel } from 'primeng/floatlabel';
-import { InputTextModule } from 'primeng/inputtext';
-import { MessageModule } from 'primeng/message';
-// import { PasswordModule } from 'primeng/password'; //TODO: use after signalForm Regex error
+import { MatButton } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
 
 import { AuthForm, AuthFormType } from '#auth/model';
 import { AuthFormService } from '#auth/service';
 
-const imports = [FormField, InputTextModule, FloatLabel, MessageModule, ButtonModule];
+const imports = [MatButton, FormField, MatInputModule, MatProgressSpinner, MatFormFieldModule];
 
 @Component({
   selector: 'echo-auth-form',
   templateUrl: './auth-form.component.html',
-  styleUrl: './auth-form.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports,
 })

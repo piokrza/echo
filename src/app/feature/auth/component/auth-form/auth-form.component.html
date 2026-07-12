@@ -1,67 +1,66 @@
 <form class="grid gap-2" (keyup.enter)="submit($event)">
-  @if (formType() === 'register') {
-    <p-floatlabel variant="in">
-      @let isUsernameInvalid = authForm.username().touched() && authForm.username().dirty();
+  <div class="grid gap-4">
+    @if (formType() === 'register') {
+      <mat-form-field appearance="outline">
+        <mat-label>Username</mat-label>
+        <input matInput id="username" autocomplete="off" class="w-full" type="text" [formField]="authForm.username" />
 
-      <!-- TODO: add username control invalid state  -->
-      <input pInputText id="username" autocomplete="off" class="w-full" type="text" [formField]="authForm.username" />
-      <label for="username">Username</label>
-    </p-floatlabel>
+        @if (authForm.username().touched() && authForm.username().dirty()) {
+          <mat-error>
+            @for (err of authForm.username().errors(); track err.kind) {
+              {{ err.message }}
+            }
+          </mat-error>
+        }
+      </mat-form-field>
+    }
 
-    @if (isUsernameInvalid) {
-      @for (err of authForm.username().errors(); track err.kind) {
-        <p-message severity="error" size="small" variant="simple">{{ err.message }}</p-message>
+    <mat-form-field appearance="outline">
+      <mat-label>Email</mat-label>
+      <input matInput id="email" type="email" autocomplete="off" class="w-full" [formField]="authForm.email" />
+
+      @if (authForm.email().touched() && authForm.email().dirty()) {
+        <mat-error>
+          @for (err of authForm.email().errors(); track err.kind) {
+            {{ err.message }}
+          }
+        </mat-error>
       }
-    }
-  }
+    </mat-form-field>
 
-  <p-floatlabel variant="in">
-    @let isEmailInvalid = authForm.email().touched() && authForm.email().dirty();
+    <mat-form-field appearance="outline">
+      <mat-label>Password</mat-label>
+      <input matInput id="password" class="w-full" autocomplete="off" type="password" [formField]="authForm.password" />
 
-    <!-- TODO: add email control invalid state  -->
-    <input pInputText id="email" type="email" autocomplete="off" class="w-full" [formField]="authForm.email" />
-    <label for="email">Email</label>
-  </p-floatlabel>
+      @if (authForm.password().touched() && authForm.password().dirty()) {
+        <mat-error>
+          @for (err of authForm.password().errors(); track err.kind) {
+            {{ err.message }}
+          }
+        </mat-error>
+      }
+    </mat-form-field>
+  </div>
 
-  @if (isEmailInvalid) {
-    @for (err of authForm.email().errors(); track err.kind) {
-      <p-message severity="error" size="small" variant="simple">{{ err.message }}</p-message>
-    }
-  }
-
-  <p-floatlabel variant="in">
-    @let isPasswordInvalid = authForm.password().touched() && authForm.password().dirty();
-
-    <input pInputText id="password" class="w-full" autocomplete="off" type="password" [formField]="authForm.password" />
-    <label for="password">Password</label>
-  </p-floatlabel>
-
-  @if (isPasswordInvalid) {
-    @for (err of authForm.password().errors(); track err.kind) {
-      <p-message severity="error" size="small" variant="simple">{{ err.message }}</p-message>
-    }
-  }
-
-  <p-button
-    class="wide"
-    size="large"
-    severity="secondary"
-    [loading]="isPerforming()"
-    [disabled]="authForm().invalid() || isPerforming()"
-    [label]="formType() === 'login' ? 'Login' : 'Create account'"
-    (click)="submit($event)" />
+  <button matButton="text" [disabled]="authForm().invalid() || isPerforming()" (click)="submit($event)">
+    <div class="flex gap-2">
+      @if (isPerforming()) {
+        <mat-spinner diameter="20" />
+      }
+      {{ formType() === 'login' ? 'Login' : 'Create account' }}
+    </div>
+  </button>
 
   <div class="mt-4">
-    <!-- TODO: update ui -->
     @if (formType() === 'login') {
       <div class="flex items-center justify-center gap-1">
         <span>No account?</span>
-        <p-button link severity="secondary" label="Create one" [text]="true" (click)="toggleFormType.emit('register')" />
+        <button matButton (click)="toggleFormType.emit('register')">Create one</button>
       </div>
     } @else {
       <div class="flex items-center justify-center gap-1">
         <span>Have an account?</span>
-        <p-button link severity="secondary" label="Login" [text]="true" (click)="toggleFormType.emit('login')" />
+        <button matButton (click)="toggleFormType.emit('login')">Login</button>
       </div>
     }
   </div>

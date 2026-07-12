@@ -3,7 +3,7 @@ import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/
 import { provideRouter, withViewTransitions } from '@angular/router';
 
 import { httpCacheInterceptor } from '#core/interceptor';
-import { primeNgProviders, provideAppTheme } from '#core/provider';
+import { primeNgProviders, provideAppTheme, provideCustomIcons } from '#core/provider';
 import { provideCurrencyConfig } from '#finances/provider';
 import { provideEchoFirebaseConfig } from '#firebase/provider';
 
@@ -13,6 +13,7 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideAppTheme(),
     primeNgProviders(),
+    provideCustomIcons(),
     provideCurrencyConfig(),
     provideEchoFirebaseConfig(),
     provideBrowserGlobalErrorListeners(),

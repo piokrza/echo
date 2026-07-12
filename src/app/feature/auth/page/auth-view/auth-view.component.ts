@@ -1,16 +1,18 @@
 import { ChangeDetectionStrategy, Component, DestroyRef, inject, Signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RouterLink } from '@angular/router';
-
 import { PrimeIcons } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
+
+import { MatButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
 
 import { AuthFormComponent } from '#auth/component/auth-form';
 import { AuthForm, AuthFormType, AuthViewState } from '#auth/model';
 import { AuthViewService } from '#auth/service';
 
-const imports = [ButtonModule, AuthFormComponent, CardModule, RouterLink];
+const imports = [ButtonModule, MatButton, MatIcon, AuthFormComponent, CardModule, RouterLink];
 
 @Component({
   selector: 'echo-auth-dashboard',
@@ -20,6 +22,11 @@ const imports = [ButtonModule, AuthFormComponent, CardModule, RouterLink];
         <p-card class="w-full">
           <div class="grid">
             <h2 class="text-2xl mb-8">Hey! Welcome back</h2>
+
+            <button matButton="outlined" [disabled]="state().isPerformingGoogleAuth" (click)="loginWithGoogle()">
+              <mat-icon aria-hidden="false" aria-label="Google logo" svgIcon="google" />
+              Login with Google
+            </button>
 
             <p-button
               class="wide"

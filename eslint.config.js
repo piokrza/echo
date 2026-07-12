@@ -23,7 +23,7 @@ module.exports = tseslint.config(
           'pathGroups': [
             { pattern: '#*/**', group: 'internal', position: 'after' },
             {
-              pattern: 'primeng/**',
+              pattern: '@angular/material/**',
               group: 'external',
               position: 'after',
             },

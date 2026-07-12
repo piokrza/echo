@@ -1,29 +1,28 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
-import { PrimeIcons } from 'primeng/api';
-import { ButtonDirective } from 'primeng/button';
-import { Toolbar } from 'primeng/toolbar';
+import { MatButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 import { Path } from '#core/enum';
 import { ThemeButtonsComponent } from '#ui/component/theme-buttons';
 
-const imports = [Toolbar, RouterLink, ButtonDirective, ThemeButtonsComponent];
+const imports = [RouterLink, ThemeButtonsComponent, MatToolbarModule, MatButton, MatIcon];
 
 @Component({
   selector: 'echo-landing-page-view',
   template: `
     <section class="h-full flex flex-col bg-primary p-3">
-      <p-toolbar>
-        <ng-template #start />
-
-        <ng-template #end>
-          <div class="flex gap-3">
-            <echo-theme-buttons />
-            <a pButton severity="secondary" [outlined]="true" [icon]="PrimeIcons.SIGN_IN" [routerLink]="[Path.AUTH]">Login</a>
-          </div>
-        </ng-template>
-      </p-toolbar>
+      <mat-toolbar class="w-full flex justify-end border rounded-sm">
+        <div class="flex gap-3">
+          <echo-theme-buttons />
+          <a matButton [routerLink]="[Path.AUTH]">
+            <mat-icon fontIcon="login" />
+            Login
+          </a>
+        </div>
+      </mat-toolbar>
 
       <div class="flex flex-1 flex-col justify-center items-center mt-10">
         <h1 class="text-4xl">Welcome back to ECHO</h1>
@@ -36,5 +35,4 @@ const imports = [Toolbar, RouterLink, ButtonDirective, ThemeButtonsComponent];
 })
 export class LandingPageViewComponent {
   readonly Path = Path;
-  readonly PrimeIcons = PrimeIcons;
 }

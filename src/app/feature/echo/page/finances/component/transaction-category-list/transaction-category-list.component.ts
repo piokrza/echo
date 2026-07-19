@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
-
 import { PrimeIcons } from 'primeng/api';
-import { Button } from 'primeng/button';
+
+import { MatButtonModule } from '@angular/material/button';
 
 import { EchoTransactionCategory } from '#finances/model';
 
-const imports = [Button];
+const imports = [MatButtonModule];
 
 @Component({
   selector: 'echo-transaction-category-list',
@@ -25,19 +25,8 @@ const imports = [Button];
               </span>
             </div>
             <div class="flex gap-1">
-              <p-button
-                severity="secondary"
-                size="small"
-                [text]="true"
-                [icon]="PrimeIcons.FILE_EDIT"
-                (onClick)="editCategory.emit(category)" />
-
-              <p-button
-                size="small"
-                severity="danger"
-                [text]="true"
-                [icon]="PrimeIcons.DELETE_LEFT"
-                (onClick)="deleteCategory.emit(category.id)" />
+              <button matButton="text" (click)="editCategory.emit(category)">Edit</button>
+              <button matButton="text" (click)="deleteCategory.emit(category.id)">Delete</button>
             </div>
           </div>
         }

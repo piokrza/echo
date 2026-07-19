@@ -1,28 +1,28 @@
 import { isPlatformBrowser } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, DOCUMENT, effect, inject, input, PLATFORM_ID, signal } from '@angular/core';
-
-import { CardModule } from 'primeng/card';
 import { ChartModule } from 'primeng/chart';
+
+import { MatCardModule } from '@angular/material/card';
 
 import { TransactionType } from '#finances/model';
 import { CategoriesStore, TransactionsStore } from '#finances/state';
-import { SpinnerComponent } from '#ui/component/spinner';
 
-const imports = [ChartModule, SpinnerComponent, CardModule];
+const imports = [ChartModule, MatCardModule];
 
 @Component({
   selector: 'echo-cash-flow-category-chart',
   template: `
-    <p-card class="min-w-[300px]">
-      @if (categoriesStore.isLoading()) {
-        <echo-spinner />
-      } @else {
-        <div class="grid place-items-center">
+    <mat-card class="min-w-[300px]">
+      <div class="grid place-items-center">
+        <mat-card-header>
           <div class="text-2xl mb-4">{{ transactionType() === 'income' ? 'Incomes' : 'Expenses' }}</div>
+        </mat-card-header>
+
+        <mat-card-content>
           <p-chart type="pie" [data]="data()" [options]="options()" class="w-full md:w-[15rem]" />
-        </div>
-      }
-    </p-card>
+        </mat-card-content>
+      </div>
+    </mat-card>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports,

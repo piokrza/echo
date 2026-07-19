@@ -1,52 +1,54 @@
 <div class="p-3 flex justify-center">
   <div class="w-full max-w-[1400px]">
-    <p-toolbar>
-      <ng-template #start>
-        @if (isOverMdBreakpoint()) {
-          <a pButton severity="secondary" [text]="true" [routerLink]="[Path.DASHBOARD]">
-            <img src="asset/icon/app-logo.svg" alt="echo-logo" class="w-6" />
-            Echo
-          </a>
+    <mat-toolbar>
+      @if (isOverMdBreakpoint()) {
+        <div class="w-full flex justify-between">
+          <div class="flex">
+            <a matButton="text" class="flex" [routerLink]="[Path.DASHBOARD]">
+              <mat-icon svgIcon="app-logo" />
+              Echo
+            </a>
 
-          <div class="flex gap-3">
             @for (link of links; track $index) {
-              <a pButton severity="secondary" routerLinkActive="link-active" [text]="true" [routerLink]="link.routerLink">{{
-                link.label
-              }}</a>
+              <a matButton="text" routerLinkActive="link-active" [routerLink]="link.routerLink">{{ link.label }}</a>
             }
           </div>
-        } @else {
-          <button pButton severity="secondary" [icon]="PrimeIcons.BARS" [text]="true" (click)="drawerVisible = !drawerVisible">Echo</button>
-        }
-      </ng-template>
 
-      <ng-template #end>
-        <div class="flex items-center">
-          <echo-theme-buttons />
-          <p-divider layout="vertical" />
-          <echo-user-popover />
+          <div class="flex gap-3">
+            <echo-theme-buttons />
+            <echo-user-popover />
+          </div>
         </div>
-      </ng-template>
-    </p-toolbar>
+      } @else {
+        <button matIconButton (click)="drawerVisible = !drawerVisible">
+          <mat-icon fontIcon="menu" />
+        </button>
+      }
+    </mat-toolbar>
 
     <!-- Mobile drawer -->
     @if (!isOverMdBreakpoint()) {
-      <p-drawer [(visible)]="drawerVisible" header="Echo">
-        <div class="grid gap-3">
-          @for (link of links; track $index) {
-            <a routerLinkActive="link-active" class="text-lg" [routerLink]="[link.routerLink]" (click)="closeDrawer()">
-              {{ link.label }}
-            </a>
-          }
-        </div>
-      </p-drawer>
-    }
+      <mat-drawer-container class="h-full">
+        <mat-drawer mode="side" [opened]="drawerVisible">
+          <div class="grid gap-3">
+            @for (link of links; track $index) {
+              <a routerLinkActive="link-active" class="text-lg" [routerLink]="[link.routerLink]" (click)="closeDrawer()">
+                {{ link.label }}
+              </a>
+            }
+          </div>
+        </mat-drawer>
 
-    <main class="mt-4">
-      <router-outlet />
-    </main>
+        <mat-drawer-content>
+          <main class="mt-4">
+            <router-outlet />
+          </main>
+        </mat-drawer-content>
+      </mat-drawer-container>
+    } @else {
+      <main class="mt-4">
+        <router-outlet />
+      </main>
+    }
   </div>
 </div>
-
-<p-confirm-dialog />
-<p-toast />

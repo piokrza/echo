@@ -1,15 +1,14 @@
 import { CurrencyPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-
-import { Card } from 'primeng/card';
 import { ChartModule } from 'primeng/chart';
-import { Skeleton } from 'primeng/skeleton';
+
+import { MatCardModule } from '@angular/material/card';
 
 import { Path } from '#core/enum';
 import { CashFlowCategoryChartComponent } from '#finances/component/cash-flow-category-chart';
 import { TransactionsStore } from '#finances/state';
 
-const imports = [Card, ChartModule, CurrencyPipe, CashFlowCategoryChartComponent, Skeleton];
+const imports = [MatCardModule, ChartModule, CurrencyPipe, CashFlowCategoryChartComponent];
 
 @Component({
   selector: 'echo-overview',
@@ -18,41 +17,38 @@ const imports = [Card, ChartModule, CurrencyPipe, CashFlowCategoryChartComponent
       <div class="flex gap-4 flex-wrap">
         <div class="grid gap-4 md:grid-cols-3 flex-grow-1">
           @let finantialSummary = transactionsStore.finantialSummary();
-          @let isLoading = transactionsStore.isLoading();
-          <p-card>
-            <h2 class="text-lg">Income</h2>
-            <div class="mt-2">
-              @if (!isLoading) {
-                <div class="color-success">{{ finantialSummary.income | currency }}</div>
-              } @else {
-                <p-skeleton />
-              }
-            </div>
-          </p-card>
 
-          <p-card>
-            <h2 class="text-lg">Expense</h2>
-            <div class="mt-2">
-              @if (!isLoading) {
-                <div class="color-warn">{{ finantialSummary.expenses | currency }}</div>
-              } @else {
-                <p-skeleton />
-              }
-            </div>
-          </p-card>
+          <mat-card>
+            <mat-card-header>
+              <mat-card-title>Income</mat-card-title>
+            </mat-card-header>
 
-          <p-card>
-            <h2 class="text-lg">Balance</h2>
-            <div class="mt-2">
-              @if (!isLoading) {
-                <div [class]="finantialSummary.expenses > finantialSummary.income ? 'color-danger' : 'color-success'">
-                  {{ finantialSummary.balance | currency }}
-                </div>
-              } @else {
-                <p-skeleton />
-              }
-            </div>
-          </p-card>
+            <mat-card-content>
+              <div class="color-success">{{ finantialSummary.income | currency }}</div>
+            </mat-card-content>
+          </mat-card>
+
+          <mat-card>
+            <mat-card-header>
+              <mat-card-title>Expense</mat-card-title>
+            </mat-card-header>
+
+            <mat-card-content>
+              <p>{{ finantialSummary.expenses | currency }}</p>
+            </mat-card-content>
+          </mat-card>
+
+          <mat-card>
+            <mat-card-header>
+              <mat-card-title>Balance</mat-card-title>
+            </mat-card-header>
+
+            <mat-card-content>
+              <div [class]="finantialSummary.expenses > finantialSummary.income ? 'color-danger' : 'color-success'">
+                {{ finantialSummary.balance | currency }}
+              </div>
+            </mat-card-content>
+          </mat-card>
         </div>
       </div>
 

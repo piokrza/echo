@@ -1,33 +1,26 @@
 import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
-import { ActivatedRoute, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { ActivatedRoute, RouterLink, RouterOutlet } from '@angular/router';
 import { forkJoin, take } from 'rxjs';
 
-import { ButtonDirective } from 'primeng/button';
-import { ButtonGroup } from 'primeng/buttongroup';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 import { Path } from '#core/enum';
 import { EchoLink } from '#core/model';
 import { CategoriesService, TransactionsService } from '#finances/service';
 
-const imports = [RouterOutlet, RouterLink, ButtonDirective, ButtonGroup, RouterLinkActive];
+const imports = [RouterOutlet, RouterLink, MatButtonToggleModule];
 
 @Component({
   selector: 'echo-finances-frame',
   template: `
     <div class="flex gap-4 flex-wrap mb-8">
-      <p-button-group>
+      <mat-button-toggle-group name="fontStyle" aria-label="Font Style">
         @for (link of links; track $index) {
-          <a
-            pButton
-            severity="secondary"
-            routerLinkActive="link-active"
-            [outlined]="true"
-            [relativeTo]="activatedRoute"
-            [routerLink]="[link.routerLink]">
+          <mat-button-toggle [relativeTo]="activatedRoute" [routerLink]="[link.routerLink]" [value]="link.routerLink">
             {{ link.label }}
-          </a>
+          </mat-button-toggle>
         }
-      </p-button-group>
+      </mat-button-toggle-group>
     </div>
 
     <section>
